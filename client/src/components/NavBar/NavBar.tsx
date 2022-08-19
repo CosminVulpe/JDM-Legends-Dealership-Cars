@@ -91,11 +91,10 @@ const MenuBars = styled.i`
   }
 `;
 
-
 const NavMenu = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 185px;
+  margin-right: 1rem;
 
   @media screen and (max-width: 768px) {
     display: none;
