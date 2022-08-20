@@ -8,7 +8,7 @@ const App: React.FC = () => {
         <div>
             <GlobalStyle/>
             <NavBar/>
-            <GifAnimation indexPageVideo={true} />
+            <GifAnimation indexPageVideo={true}/>
         </div>
     );
 }

@@ -12,9 +12,9 @@ const GifAnimation: React.FC<Props> = ({indexPageVideo}) => {
                     (indexPageVideo) ? require("../../Video/video3.mp4") :
                         require("../../Video/video4.mp4")}
                 style={{
-                    width: "148rem"
+                    width: "120rem"
                     , minHeight: "60rem"
-                    , backgroundSize: "cover"
+                    , objectFit: "cover"
                 }}
                 muted={true}
                 autoPlay={true}
