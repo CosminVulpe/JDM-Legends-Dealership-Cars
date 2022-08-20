@@ -32,7 +32,7 @@ const NavLink = css`
 
   flex: 1 1 auto;
   margin: 10px;
-  padding: 15px;
+  padding: 20px;
   border: 2px solid #f7f7f7;
   text-align: center;
   text-transform: uppercase;
@@ -94,7 +94,7 @@ const MenuBars = styled.i`
 const NavMenu = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 1rem;
+  margin-left: 2rem;
 
   @media screen and (max-width: 768px) {
     display: none;
