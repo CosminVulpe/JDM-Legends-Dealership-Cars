@@ -1,12 +1,7 @@
 import React from "react";
 import styled, {css} from "styled-components/macro";
 import {Link} from 'react-router-dom';
-import Logo3 from "../../Images/Logo/logo3.jpg";
-
-
-export interface ThemeInterface {
-    primary: string;
-}
+import Logo1 from "../../Images/Logo/logo2.jpg";
 
 const Nav = styled.nav`
   height: 80px;
@@ -61,6 +56,7 @@ const NavLink = css`
   &:hover {
     cursor: pointer;
     color: ${({primary}: { primary: boolean }) => (primary ? "#4CA8EE" : "#ed2f2f")};
+
     &:after {
       left: -10%;
       width: 120%;
@@ -72,6 +68,21 @@ const Logo = styled(Link)`
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
+  text-decoration: none;
+  font-size: 25px;
+
+  &:visited {
+    color: white;
+  }
+
+  h1 {
+    color: #873333;
+  }
+
+  h1 span {
+    color: #ffffff;
+  }
+
 `;
 
 
@@ -94,7 +105,7 @@ const MenuBars = styled.i`
 const NavMenu = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 2rem;
+  margin-right: 50px;
 
   @media screen and (max-width: 768px) {
     display: none;
@@ -136,9 +147,12 @@ const NavBar: React.FC = () => {
     return (
         <Nav>
             <Logo to="/">
-                <img src={Logo3}
-                     alt="business-logo-jdm-cars"
-                     style={{width: "5.6rem"}}/>
+                {/*<img src={Logo1}*/}
+                {/*     alt="business-logo-jdm-cars"*/}
+                {/*     style={{width: "5.6rem"}}/>*/}
+                <h1>
+                    JDM <span>Legends</span>
+                </h1>
             </Logo>
             <NavMenu>
                 <NavMenuLinks to="/about" primary={false}>About</NavMenuLinks>
@@ -151,6 +165,6 @@ const NavBar: React.FC = () => {
             </NavBtn>
         </Nav>
     );
-
 }
+
 export default NavBar;

@@ -23,7 +23,8 @@ const Body = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+  cursor: pointer;
+`;
 
 const AnimationArrays = styled.div`
   position: relative;
@@ -79,6 +80,15 @@ const AnimationArrays = styled.div`
 
 
 const GifAnimation: React.FC<Props> = ({indexPageVideo}) => {
+
+    const handleClick = (): void => {
+        let offSetTop = document.getElementById("content-index")!.offsetTop;
+        window.scrollTo({
+            top: offSetTop - 100,
+            behavior: "smooth"
+        });
+    }
+
     return (
         <div>
             <video
@@ -94,7 +104,7 @@ const GifAnimation: React.FC<Props> = ({indexPageVideo}) => {
                 autoPlay={true}
                 loop={true}
             />
-            <Body>
+            <Body onClick={handleClick}>
                 <AnimationArrays>
                     <span></span>
                     <span></span>

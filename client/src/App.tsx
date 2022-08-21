@@ -2,14 +2,16 @@ import React from 'react';
 import {GlobalStyle} from "./components/GlobalStyle/GlobalStyle";
 import NavBar from "./components/NavBar/NavBar";
 import GifAnimation from "./components/Gif/GifAnimation";
+import ContentIndex from "./components/ContentIndex/ContentIndex";
 
 const App: React.FC = () => {
     return (
-        <div>
+        <>
             <GlobalStyle/>
             <NavBar/>
             <GifAnimation indexPageVideo={true}/>
-        </div>
+            <ContentIndex/>
+        </>
     );
 }
 
