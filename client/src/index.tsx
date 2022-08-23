@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {ChakraProvider} from '@chakra-ui/react';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -11,9 +12,11 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <Router>
-            <Routes>
-                <Route path="/" element={<App/>}/>
-            </Routes>
+            <ChakraProvider>
+                <Routes>
+                    <Route path="/" element={<App/>}/>
+                </Routes>
+            </ChakraProvider>
         </Router>
     </React.StrictMode>
 );

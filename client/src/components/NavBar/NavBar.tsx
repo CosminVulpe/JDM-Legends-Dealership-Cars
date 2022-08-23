@@ -2,6 +2,7 @@ import React from "react";
 import styled, {css} from "styled-components/macro";
 import {Link} from 'react-router-dom';
 import Logo1 from "../../Images/Logo/logo2.jpg";
+import { Heading } from '@chakra-ui/react'
 
 const Nav = styled.nav`
   height: 80px;
@@ -150,9 +151,7 @@ const NavBar: React.FC = () => {
                 {/*<img src={Logo1}*/}
                 {/*     alt="business-logo-jdm-cars"*/}
                 {/*     style={{width: "5.6rem"}}/>*/}
-                <h1>
-                    JDM <span>Legends</span>
-                </h1>
+                <Heading as="h1"> JDM <span>Legends</span></Heading>
             </Logo>
             <NavMenu>
                 <NavMenuLinks to="/about" primary={false}>About</NavMenuLinks>

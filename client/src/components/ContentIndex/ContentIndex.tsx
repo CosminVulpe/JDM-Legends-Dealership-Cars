@@ -1,15 +1,17 @@
 import React from "react";
-import styled, {css} from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import Image1 from "../../Images/Images-project/image1.jpg";
 import Button from "../Button/Button";
+import CarCompany from "./CarCompany";
+import {Heading} from "@chakra-ui/react";
 
-const Section = styled.section`
+export const Section = styled.section`
   width: 100%;
   height: 100%;
   padding: 3rem;
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
   padding: 1rem calc((100vw - 1300px) / 2);
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -65,6 +67,7 @@ const ContentIndex: React.FC = () => {
             <Section>
                 <Container>
                     <ColumnLeft>
+                        <Heading as="h2" size="xl" style={{paddingBottom: "1rem"}}>Description</Heading>
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                             labore
@@ -90,6 +93,7 @@ const ContentIndex: React.FC = () => {
                     </ColumnRight>
                 </Container>
             </Section>
+            <CarCompany/>
         </div>
     );
 }

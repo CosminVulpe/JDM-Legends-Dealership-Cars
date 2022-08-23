@@ -97,7 +97,7 @@ const GifAnimation: React.FC<Props> = ({indexPageVideo}) => {
                         require("../../Video/video4.mp4")}
                 style={{
                     width: "120rem"
-                    , minHeight: "60rem"
+                    , minHeight: "62rem"
                     , objectFit: "cover"
                 }}
                 muted={true}
