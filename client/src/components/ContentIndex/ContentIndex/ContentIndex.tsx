@@ -1,9 +1,9 @@
 import React from "react";
 import styled from 'styled-components/macro';
-import Image1 from "../../Images/Images-project/image1.jpg";
-import Button from "../Button/Button";
-import CarCompany from "./CarCompany";
+import Image1 from "../../../Images/Images-project/image1.jpg";
+import Button from "../../Button/Button";
 import {Heading} from "@chakra-ui/react";
+import Testimonials from "../Testimonials/Testimonials";
 
 export const Section = styled.section`
   width: 100%;
@@ -93,7 +93,8 @@ const ContentIndex: React.FC = () => {
                     </ColumnRight>
                 </Container>
             </Section>
-            <CarCompany/>
+            <Testimonials/>
+            {/*<CarCompany/>*/}
         </div>
     );
 }
