@@ -106,11 +106,9 @@ const GifAnimation: React.FC<Props> = ({indexPageVideo}) => {
             />
             <Body onClick={handleClick}>
                 <AnimationArrays>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    {[...Array(5)].map((nr, index) =>
+                        <span key={index}></span>
+                    )}
                 </AnimationArrays>
             </Body>
         </div>

@@ -31,4 +31,7 @@
     background-size: cover;
     height: 80px;
     margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

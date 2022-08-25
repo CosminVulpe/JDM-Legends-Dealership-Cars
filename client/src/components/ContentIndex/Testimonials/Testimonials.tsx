@@ -5,7 +5,8 @@ import TestimonialHeading from "./TestimonialHeading";
 import TestimonialText from "./TestimonialText";
 import TestimonialAvatar from "./TestimonialAvatar";
 import {TestimonialsData} from "./TestimonialsData";
-import ProfilePicture from "../../../Images/testimonialProfilePicture.png";
+import ProfilePicture from "../../../Images/Testimonials/testimonialProfilePicture.png";
+
 
 const Testimonials = () => {
     return (
@@ -18,10 +19,10 @@ const Testimonials = () => {
                 <Stack
                     direction={{base: 'column', md: 'row'}}
                     spacing={{base: 10, md: 4, lg: 10}}>
-                    {TestimonialsData.map((data, index) =>
+                    {TestimonialsData.map((data) =>
                         <Testimonial key={data.id}>
                             <TestimonialContent>
-                                <TestimonialHeading>{data.heading} </TestimonialHeading>
+                                <TestimonialHeading>{data.heading}</TestimonialHeading>
                                 <TestimonialText>
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
                                     neque sed imperdiet nibh lectus feugiat nunc sem.
