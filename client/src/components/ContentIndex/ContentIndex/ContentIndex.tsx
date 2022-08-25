@@ -4,6 +4,7 @@ import Image1 from "../../../Images/Images-project/image1.jpg";
 import Button from "../../Button/Button";
 import {Heading} from "@chakra-ui/react";
 import Testimonials from "../Testimonials/Testimonials";
+import CarCompany from "../CarCompany/CarCompany";
 
 export const Section = styled.section`
   width: 100%;
@@ -94,7 +95,7 @@ const ContentIndex: React.FC = () => {
                 </Container>
             </Section>
             <Testimonials/>
-            {/*<CarCompany/>*/}
+            <CarCompany/>
         </div>
     );
 }

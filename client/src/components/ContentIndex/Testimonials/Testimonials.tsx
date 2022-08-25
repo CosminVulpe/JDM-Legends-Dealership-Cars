@@ -4,10 +4,12 @@ import TestimonialContent from "./TestimonialContent";
 import TestimonialHeading from "./TestimonialHeading";
 import TestimonialText from "./TestimonialText";
 import TestimonialAvatar from "./TestimonialAvatar";
+import {TestimonialsData} from "./TestimonialsData";
+import ProfilePicture from "../../../Images/testimonialProfilePicture.png";
 
 const Testimonials = () => {
     return (
-        <Box bg={useColorModeValue('gray.100', 'gray.700')} style={{marginTop:"8.5rem"}}>
+        <Box bg={useColorModeValue('gray.100', 'gray.700')} mt={20}>
             <Container maxW={'7xl'} py={16} as={Stack} spacing={12}>
                 <Stack spacing={0} align={'center'}>
                     <Heading>Our Clients Speak</Heading>
@@ -16,54 +18,22 @@ const Testimonials = () => {
                 <Stack
                     direction={{base: 'column', md: 'row'}}
                     spacing={{base: 10, md: 4, lg: 10}}>
-                    <Testimonial>
-                        <TestimonialContent>
-                            <TestimonialHeading>Efficient Collaborating</TestimonialHeading>
-                            <TestimonialText>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-                                neque sed imperdiet nibh lectus feugiat nunc sem.
-                            </TestimonialText>
-                        </TestimonialContent>
-                        <TestimonialAvatar
-                            src={
-                                'https://images.unsplash.com/photo-1586297135537-94bc9ba060aa?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80'
-                            }
-                            name={'Jane Cooper'}
-                            title={'CEO at ABC Corporation'}
-                        />
-                    </Testimonial>
-                    <Testimonial>
-                        <TestimonialContent>
-                            <TestimonialHeading>Intuitive Design</TestimonialHeading>
-                            <TestimonialText>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-                                neque sed imperdiet nibh lectus feugiat nunc sem.
-                            </TestimonialText>
-                        </TestimonialContent>
-                        <TestimonialAvatar
-                            src={
-                                'https://images.unsplash.com/photo-1586297135537-94bc9ba060aa?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80'
-                            }
-                            name={'Jane Cooper'}
-                            title={'CEO at ABC Corporation'}
-                        />
-                    </Testimonial>
-                    <Testimonial>
-                        <TestimonialContent>
-                            <TestimonialHeading>Mindblowing Service</TestimonialHeading>
-                            <TestimonialText>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-                                neque sed imperdiet nibh lectus feugiat nunc sem.
-                            </TestimonialText>
-                        </TestimonialContent>
-                        <TestimonialAvatar
-                            src={
-                                'https://images.unsplash.com/photo-1586297135537-94bc9ba060aa?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80'
-                            }
-                            name={'Jane Cooper'}
-                            title={'CEO at ABC Corporation'}
-                        />
-                    </Testimonial>
+                    {TestimonialsData.map((data, index) =>
+                        <Testimonial key={data.id}>
+                            <TestimonialContent>
+                                <TestimonialHeading>{data.heading} </TestimonialHeading>
+                                <TestimonialText>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
+                                    neque sed imperdiet nibh lectus feugiat nunc sem.
+                                </TestimonialText>
+                            </TestimonialContent>
+                            <TestimonialAvatar
+                                src={ProfilePicture}
+                                name={data.name}
+                                title={data.title}
+                            />
+                        </Testimonial>
+                    )}
                 </Stack>
             </Container>
         </Box>
