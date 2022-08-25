@@ -5,6 +5,7 @@ import Button from "../../Button/Button";
 import {Heading} from "@chakra-ui/react";
 import Testimonials from "../Testimonials/Testimonials";
 import CarCompany from "../CarCompany/CarCompany";
+import Footer from "../../Footer/Footer";
 
 export const Section = styled.section`
   width: 100%;
@@ -96,6 +97,7 @@ const ContentIndex: React.FC = () => {
             </Section>
             <Testimonials/>
             <CarCompany/>
+            <Footer/>
         </div>
     );
 }

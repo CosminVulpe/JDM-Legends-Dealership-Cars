@@ -46,7 +46,12 @@ const CarCompany: React.FC = () => {
                                          justifyContent: "center"
                                      }}
                             >{car}</Heading>
-                            <p style={{paddingTop: "10px"}}>Total Cars: 1,000</p>
+                            <p style={{
+                                paddingTop: "10px"
+                                , fontSize: "16px"
+                                , display: "flex",
+                                justifyContent: "center"
+                            }}>Total Cars: 1,000</p>
                         </div>
                     </div>
                 )}
