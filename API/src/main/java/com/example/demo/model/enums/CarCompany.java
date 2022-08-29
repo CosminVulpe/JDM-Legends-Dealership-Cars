@@ -5,6 +5,6 @@ public enum CarCompany {
     NISSAN,
     TOYOTA,
     SUBARU,
-    MITSUBICHI,
+    MITSUBISHI,
     MAZDA
 }

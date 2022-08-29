@@ -47,6 +47,8 @@ public class Car {
 
     private Integer km;
 
+    private Integer productionYear;
+
     private Integer price;
 
     private Integer hp;
