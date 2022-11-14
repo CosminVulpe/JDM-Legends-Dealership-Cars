@@ -24,7 +24,7 @@ const CarCompany: React.FC = () => {
     const [carBrands, setCarBrand] = useState<Car[]>([]);
 
     useEffect(() => {
-        ApiGetCar("/brand")
+        ApiGetCar("")
             .then((res: any) => setCarBrand(res.data))
             .catch(err => {
                 if (axios.isCancel(err)) {
@@ -48,10 +48,6 @@ const CarCompany: React.FC = () => {
             >Car Companies</Heading>
             <section className="container">
                 {carBrands.map((car, index) =>
-                        // <>
-                        //     <p> {car.carCompany}</p>
-                        //     <p>{carBrandData[index].srcImage}</p>
-                        // </>
                     <div className="card" key={index}>
                         <div className="card-image">
                             <img className={"car-img"}
