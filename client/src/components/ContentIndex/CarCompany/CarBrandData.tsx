@@ -5,30 +5,35 @@ import SUBARU from "../../../Images/Car-Brand/subaru-brand.png";
 import MAZDA from "../../../Images/Car-Brand/mazda-brand.png";
 import MITSUBISHI from "../../../Images/Car-Brand/mitsubichi-brand.png";
 
+interface Brands {
+    id: number,
+    srcImage: string
+}
 
-export const carBrandData = [
+
+export const carBrandData : Brands[]  = [
     {
         id: 1,
-        srcImage: {NISSAN}
+        srcImage: NISSAN
     },
     {
         id: 2,
-        srcImage: {TOYOTA}
+        srcImage: TOYOTA
     },
     {
         id: 3,
-        srcImage: {HONDA}
+        srcImage: HONDA
     },
     {
         id: 4,
-        srcImage: {SUBARU}
+        srcImage: SUBARU
     },
     {
         id: 5,
-        srcImage: {MAZDA}
+        srcImage: MAZDA
     },
     {
         id: 6,
-        srcImage: {MITSUBISHI}
+        srcImage: MITSUBISHI
     }
 ];

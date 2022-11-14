@@ -1,7 +1,6 @@
 import React from "react";
 import styled, {css} from "styled-components/macro";
 import {Link} from 'react-router-dom';
-import Logo1 from "../../Images/Logo/logo2.jpg";
 import { Heading } from '@chakra-ui/react'
 
 const Nav = styled.nav`

@@ -97,6 +97,7 @@ const ContentIndex: React.FC = () => {
             </Section>
             <Testimonials/>
             <CarCompany/>
+            {/*<FrequentlyAskedQuestion/>*/}
             <Footer/>
         </div>
     );

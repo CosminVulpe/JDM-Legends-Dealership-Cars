@@ -81,7 +81,7 @@ const AnimationArrays = styled.div`
 
 const GifAnimation: React.FC<Props> = ({indexPageVideo}) => {
 
-    const handleClick = (): void => {
+    const handleAnimationArrow = (): void => {
         let offSetTop = document.getElementById("content-index")!.offsetTop;
         window.scrollTo({
             top: offSetTop - 100,
@@ -97,14 +97,14 @@ const GifAnimation: React.FC<Props> = ({indexPageVideo}) => {
                         require("../../Video/video4.mp4")}
                 style={{
                     width: "120rem"
-                    , minHeight: "62rem"
+                    , minHeight: "61rem"
                     , objectFit: "cover"
                 }}
                 muted={true}
                 autoPlay={true}
                 loop={true}
             />
-            <Body onClick={handleClick}>
+            <Body onClick={handleAnimationArrow}>
                 <AnimationArrays>
                     {[...Array(5)].map((nr, index) =>
                         <span key={index}></span>
