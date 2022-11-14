@@ -13,6 +13,7 @@ import static com.example.demo.model.enums.CarColor.*;
 import static com.example.demo.model.enums.CarCompany.*;
 import static com.example.demo.model.enums.CarFuelType.DIESEL;
 import static com.example.demo.model.enums.CarFuelType.GASOLINE;
+import static com.example.demo.model.enums.CarTransmissionType.AUTOMATIC_TRANSMISSION;
 import static com.example.demo.model.enums.CarTransmissionType.MANUAL_TRANSMISSION;
 
 @SpringBootApplication
@@ -37,13 +38,14 @@ public class DemoApplication {
                     .hp(300)
                     .damaged(false)
                     .productionYear(1998)
+                    .quantityInStock(10)
                     .build();
 
             Car toyota = Car
                     .builder()
                     .carName("Toyota Supra")
                     .carColor(RED)
-                    .carTransmissionType(MANUAL_TRANSMISSION)
+                    .carTransmissionType(AUTOMATIC_TRANSMISSION)
                     .carCompany(TOYOTA)
                     .carFuelType(DIESEL)
                     .km(100000)
@@ -51,6 +53,7 @@ public class DemoApplication {
                     .hp(300)
                     .damaged(true)
                     .productionYear(1994)
+                    .quantityInStock(3)
                     .build();
 
             Car honda = Car
@@ -65,6 +68,7 @@ public class DemoApplication {
                     .hp(300)
                     .damaged(false)
                     .productionYear(2005)
+                    .quantityInStock(6)
                     .build();
 
             Car subaru = Car
@@ -79,6 +83,7 @@ public class DemoApplication {
                     .hp(300)
                     .damaged(true)
                     .productionYear(2005)
+                    .quantityInStock(9)
                     .build();
 
             Car mazda = Car
@@ -93,13 +98,14 @@ public class DemoApplication {
                     .hp(300)
                     .damaged(false)
                     .productionYear(1999)
+                    .quantityInStock(4)
                     .build();
 
-            Car mitsubichi = Car
+            Car mitsubishi = Car
                     .builder()
                     .carName("Evolution Evo 9")
                     .carColor(YELLOW)
-                    .carTransmissionType(MANUAL_TRANSMISSION)
+                    .carTransmissionType(AUTOMATIC_TRANSMISSION)
                     .carCompany(MITSUBISHI)
                     .carFuelType(DIESEL)
                     .km(81600)
@@ -107,11 +113,12 @@ public class DemoApplication {
                     .hp(300)
                     .damaged(false)
                     .productionYear(2005)
+                    .quantityInStock(6)
                     .build();
 
             carRepository.saveAll(
                     List.of(
-                            nissan, toyota, honda, subaru, mazda, mitsubichi
+                            nissan, toyota, honda, subaru, mazda, mitsubishi
                     ));
 
         };

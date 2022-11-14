@@ -32,7 +32,6 @@ public class Car {
 
     private String carName;
 
-
     @Enumerated(EnumType.STRING)
     private CarColor carColor;
 
@@ -54,5 +53,7 @@ public class Car {
     private Integer hp;
 
     private boolean damaged;
+
+    private int quantityInStock;
 
 }

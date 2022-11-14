@@ -25,11 +25,4 @@ public class CarService {
                 ResponseEntity.ok(carRepository.findAll()) : ResponseEntity.notFound().build();
     }
 
-    public ResponseEntity<List<CarCompany>> getCarsBrand() {
-        List<CarCompany> carCompanies = Objects.requireNonNull(getAllCars().getBody())
-                .stream()
-                .map(Car::getCarCompany)
-                .toList();
-        return ResponseEntity.ok(carCompanies);
-    }
 }

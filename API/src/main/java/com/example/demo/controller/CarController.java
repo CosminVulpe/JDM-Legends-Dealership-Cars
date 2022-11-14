@@ -28,9 +28,4 @@ public class CarController {
         return carService.getAllCars();
     }
 
-    @GetMapping(path = "/brand")
-    public ResponseEntity<List<CarCompany>> getBrandCar() {
-        return carService.getCarsBrand();
-    }
-
 }
