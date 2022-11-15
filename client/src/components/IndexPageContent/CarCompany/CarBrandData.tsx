@@ -5,13 +5,13 @@ import SUBARU from "../../../Images/Car-Brand/subaru-brand.png";
 import MAZDA from "../../../Images/Car-Brand/mazda-brand.png";
 import MITSUBISHI from "../../../Images/Car-Brand/mitsubichi-brand.png";
 
-interface Brands {
+export interface CarBrands {
     id: number,
     srcImage: string
 }
 
 
-export const carBrandData : Brands[]  = [
+export const carBrandData : CarBrands[]  = [
     {
         id: 1,
         srcImage: NISSAN

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from 'styled-components/macro';
-import Image1 from "../../../Images/Images-project/image1.jpg";
+import Image1 from "../../../Images/Index-cover-image/image1.jpg";
 import Button from "../../Button/Button";
 import {Heading} from "@chakra-ui/react";
 import Testimonials from "../Testimonials/Testimonials";

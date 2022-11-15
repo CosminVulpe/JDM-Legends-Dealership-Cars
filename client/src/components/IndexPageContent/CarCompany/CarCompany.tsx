@@ -5,7 +5,7 @@ import {ApiGetCar, getCancelToken} from "../../Service/ApiRequests";
 import axios from "axios";
 import {carBrandData} from "./CarBrandData";
 
-interface Car {
+export interface Car {
     carColor: String,
     carCompany: String,
     carFuelType: String,
@@ -21,11 +21,13 @@ interface Car {
 }
 
 const CarCompany: React.FC = () => {
-    const [carBrands, setCarBrand] = useState<Car[]>([]);
+    window.scrollTo(0, 0);
+
+    const [cars, setCars] = useState<Car[]>([]);
 
     useEffect(() => {
         ApiGetCar("")
-            .then((res: any) => setCarBrand(res.data))
+            .then((res: any) => setCars(res.data))
             .catch(err => {
                 if (axios.isCancel(err)) {
                     console.log("cancelled!");
@@ -47,7 +49,7 @@ const CarCompany: React.FC = () => {
                      }}
             >Car Companies</Heading>
             <section className="container">
-                {carBrands.map((car, index) =>
+                {cars.map((car, index) =>
                     <div className="card" key={index}>
                         <div className="card-image">
                             <img className={"car-img"}
