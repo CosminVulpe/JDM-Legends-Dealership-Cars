@@ -28,7 +28,7 @@ public class DemoApplication {
         return args -> {
             Car nissan = Car
                     .builder()
-                    .carName("Nissan GT-R R33")
+                    .carName("Nissan GTR R33")
                     .carColor(BLACK)
                     .carTransmissionType(MANUAL_TRANSMISSION)
                     .carCompany(NISSAN)
@@ -88,7 +88,7 @@ public class DemoApplication {
 
             Car mazda = Car
                     .builder()
-                    .carName("Mazda RX-7 Type R")
+                    .carName("Mazda RX7")
                     .carColor(WHITE)
                     .carTransmissionType(MANUAL_TRANSMISSION)
                     .carCompany(MAZDA)
@@ -116,9 +116,41 @@ public class DemoApplication {
                     .quantityInStock(6)
                     .build();
 
+
+            Car infinity = Car
+                    .builder()
+                    .carName("Infinity G35")
+                    .carColor(RED)
+                    .carTransmissionType(MANUAL_TRANSMISSION)
+                    .carCompany(INFINITY)
+                    .carFuelType(GASOLINE)
+                    .km(35690)
+                    .price(39900)
+                    .hp(400)
+                    .damaged(false)
+                    .productionYear(2022)
+                    .quantityInStock(2)
+                    .build();
+
+
+            Car lexus = Car
+                    .builder()
+                    .carName("Lexus SC300")
+                    .carColor(BLACK)
+                    .carTransmissionType(MANUAL_TRANSMISSION)
+                    .carCompany(LEXUS)
+                    .carFuelType(GASOLINE)
+                    .km(35690)
+                    .price(39900)
+                    .hp(225)
+                    .damaged(true)
+                    .productionYear(2022)
+                    .quantityInStock(1)
+                    .build();
+
             carRepository.saveAll(
                     List.of(
-                            nissan, toyota, honda, subaru, mazda, mitsubishi
+                            nissan, toyota, honda, subaru, mazda, mitsubishi, infinity, lexus
                     ));
 
         };
