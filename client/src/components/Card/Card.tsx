@@ -32,6 +32,7 @@ const MainCard = styled.div`
 
   .card__description {
     padding: 0 1rem;
+    text-align: center;
   }
 
   .card__btn {

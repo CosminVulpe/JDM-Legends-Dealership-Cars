@@ -7,7 +7,6 @@ import axios from "axios";
 import {Car} from "../../IndexPageContent/CarCompany/CarCompany";
 import Card from "../../Card/Card";
 import {allCarsData} from "./AllCarsData";
-import card from "../../Card/Card";
 
 const Wrapper = styled.div`
   display: grid;
@@ -48,9 +47,10 @@ const AllCars: React.FC = () => {
                         <div key={car.id}>
                             <Card
                                 imageUrl={allCarsData[index].srcImage}
-                                titleCard={ car.carName}
-                                descriptionCard={"Take your boring salads up a knotch. This recipe is perfect for lunch" +
-                                    "and only contains 5 ingredients!"}
+                                titleCard={car.carName}
+                                descriptionCard={"A beautiful car is one of the few mechanical creations" +
+                                    " that engenders a deep emotional response in people. There’s something" +
+                                    " about a car that is alive."}
                             />
                         </div>
                     )}
