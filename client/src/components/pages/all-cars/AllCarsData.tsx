@@ -4,6 +4,8 @@ import HONDA from "../../../Images/All-Cars/honda.jpg"
 import SUBARU from "../../../Images/All-Cars/subaru.jpg"
 import MAZDA from "../../../Images/All-Cars/mazda.jpg"
 import MITSUBISHI from "../../../Images/All-Cars/MITSUBISHI.jpg"
+import INFINITY from "../../../Images/All-Cars/infinity.jpg"
+import LEXUS from "../../../Images/All-Cars/lexus-sc300.jpg"
 import {CarBrands} from "../../IndexPageContent/CarCompany/CarBrandData";
 
 export const allCarsData: CarBrands[] = [
@@ -30,5 +32,13 @@ export const allCarsData: CarBrands[] = [
     {
         id: 6,
         srcImage: MITSUBISHI
+    },
+    {
+        id: 7,
+        srcImage: INFINITY
+    },
+    {
+        id: 8,
+        srcImage: LEXUS
     }
 ];
