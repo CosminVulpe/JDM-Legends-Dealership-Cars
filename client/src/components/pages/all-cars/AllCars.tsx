@@ -7,6 +7,7 @@ import axios from "axios";
 import {Car} from "../../IndexPageContent/CarCompany/CarCompany";
 import Card from "../../Card/Card";
 import {allCarsData} from "./AllCarsData";
+import card from "../../Card/Card";
 
 const Wrapper = styled.div`
   display: grid;
@@ -22,7 +23,6 @@ const AllCars: React.FC = () => {
     window.scrollTo(0, 0);
 
     const [cars, setCars] = useState<Car[]>([]);
-    const [photosLinks, setPhotosLinks] = useState<string[]>([]);
 
     useEffect(() => {
         ApiGetCar("")
@@ -32,13 +32,6 @@ const AllCars: React.FC = () => {
                     console.log("cancelled!");
                 }
             });
-
-        // Object.values(cars).forEach(car => {
-        //     ApiGetCarPictures(car.carName)
-        //         .then((res: any) => photosLinks.push(res.data.results[0].urls.regular))
-        //         .catch(err => console.log(err));
-        // })
-
         return () => {
             getCancelToken().cancel();
         }
@@ -55,7 +48,7 @@ const AllCars: React.FC = () => {
                         <div key={car.id}>
                             <Card
                                 imageUrl={allCarsData[index].srcImage}
-                                titleCard={car.carCompany}
+                                titleCard={ car.carName}
                                 descriptionCard={"Take your boring salads up a knotch. This recipe is perfect for lunch" +
                                     "and only contains 5 ingredients!"}
                             />

@@ -27,7 +27,7 @@ const MainCard = styled.div`
 
   .card__title {
     padding: 1rem;
-    margin-left: 6.5rem;
+    text-align: center;
   }
 
   .card__description {
@@ -40,7 +40,7 @@ const MainCard = styled.div`
     font-weight: bold;
     font-size: 1rem;
     margin: 1rem;
-    border: 3.5px solid #ae5d14;
+    border: 3.5px solid #000000;
     background: transparent;
     color: #000000;
     border-radius: 0.2rem;
@@ -52,7 +52,7 @@ const MainCard = styled.div`
   }
 
   .card__btn:hover {
-    background: #8d6842;
+    background: rgba(156, 94, 30, 0.79);
     color: white;
   }
 `;
