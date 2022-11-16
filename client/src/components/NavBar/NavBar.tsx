@@ -1,8 +1,7 @@
 import React from "react";
 import styled, {css} from "styled-components/macro";
 import {Link} from 'react-router-dom';
-import Logo1 from "../../Images/Logo/logo2.jpg";
-import { Heading } from '@chakra-ui/react'
+import {Heading} from '@chakra-ui/react'
 
 const Nav = styled.nav`
   height: 80px;
@@ -156,7 +155,7 @@ const NavBar: React.FC = () => {
             <NavMenu>
                 <NavMenuLinks to="/about" primary={false}>About</NavMenuLinks>
                 <NavMenuLinks to="/all-cars" primary={false}>Cars </NavMenuLinks>
-                <NavMenuLinks to="/location" primary={false}>Location </NavMenuLinks>
+                <NavMenuLinks to="/shop" primary={false}>SHop </NavMenuLinks>
             </NavMenu>
             <NavBtn>
                 <ButtonNavBar to="/login" primary={true}>Login</ButtonNavBar>

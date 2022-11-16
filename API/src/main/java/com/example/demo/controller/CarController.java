@@ -5,10 +5,7 @@ import com.example.demo.model.enums.CarCompany;
 import com.example.demo.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,9 +25,8 @@ public class CarController {
         return carService.getAllCars();
     }
 
-    @GetMapping(path = "/brand")
-    public ResponseEntity<List<CarCompany>> getBrandCar() {
-        return carService.getCarsBrand();
+    @GetMapping(path = "/{carId}")
+    public ResponseEntity<Car> getCarById(@PathVariable("carId") Long carId){
+        return carService.getCarById(carId);
     }
-
 }

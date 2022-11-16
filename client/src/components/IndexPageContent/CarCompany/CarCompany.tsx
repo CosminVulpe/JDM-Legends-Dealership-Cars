@@ -5,13 +5,29 @@ import {ApiGetCar, getCancelToken} from "../../Service/ApiRequests";
 import axios from "axios";
 import {carBrandData} from "./CarBrandData";
 
+export interface Car {
+    carColor: String,
+    carCompany: String,
+    carFuelType: String,
+    carName: String,
+    carTransmissionType: String,
+    damaged: boolean,
+    hp: number,
+    id: number,
+    km: number,
+    price: number,
+    productionYear: number,
+    quantityInStock: number
+}
 
 const CarCompany: React.FC = () => {
-    const [carBrands, setCarBrand] = useState([]);
+    window.scrollTo(0, 0);
+
+    const [cars, setCars] = useState<Car[]>([]);
 
     useEffect(() => {
-        ApiGetCar("/brand")
-            .then((res: any) => setCarBrand(res.data))
+        ApiGetCar("")
+            .then((res: any) => setCars(res.data))
             .catch(err => {
                 if (axios.isCancel(err)) {
                     console.log("cancelled!");
@@ -33,11 +49,11 @@ const CarCompany: React.FC = () => {
                      }}
             >Car Companies</Heading>
             <section className="container">
-                {carBrands.map((car, index) =>
+                {cars.map((car, index) =>
                     <div className="card" key={index}>
                         <div className="card-image">
                             <img className={"car-img"}
-                                 src={carBrandData[index].srcImage[car]}
+                                 src={ carBrandData[index].srcImage}
                                  alt={"car-brand"}/>
                             <Heading as="h2"
                                      style={{
@@ -45,13 +61,13 @@ const CarCompany: React.FC = () => {
                                          display: "flex",
                                          justifyContent: "center"
                                      }}
-                            >{car}</Heading>
+                            >{car.carCompany}</Heading>
                             <p style={{
                                 paddingTop: "10px"
                                 , fontSize: "16px"
                                 , display: "flex",
                                 justifyContent: "center"
-                            }}>Total Cars: 1,000</p>
+                            }}>Total Cars: {car.quantityInStock}</p>
                         </div>
                     </div>
                 )}
