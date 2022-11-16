@@ -5,7 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {ChakraProvider} from '@chakra-ui/react';
-import AllCars from "./components/pages/all-cars/AllCars";
+import AllCars from "./components/pages/all-cars-page/AllCars";
+import OneCar from "./components/pages/one-car-page/OneCar";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -17,6 +18,7 @@ root.render(
                 <Routes>
                     <Route path="/" element={<App/>}/>
                     <Route path="/all-cars" element={<AllCars/>}/>
+                    <Route path="/car/:id" element={<OneCar/>}/>
                 </Routes>
             </ChakraProvider>
         </Router>

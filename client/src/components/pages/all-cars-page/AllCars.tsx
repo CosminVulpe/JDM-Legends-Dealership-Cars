@@ -36,7 +36,6 @@ const AllCars: React.FC = () => {
         }
     }, []);
 
-
     return (
         <>
             <NavBar/>
@@ -51,6 +50,7 @@ const AllCars: React.FC = () => {
                                 descriptionCard={"A beautiful car is one of the few mechanical creations" +
                                     " that engenders a deep emotional response in people. There’s something" +
                                     " about a car that is alive."}
+                                carId={car.id}
                             />
                         </div>
                     )}

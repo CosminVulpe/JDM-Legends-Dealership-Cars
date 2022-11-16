@@ -1,13 +1,15 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components/macro";
 import {Heading} from "@chakra-ui/react";
+import {useNavigate} from "react-router-dom";
+import {ApiGetCar} from "../Service/ApiRequests";
 
 interface Props {
     imageUrl: string,
     titleCard: String,
-    descriptionCard: String
+    descriptionCard: String,
+    carId: number
 }
-
 
 const MainCard = styled.div`
   overflow: hidden;
@@ -62,16 +64,19 @@ const MainCard = styled.div`
 const Card: React.FC<Props> = ({
                                    imageUrl
                                    , titleCard
-                                   , descriptionCard
+                                   , descriptionCard,
+                                   carId
                                }) => {
+    const navigate = useNavigate();
+
     return (
-        <MainCard >
+        <MainCard>
             <div className="card__body">
                 <img src={imageUrl} className="card__image" alt={"car"}/>
                 <Heading as='h4' size='md' className="card__title">{titleCard}</Heading>
                 <p className="card__description">{descriptionCard}</p>
             </div>
-            <button className="card__btn">View Car</button>
+            <button className="card__btn" onClick={() => navigate("/car/" + carId)}>View Car</button>
         </MainCard>
     )
 }
