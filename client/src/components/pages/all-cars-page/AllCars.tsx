@@ -2,11 +2,12 @@ import React, {useEffect, useState} from "react";
 import NavBar from "../../NavBar/NavBar";
 import GifAnimation from "../../Gif/GifAnimation";
 import styled from "styled-components/macro";
-import {ApiGetCar, getCancelToken} from "../../Service/ApiRequests";
+import {ApiGetCar, getCancelToken} from "../../Service/api-requests/ApiRequests";
 import axios from "axios";
 import {Car} from "../../IndexPageContent/CarCompany/CarCompany";
 import Card from "../../Card/Card";
 import {allCarsData} from "./AllCarsData";
+import Footer from "../../Footer/Footer";
 
 const Wrapper = styled.div`
   display: grid;
@@ -16,6 +17,7 @@ const Wrapper = styled.div`
 
   margin-top: 5rem;
   padding: 1rem;
+  margin-bottom: 1rem;
 `;
 
 const AllCars: React.FC = () => {
@@ -56,6 +58,7 @@ const AllCars: React.FC = () => {
                     )}
                 </Wrapper>
             </div>
+            <Footer/>
         </>
     )
 }
