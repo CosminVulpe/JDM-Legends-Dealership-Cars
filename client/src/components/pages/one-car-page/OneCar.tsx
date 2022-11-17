@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {ApiGetCar, getCancelToken} from "../../Service/ApiRequests";
+import {ApiGetCar, getCancelToken} from "../../Service/api-requests/ApiRequests";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import {Car} from "../../IndexPageContent/CarCompany/CarCompany";
