@@ -184,7 +184,6 @@ const Review: React.FC = () => {
                         disabled={!checkReviewFieldsEmpty()}>Submit</Button>
 
             </Container>
-
         </>
     )
 }
