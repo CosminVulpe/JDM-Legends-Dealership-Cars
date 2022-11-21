@@ -11,7 +11,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const colors = {
     orange: "#FFBA5A",
     grey: "#a9a9a9"
-
 };
 
 const Container = styled.div`
@@ -49,14 +48,47 @@ const DescriptionReview = styled.textarea`
 `;
 
 const Button = styled.button`
-  border: 1px solid #a9a9a9;
   border-radius: 5px;
   width: 300px;
-  padding: 10px;
+
+  position: relative;
+  display: block;
+  color: black;
+  font-size: 14px;
+  font-family: "montserrat", serif;
+  text-decoration: none;
+  margin: 30px 0;
+  border: 3px solid #ff7675;
+  padding: 14px 60px;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: 1s all ease;
+
+  &::before {
+    background: #ff7675;
+    //background: #873333;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    z-index: -1;
+    transition: all 0.6s ease;
+
+    width: 100%;
+    height: 0%;
+  }
+
+  &:hover::before {
+    height: 500%;
+  }
 `;
 
 
 const Review: React.FC = () => {
+    const titleLengthMin: number = 5;
+    const descriptionLengthMin: number = 15;
+
     const [reviewSection, setReviewSection] = useState({
         starRating: 0,
         title: "",
@@ -98,11 +130,11 @@ const Review: React.FC = () => {
 
     const checkReviewFieldsEmpty = (): boolean => {
         return reviewSection.starRating > 0
-            && reviewSection.title.length > 10
-            && reviewSection.description.length > 20
+            && reviewSection.title.length > titleLengthMin
+            && reviewSection.description.length > descriptionLengthMin
     }
 
-    const cleanFieldsReviewSection = () :void=> {
+    const cleanFieldsReviewSection = (): void => {
         handleClickStarEffect(0);
         setReviewSection(prevState => ({
             ...prevState,
