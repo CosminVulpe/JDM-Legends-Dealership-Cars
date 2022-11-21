@@ -10,8 +10,7 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    @Query(value = "SELECT * FROM review ORDER BY id DESC LIMIT 3"
-            , nativeQuery = true)
+    @Query(value = "SELECT * FROM review ORDER BY id DESC LIMIT 5" , nativeQuery = true)
     List<Review> getRecentReviews();
 
 }

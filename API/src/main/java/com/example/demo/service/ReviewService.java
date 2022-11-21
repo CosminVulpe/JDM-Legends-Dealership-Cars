@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.Review;
 import com.example.demo.service.DAO.ReviewRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
@@ -38,6 +40,7 @@ public class ReviewService {
                 .build();
         reviewRepository.save(newReview);
 
+        log.info("Review saved!");
         return ResponseEntity.ok(newReview);
     }
 

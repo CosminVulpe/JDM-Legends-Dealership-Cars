@@ -19,6 +19,8 @@ import static com.example.demo.model.enums.CarTransmissionType.MANUAL_TRANSMISSI
 @SpringBootApplication
 public class DemoApplication {
 
+//    cine e cea mai superba, frumoasa si desteapta fata din univers?
+
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
