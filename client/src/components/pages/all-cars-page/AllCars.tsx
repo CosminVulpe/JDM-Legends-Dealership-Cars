@@ -8,6 +8,7 @@ import {Car} from "../../IndexPageContent/CarCompany/CarCompany";
 import Card from "../../Card/Card";
 import {allCarsData} from "./AllCarsData";
 import Footer from "../../Footer/Footer";
+import SearchBar from "../../SearchBar/SearchBar";
 
 const Wrapper = styled.div`
   display: grid;
@@ -42,6 +43,7 @@ const AllCars: React.FC = () => {
         <>
             <NavBar/>
             <GifAnimation indexPageVideo={false}/>
+            <SearchBar cars={cars}/>
             <div id="content-index">
                 <Wrapper>
                     {cars.map((car, index) =>
