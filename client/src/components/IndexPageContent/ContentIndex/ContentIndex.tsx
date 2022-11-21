@@ -6,6 +6,7 @@ import {Heading} from "@chakra-ui/react";
 import Testimonials from "../Testimonials/Testimonials";
 import CarCompany from "../CarCompany/CarCompany";
 import Footer from "../../Footer/Footer";
+import {Review} from "../../Service/interfaces/Interfaces";
 
 export const Section = styled.section`
   width: 100%;
@@ -63,7 +64,12 @@ const ColumnRight = styled.div`
   }
 `;
 
-const ContentIndex: React.FC = () => {
+export interface IProps {
+    reviews: Review[] | null
+}
+
+const ContentIndex: React.FC<IProps> = ({reviews}) => {
+
     return (
         <div id="content-index">
             <Section>
@@ -95,7 +101,11 @@ const ContentIndex: React.FC = () => {
                     </ColumnRight>
                 </Container>
             </Section>
-            <Testimonials/>
+            {(reviews === null) ?
+                <Testimonials reviews={null} />
+                :
+                <Testimonials reviews={reviews}/>
+            }
             <CarCompany/>
             {/*<FrequentlyAskedQuestion/>*/}
             <Footer/>

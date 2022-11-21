@@ -1,8 +1,7 @@
-import React, {useEffect} from "react";
+import React from "react";
 import styled from "styled-components/macro";
 import {Heading} from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
-import {ApiGetCar} from "../Service/ApiRequests";
 
 interface Props {
     imageUrl: string,

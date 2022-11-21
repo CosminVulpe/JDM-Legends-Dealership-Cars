@@ -4,8 +4,8 @@ import React from "react";
 
 interface PropsTestimonials{
     src: string;
-    name: string;
-    title: string;
+    name: String;
+    title: String;
 }
 
 

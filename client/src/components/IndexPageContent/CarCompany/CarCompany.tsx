@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "./CarCompanyStyling.css";
 import {Heading} from "@chakra-ui/react";
-import {ApiGetCar, getCancelToken} from "../../Service/ApiRequests";
+import {ApiGetCar, getCancelToken} from "../../Service/api-requests/ApiRequests";
 import axios from "axios";
 import {carBrandData} from "./CarBrandData";
 

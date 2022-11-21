@@ -1,82 +1,76 @@
-import React from "react";
-import styled from "styled-components/macro";
-import {FaSearch} from "react-icons/fa";
+import React, {useState} from "react";
+import {BiSearchAlt} from "react-icons/bi";
+import {AiOutlineCloseCircle} from "react-icons/ai";
+import "./SearchBarStyle.css";
+import {Car} from "../IndexPageContent/CarCompany/CarCompany";
+import {useNavigate} from "react-router-dom";
 
-const Search = styled.div`
+interface IProps {
+    cars: Car[]
+}
 
-  input {
-    background-color: white;
-    border: 2px solid black;
-    border-radius: 2px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-    font-size: 18px;
-    padding: 15px;
-    height: 30px;
-    width: 300px;
-  }
+const SearchBar: React.FC<IProps> = ({cars}) => {
+    const [filteredData, setFilteredData] = useState<any>([]);
+    const [wordEntered, setWordEntered] = useState("");
+    const navigate = useNavigate();
 
-  input:focus {
-    outline: none;
-  }
+    const handleFilter = (event: any) => {
+        const searchWord = event.target.value;
+        setWordEntered(searchWord);
 
-`;
+        const newFilter = Object.values(cars)
+            .filter((value) => {
+                return value.carName
+                    .toLowerCase()
+                    .includes(searchWord
+                        .toLowerCase());
+            });
 
-const SearchInput = styled.div`
-  padding: 24rem 30rem;
-  display: flex;
-`;
+        if (searchWord === "") {
+            setFilteredData([]);
+        } else {
+            setFilteredData(newFilter);
+        }
+    };
 
-const SearchResult = styled.div`
-  //margin-top: 10px;
-  width: 300px;
-  height: 200px;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  overflow: hidden;
-  overflow-y: auto;
-  margin: 0 10rem 15rem 30rem;
+    const clearInput = () => {
+        setWordEntered("");
+        setFilteredData([]);
+    };
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .dataItem{
-    width: 100%;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    color: black;
-  }
-`;
-
-const SearchIcon = styled.div`
-  height: 60px;
-  width: 50px;
-  background-color: white;
-  display: grid;
-  place-items: center;
-`;
-
-const SearchBar: React.FC = () => {
     return (
-        <Search>
-            <SearchInput>
-                <input type="text"
-                       size={25}
-                       placeholder="Enter car company..."
-                />
-                <SearchIcon>
-                    <FaSearch style={{
-                        fontSize: "25px"
-                        , marginBottom: "30px"
-                    }}/>
-                </SearchIcon>
-            </SearchInput>
-            <SearchResult>
-
-            </SearchResult>
-        </Search>
-    );
+        <>
+            <div className="search">
+                <div className="searchInputs">
+                    <input
+                        type="text"
+                        placeholder={"Enter a Car Name..."}
+                        value={wordEntered}
+                        onChange={handleFilter}
+                    />
+                    <div className="searchIcon">
+                        {filteredData.length === 0 ? (
+                            <BiSearchAlt/>
+                        ) : (
+                            <AiOutlineCloseCircle id="clearBtn" onClick={clearInput}/>
+                        )}
+                    </div>
+                </div>
+                {filteredData.length !== 0 && (
+                    <div className="dataResult">
+                        {filteredData
+                            .map((value: Car) => {
+                                return (
+                                    <a className="dataItem" onClick={() => navigate("/car/" + value.id)}
+                                       target="_blank">
+                                        <p>{value.carName}</p>
+                                    </a>
+                                );
+                            })}
+                    </div>
+                )}
+            </div>
+        </>
+    )
 }
 export default SearchBar;

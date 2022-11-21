@@ -19,7 +19,6 @@ const NavLink = css`
   color: #fff;
   display: flex;
   align-items: center;
-  //padding: 0 1rem;
   height: 100%;
   cursor: pointer;
   text-decoration: none;
@@ -153,9 +152,9 @@ const NavBar: React.FC = () => {
                 <Heading as="h1"> JDM <span>Legends</span></Heading>
             </Logo>
             <NavMenu>
-                <NavMenuLinks to="/about" primary={false}>About</NavMenuLinks>
                 <NavMenuLinks to="/all-cars" primary={false}>Cars </NavMenuLinks>
                 <NavMenuLinks to="/shop" primary={false}>SHop </NavMenuLinks>
+                <NavMenuLinks to="/review" primary={false}>Review</NavMenuLinks>
             </NavMenu>
             <NavBtn>
                 <ButtonNavBar to="/login" primary={true}>Login</ButtonNavBar>
