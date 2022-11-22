@@ -32,7 +32,6 @@ const ColumnLeft = styled.div`
   align-items: flex-start;
   line-height: 1.4;
   padding: 1rem 2rem;
-  //order: 2;
 
   h1 {
     margin-bottom: 1rem;

@@ -59,10 +59,10 @@ const SearchBar: React.FC<IProps> = ({cars}) => {
                 {filteredData.length !== 0 && (
                     <div className="dataResult">
                         {filteredData
-                            .map((value: Car) => {
+                            .map((value: Car, index: any) => {
                                 return (
                                     <a className="dataItem" onClick={() => navigate("/car/" + value.id)}
-                                       target="_blank">
+                                       target="_blank" key={index}>
                                         <p>{value.carName}</p>
                                     </a>
                                 );
