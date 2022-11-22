@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Car;
-import com.example.demo.model.enums.CarCompany;
 import com.example.demo.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
