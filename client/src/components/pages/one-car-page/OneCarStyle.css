@@ -1,56 +1,3 @@
-/*.slider {*/
-/*    background: #ddd;*/
-/*    position: relative;*/
-/*    height: 75vh;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
-
-/*.image {*/
-/*    !*width: 550px;*!*/
-/*    !*height: 600px;*!*/
-/*    border-radius: 10px;*/
-/*    object-fit: fill;*/
-
-/*    background-size: 100% auto;*/
-/*    width: 50rem;*/
-/*}*/
-
-
-/*.right-arrow {*/
-/*    position: absolute;*/
-/*    top: 50%;*/
-/*    right: 150px;*/
-/*    font-size: 3rem;*/
-/*    color: #000;*/
-/*    z-index: 10;*/
-/*    cursor: pointer;*/
-/*    user-select: none;*/
-/*}*/
-
-/*.left-arrow {*/
-/*    position: absolute;*/
-/*    top: 50%;*/
-/*    left: 150px;*/
-/*    font-size: 3rem;*/
-/*    color: #000;*/
-/*    z-index: 10;*/
-/*    cursor: pointer;*/
-/*    user-select: none;*/
-/*}*/
-
-/*.slide {*/
-/*    opacity: 0;*/
-/*    transition-duration: 1s;*/
-/*}*/
-
-/*.slide.active {*/
-/*    opacity: 1;*/
-/*    transition-duration: 1s;*/
-/*    transform: scale(1.08);*/
-/*}*/
-
 
 .slides {
     width: 100%;
@@ -69,7 +16,7 @@
 .left-arrow {
     position: absolute;
     top: 50%;
-    transform: translate(0, -50%);
+transform: translate(0, -600%);
     left: 300px;
     font-size: 45px;
     background-color: #fff;
@@ -77,15 +24,13 @@
     cursor: pointer;
 }
 
-.right-arrow{
+.right-arrow {
     position: absolute;
     top: 50%;
-    transform: translate(0, -50%);
+    transform: translate(0, -600%);
     right: 300px;
     font-size: 45px;
     background-color: #fff;
     z-index: 1;
     cursor: pointer;
 }
-
-

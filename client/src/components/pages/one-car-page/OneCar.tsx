@@ -8,6 +8,7 @@ import NavBar from "../../NavBar/NavBar";
 import {Section} from "../../IndexPageContent/ContentIndex/ContentIndex";
 import {Heading} from "@chakra-ui/react";
 import "./OneCarStyle.css";
+import OneCarContent from "./one-car-content/OneCarContent";
 
 const slideStyles = {
     width: "100%",
@@ -129,6 +130,7 @@ const OneCar: React.FC = () => {
                     </div>
                 </div>
             </Section>
+            <OneCarContent car={oneCarDetails}/>
         </>
     )
 }
