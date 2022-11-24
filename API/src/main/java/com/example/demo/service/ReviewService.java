@@ -32,16 +32,10 @@ public class ReviewService {
     }
 
     public ResponseEntity<Review> addReview(@RequestBody Review review) {
-        Review newReview = Review
-                .builder()
-                .starRating(review.getStarRating())
-                .title(review.getTitle())
-                .description(review.getDescription())
-                .build();
-        reviewRepository.save(newReview);
+        reviewRepository.save(review);
 
-        log.info("Review saved!");
-        return ResponseEntity.ok(newReview);
+        log.info(String.format("Review with id %d saved!", review.getId()));
+        return ResponseEntity.ok(review);
     }
 
 }
