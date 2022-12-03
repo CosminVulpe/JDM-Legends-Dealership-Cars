@@ -4,11 +4,14 @@ import com.example.demo.model.Review;
 import com.example.demo.service.DAO.ReviewRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @Service
 @Slf4j
@@ -35,7 +38,7 @@ public class ReviewService {
         reviewRepository.save(review);
 
         log.info(String.format("Review with id %d saved!", review.getId()));
-        return ResponseEntity.ok(review);
+        return new ResponseEntity<>(review, CREATED);
     }
 
 }
