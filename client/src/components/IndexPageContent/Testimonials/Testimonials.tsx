@@ -12,9 +12,6 @@ import {TestimonialsData} from "./TestimonialsData";
 
 const Testimonials: React.FC<IProps> = ({reviews}) => {
 
-    console.log(reviews)
-
-
     return (
         <Box bg={useColorModeValue('gray.100', 'gray.700')} mt={20}>
             <Container maxW={'7xl'} py={16} as={Stack} spacing={12}>

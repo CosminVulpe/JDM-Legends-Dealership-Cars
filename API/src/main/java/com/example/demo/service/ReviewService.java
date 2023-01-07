@@ -4,11 +4,14 @@ import com.example.demo.model.Review;
 import com.example.demo.service.DAO.ReviewRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @Service
 @Slf4j
@@ -32,16 +35,10 @@ public class ReviewService {
     }
 
     public ResponseEntity<Review> addReview(@RequestBody Review review) {
-        Review newReview = Review
-                .builder()
-                .starRating(review.getStarRating())
-                .title(review.getTitle())
-                .description(review.getDescription())
-                .build();
-        reviewRepository.save(newReview);
+        reviewRepository.save(review);
 
-        log.info("Review saved!");
-        return ResponseEntity.ok(newReview);
+        log.info(String.format("Review with id %d saved!", review.getId()));
+        return new ResponseEntity<>(review, CREATED);
     }
 
 }

@@ -8,12 +8,14 @@ export const getCancelToken = (): any => {
     return axios.CancelToken.source();
 }
 
-export const ApiGetCarPictures = async (carName: String) => {
-    return await axios.get(`https://api.unsplash.com/search/photos?query=${carName}&client_id=${process.env.REACT_APP_UNSPLASH_KEY}&page=1&orientation=landscape`);
+export const ApiGetCarPictures = async (carName: String | undefined) => {
+    return (carName !== undefined) ?
+        await axios.get(`https://api.unsplash.com/search/photos?query=${carName}&client_id=${process.env.REACT_APP_UNSPLASH_KEY}&page=1&orientation=landscape`)
+        : null;
 }
 
 export const ApiPostReview = async (data: { description: string; starRating: number; title: string }
-                                    , endPoint: string) => {
+    , endPoint: string) => {
     return await axios.post(process.env.REACT_APP_BACKEND_API_REVIEW + endPoint
         , JSON.stringify(data)
         , {

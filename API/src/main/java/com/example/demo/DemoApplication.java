@@ -43,7 +43,7 @@ public class DemoApplication {
 
             Car toyota = Car
                     .builder()
-                    .carName("Toyota Supra")
+                    .carName("toyota supra")
                     .carColor(RED)
                     .carTransmissionType(AUTOMATIC_TRANSMISSION)
                     .carCompany(TOYOTA)
@@ -103,7 +103,7 @@ public class DemoApplication {
 
             Car mitsubishi = Car
                     .builder()
-                    .carName("Evolution Evo 9")
+                    .carName("Mitsubishi Lancer Evolution")
                     .carColor(YELLOW)
                     .carTransmissionType(AUTOMATIC_TRANSMISSION)
                     .carCompany(MITSUBISHI)

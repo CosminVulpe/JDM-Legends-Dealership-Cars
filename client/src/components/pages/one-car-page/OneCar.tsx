@@ -1,14 +1,42 @@
 import React, {useEffect, useState} from "react";
-import {ApiGetCar, getCancelToken} from "../../Service/api-requests/ApiRequests";
+import {ApiGetCar, ApiGetCarPictures, getCancelToken} from "../../Service/api-requests/ApiRequests";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import {Car} from "../../IndexPageContent/CarCompany/CarCompany";
 import Error from "../error-page/Error";
+import NavBar from "../../NavBar/NavBar";
+import {Section} from "../../IndexPageContent/ContentIndex/ContentIndex";
+import {Heading} from "@chakra-ui/react";
+import "./OneCarStyle.css";
+import OneCarContent from "./one-car-content/OneCarContent";
+
+const slideStyles = {
+    width: "100%",
+    height: "100%",
+    borderRadius: "10px",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+};
+
+const dotsContainerStyles = {
+    display: "flex",
+    justifyContent: "center",
+};
+
+const dotStyle = {
+    margin: "0 3px",
+    cursor: "pointer",
+    fontSize: "20px",
+};
+
 
 const OneCar: React.FC = () => {
     let {id} = useParams();
-    const [oneCarDetails, setOneCarDetails] = useState<Car[]>([]);
+
+    const [oneCarDetails, setOneCarDetails] = useState<Car>();
     const [doesCarExist, setCarExist] = useState<boolean>(false);
+    const [photosLinks, setPhotosLinks] = useState<string[]>([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
         ApiGetCar((id !== undefined) ? id : "")
@@ -30,8 +58,43 @@ const OneCar: React.FC = () => {
         }
     }, []);
 
+    useEffect(() => {
+        ApiGetCarPictures(oneCarDetails?.carName)
+            .then((res: any) => {
+                const array = [];
+                for (let i = 0; i < res.data.results.length; i++) {
+                    array.push(res.data.results[i].urls.small)
+                }
+                setPhotosLinks(array);
+            })
+            .catch((err) => console.log(err));
+    }, [oneCarDetails]);
 
-    if(!doesCarExist){
+
+    const length = (oneCarDetails !== undefined) ?
+        Object.keys(oneCarDetails).length : 0;
+
+    const goToPrevious = () => {
+        const isFirstSlide = currentIndex === 0;
+        const newIndex = isFirstSlide ? length - 1 : currentIndex - 1;
+        setCurrentIndex(newIndex);
+    };
+    const goToNext = () => {
+        const isLastSlide = currentIndex === length - 1;
+        const newIndex = isLastSlide ? 0 : currentIndex + 1;
+        setCurrentIndex(newIndex);
+    };
+
+    const goToSlide = (slideIndex: any) => {
+        setCurrentIndex(slideIndex);
+    };
+
+    const slideStylesWidthBackground = {
+        ...slideStyles,
+        backgroundImage: `url(${photosLinks[currentIndex]})`,
+    };
+
+    if (!doesCarExist) {
         return (
             <Error/>
         )
@@ -39,7 +102,35 @@ const OneCar: React.FC = () => {
 
     return (
         <>
-            <p>HELLO!</p>
+            <NavBar/>
+            <Section style={{padding: "10rem"}}>
+                <Heading as='h2' size='2xl' style={{marginBottom: "4rem"}}>{oneCarDetails?.carName}</Heading>
+                <div className="container-div">
+                    <div className="slides">
+                        <div>
+                            <div onClick={goToPrevious} className="left-arrow">
+                                ❰
+                            </div>
+                            <div onClick={goToNext} className="right-arrow">
+                                ❱
+                            </div>
+                        </div>
+                        <div style={slideStylesWidthBackground}></div>
+                        <div style={dotsContainerStyles}>
+                            {photosLinks.map((_slide, slideIndex) => (
+                                <div
+                                    style={dotStyle}
+                                    key={slideIndex}
+                                    onClick={() => goToSlide(slideIndex)}
+                                >
+                                    ●
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </Section>
+            <OneCarContent car={oneCarDetails}/>
         </>
     )
 }

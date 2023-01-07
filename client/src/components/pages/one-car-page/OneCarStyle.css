@@ -1,0 +1,36 @@
+
+.slides {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background-size: cover;
+    background-position: center;
+}
+
+.container-div {
+    width: 500px;
+    height: 280px;
+    margin: 0 auto;
+}
+
+.left-arrow {
+    position: absolute;
+    top: 50%;
+transform: translate(0, -600%);
+    left: 300px;
+    font-size: 45px;
+    background-color: #fff;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.right-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -600%);
+    right: 300px;
+    font-size: 45px;
+    background-color: #fff;
+    z-index: 1;
+    cursor: pointer;
+}

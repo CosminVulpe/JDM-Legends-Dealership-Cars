@@ -53,7 +53,7 @@ const CarCompany: React.FC = () => {
                     <div className="card" key={index}>
                         <div className="card-image">
                             <img className={"car-img"}
-                                 src={ carBrandData[index].srcImage}
+                                 src={carBrandData[index].srcImage}
                                  alt={"car-brand"}/>
                             <Heading as="h2"
                                      style={{
