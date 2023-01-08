@@ -6,9 +6,7 @@ import javax.persistence.*;
 
 @Entity(name = "Review")
 @Table
-@Getter
-@Setter
-@ToString
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

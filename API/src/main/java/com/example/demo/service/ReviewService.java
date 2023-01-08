@@ -1,10 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Review;
-import com.example.demo.service.DAO.ReviewRepository;
+import com.example.demo.service.Repository.ReviewRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,14 +15,10 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-
-    @Autowired
-    public ReviewService(ReviewRepository reviewRepository) {
-        this.reviewRepository = reviewRepository;
-    }
 
     public List<Review> getAllReviews() {
         return reviewRepository.findAll();
@@ -37,7 +33,7 @@ public class ReviewService {
     public ResponseEntity<Review> addReview(@RequestBody Review review) {
         reviewRepository.save(review);
 
-        log.info(String.format("Review with id %d saved!", review.getId()));
+        log.info("Review with id {} saved", review.getId());
         return new ResponseEntity<>(review, CREATED);
     }
 
