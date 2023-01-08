@@ -2,8 +2,8 @@ import React, {useState} from "react";
 import {BiSearchAlt} from "react-icons/bi";
 import {AiOutlineCloseCircle} from "react-icons/ai";
 import "./SearchBarStyle.css";
-import {Car} from "../IndexPageContent/CarCompany/CarCompany";
 import {useNavigate} from "react-router-dom";
+import {Car} from "../Service/interfaces/Interfaces";
 
 interface IProps {
     cars: Car[]

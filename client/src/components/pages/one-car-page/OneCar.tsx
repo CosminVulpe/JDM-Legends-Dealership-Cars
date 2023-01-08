@@ -2,13 +2,14 @@ import React, {useEffect, useState} from "react";
 import {ApiGetCar, ApiGetCarPictures, getCancelToken} from "../../Service/api-requests/ApiRequests";
 import {useParams} from "react-router-dom";
 import axios from "axios";
-import {Car} from "../../IndexPageContent/CarCompany/CarCompany";
 import Error from "../error-page/Error";
 import NavBar from "../../NavBar/NavBar";
 import {Section} from "../../IndexPageContent/ContentIndex/ContentIndex";
 import {Heading} from "@chakra-ui/react";
 import "./OneCarStyle.css";
 import OneCarContent from "./one-car-content/OneCarContent";
+import Footer from "../../Footer/Footer";
+import {Car} from "../../Service/interfaces/Interfaces";
 
 const slideStyles = {
     width: "100%",
@@ -130,7 +131,8 @@ const OneCar: React.FC = () => {
                     </div>
                 </div>
             </Section>
-            <OneCarContent car={oneCarDetails}/>
+            <OneCarContent cars={oneCarDetails}/>
+            <Footer/>
         </>
     )
 }
