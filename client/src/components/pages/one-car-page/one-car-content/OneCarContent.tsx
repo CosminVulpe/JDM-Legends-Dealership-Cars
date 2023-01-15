@@ -3,6 +3,11 @@ import {Heading} from "@chakra-ui/react";
 import './OneCarContent.css';
 import PopUp from "../../../PopUp/PopUp";
 import {Car, HistoryBid} from "../../../Service/interfaces/Interfaces";
+import CountdownTimer from "../../../CountdownTimer/CountdownTimer";
+import "../../../CountdownTimer/CountdownTimerStyle.css";
+import {ApiGetCar} from "../../../Service/api-requests/ApiRequests";
+import {differenceInDays, isWithinInterval} from "date-fns";
+
 
 interface Props {
     cars?: Car;
@@ -16,6 +21,8 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
         timeOfTheBid: new Date()
     });
     const [historyBidList, setHistoryBidList] = useState<HistoryBid[]>([]);
+    const [startDate, setStartDate] = useState<Date>(new Date());
+    const [endDate, setEndDate] = useState<Date>(new Date());
 
 
     const capitalizeLetterString = (value: String): string => {
@@ -26,6 +33,33 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
         }
         return value[0].toUpperCase() + value.substring(1).toLowerCase();
     }
+
+    useEffect(() => {
+        ApiGetCar("dates/" + cars?.id)
+            .then(res => {
+                setStartDate(new Date(res.data[0]));
+                setEndDate(new Date(res.data[1]));
+            })
+            .catch(err => console.log(err));
+    }, []);
+
+    const numberOfDays = differenceInDays(
+        new Date(
+            endDate.getFullYear()
+            + "/"
+            + (endDate.getMonth() + 1)
+            + "/"
+            + endDate.getDate()
+        ),
+        new Date(
+            startDate.getFullYear()
+            + "/"
+            + (startDate.getMonth() + 1)
+            + "/"
+            + startDate.getDate()
+        )
+    );
+    const timeDiff = startDate.getTime() + (numberOfDays * 24 * 60 * 60 * 1000);
 
     return (
         <>
@@ -89,6 +123,7 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                         </div>
                     </div>
                     <div className='bid_information'>
+                        <CountdownTimer targetDate={timeDiff}/>
                         <h1 className='bid_title'>Bid Information</h1>
                         <ul>
                             <>
@@ -99,9 +134,9 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                                     :
                                     <>
                                         {historyBidList.map((bid) =>
-                                        <li className='bid_list' key={bid.id}>
-                                            Bid to:<span>${bid.bidValue}</span>
-                                        </li>
+                                            <li className='bid_list' key={bid.id}>
+                                                Bid to:<span>${bid.bidValue}</span>
+                                            </li>
                                         )}
                                     </>
                                 }
@@ -111,7 +146,6 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                             <PopUp id={getCar.id}
                                    setHistoryBid={setHistoryBid}
                                    historyBid={historyBid}
-                                // historyBidList={historyBidList}
                                    setHistoryBidList={setHistoryBidList}
                             />
                         </div>

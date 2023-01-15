@@ -31,8 +31,6 @@ interface Props {
         timeOfTheBid: Date,
     },
 
-    historyBidList?: HistoryBid[],
-
     setHistoryBidList: Dispatch<SetStateAction<HistoryBid[]>>
 }
 
@@ -40,8 +38,7 @@ const PopUp: React.FC<Props> = ({
                                     id
                                     , setHistoryBid
                                     , historyBid
-                                    , historyBidList,
-                                    setHistoryBidList
+                                    , setHistoryBidList
                                 }) => {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const formatBidValue = (val: number): string => `$` + val;
