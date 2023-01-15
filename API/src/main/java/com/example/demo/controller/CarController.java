@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,4 +38,10 @@ public class CarController {
     public ResponseEntity<List<HistoryBid>> getHistoryBidsList(@PathVariable("carId") Long carId) {
         return carService.getHistoryBidsList(carId);
     }
+
+    @GetMapping(path = "/dates/{carId}")
+    public List<LocalDateTime> getCarDates(@PathVariable("carId") Long carId) {
+        return carService.getDatesCar(carId);
+    }
+
 }

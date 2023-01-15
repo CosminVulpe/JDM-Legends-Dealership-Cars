@@ -8,6 +8,7 @@ import com.example.demo.model.enums.CarTransmissionType;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +55,9 @@ public class Car {
     @OneToMany(cascade = ALL
             , mappedBy = "car")
     private List<HistoryBid> historyBidList = new ArrayList<>();
+
+    private LocalDateTime startDateCarPostedOnline;
+    private LocalDateTime deadlineCarToSell;
 
 
     public void addHistoryBid(HistoryBid historyBid) {

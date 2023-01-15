@@ -15,6 +15,8 @@ import static com.example.demo.model.enums.CarFuelType.DIESEL;
 import static com.example.demo.model.enums.CarFuelType.GASOLINE;
 import static com.example.demo.model.enums.CarTransmissionType.AUTOMATIC_TRANSMISSION;
 import static com.example.demo.model.enums.CarTransmissionType.MANUAL_TRANSMISSION;
+import static com.example.demo.service.constants.Constants.AVAILABLE_DAYS_TO_PURCHASE;
+import static java.time.LocalDateTime.now;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -39,6 +41,8 @@ public class DemoApplication {
                     .damaged(false)
                     .productionYear(1998)
                     .quantityInStock(10)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
                     .build();
 
             Car toyota = Car
@@ -54,6 +58,8 @@ public class DemoApplication {
                     .damaged(true)
                     .productionYear(1994)
                     .quantityInStock(3)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
                     .build();
 
             Car honda = Car
@@ -69,6 +75,8 @@ public class DemoApplication {
                     .damaged(false)
                     .productionYear(2005)
                     .quantityInStock(6)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
                     .build();
 
             Car subaru = Car
@@ -84,6 +92,8 @@ public class DemoApplication {
                     .damaged(true)
                     .productionYear(2005)
                     .quantityInStock(9)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
                     .build();
 
             Car mazda = Car
@@ -99,6 +109,8 @@ public class DemoApplication {
                     .damaged(false)
                     .productionYear(1999)
                     .quantityInStock(4)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
                     .build();
 
             Car mitsubishi = Car
@@ -114,6 +126,8 @@ public class DemoApplication {
                     .damaged(false)
                     .productionYear(2005)
                     .quantityInStock(6)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
                     .build();
 
 
@@ -130,6 +144,8 @@ public class DemoApplication {
                     .damaged(false)
                     .productionYear(2022)
                     .quantityInStock(2)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
                     .build();
 
 
@@ -146,6 +162,8 @@ public class DemoApplication {
                     .damaged(true)
                     .productionYear(2022)
                     .quantityInStock(1)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
                     .build();
 
             carRepository.saveAll(

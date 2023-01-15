@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +50,13 @@ public class CarService {
         Car carById = getCarById(carId);
         return doesCarExistById(carById)
                 ? ResponseEntity.notFound().build() : ResponseEntity.ok(carById.getHistoryBidList());
+    }
+
+    public List<LocalDateTime> getDatesCar(Long carId) {
+        return new ArrayList<>(
+                List.of(getCarById(carId).getStartDateCarPostedOnline()
+                        , getCarById(carId).getDeadlineCarToSell())
+        );
     }
 
     private boolean doesCarExistById(Car car) {
