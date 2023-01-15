@@ -3,8 +3,6 @@ import {Heading} from "@chakra-ui/react";
 import './OneCarContent.css';
 import PopUp from "../../../PopUp/PopUp";
 import {Car, HistoryBid} from "../../../Service/interfaces/Interfaces";
-import {useAtom} from "jotai";
-import {HISTORY_BID_DETAILS} from "../../../jotai-atom/JotaiAtom";
 
 interface Props {
     cars?: Car;
@@ -12,6 +10,13 @@ interface Props {
 
 const OneCarContent: React.FC<Props> = ({cars}) => {
     const getCar = cars as Car;
+
+    const [historyBid, setHistoryBid] = useState<HistoryBid>({
+        bidValue: 0,
+        timeOfTheBid: new Date()
+    });
+    const [historyBidList, setHistoryBidList] = useState<HistoryBid[]>([]);
+
 
     const capitalizeLetterString = (value: String): string => {
         if (value.includes("_")) {
@@ -21,12 +26,6 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
         }
         return value[0].toUpperCase() + value.substring(1).toLowerCase();
     }
-
-    // useEffect(() => {
-    //     ApiGetCar("bid-list")
-    //         .then(res => setHistoryBid(res.data))
-    //         .catch(err => console.log(err))
-    // }, []);
 
     return (
         <>
@@ -92,14 +91,29 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                     <div className='bid_information'>
                         <h1 className='bid_title'>Bid Information</h1>
                         <ul>
-
-                            <li className='bid_list'>
-                                Bid to:<span>$26.000</span>
-                            </li>
-
+                            <>
+                                {(historyBidList.length === 0) ?
+                                    <>
+                                        <p>No Bids So Far !</p>
+                                    </>
+                                    :
+                                    <>
+                                        {historyBidList.map((bid) =>
+                                        <li className='bid_list' key={bid.id}>
+                                            Bid to:<span>${bid.bidValue}</span>
+                                        </li>
+                                        )}
+                                    </>
+                                }
+                            </>
                         </ul>
                         <div style={{paddingTop: "20px"}}>
-                            <PopUp id={getCar.id}/>
+                            <PopUp id={getCar.id}
+                                   setHistoryBid={setHistoryBid}
+                                   historyBid={historyBid}
+                                // historyBidList={historyBidList}
+                                   setHistoryBidList={setHistoryBidList}
+                            />
                         </div>
                     </div>
                 </div>

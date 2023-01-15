@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {
     Button,
     ModalBody,
@@ -16,24 +16,34 @@ import {
     NumberIncrementStepper,
     NumberDecrementStepper
 } from "@chakra-ui/react";
-import {ApiPostCar} from "../Service/api-requests/ApiRequests";
+import {ApiGetCar, ApiPostCar} from "../Service/api-requests/ApiRequests";
 import {HistoryBid} from "../Service/interfaces/Interfaces";
 import {successfulNotification} from "../Service/toastify-notification/ToastifyNotification";
 import {ToastContainer} from "react-toastify";
-import {useAtom} from "jotai";
-import {HISTORY_BID_DETAILS} from "../jotai-atom/JotaiAtom";
 
 interface Props {
-    id: number
+    id: number,
+
+    setHistoryBid: Dispatch<SetStateAction<HistoryBid>>,
+
+    historyBid: {
+        bidValue: number,
+        timeOfTheBid: Date,
+    },
+
+    historyBidList?: HistoryBid[],
+
+    setHistoryBidList: Dispatch<SetStateAction<HistoryBid[]>>
 }
 
-const PopUp: React.FC<Props> = ({id}) => {
+const PopUp: React.FC<Props> = ({
+                                    id
+                                    , setHistoryBid
+                                    , historyBid
+                                    , historyBidList,
+                                    setHistoryBidList
+                                }) => {
     const {isOpen, onOpen, onClose} = useDisclosure();
-    const [historyBid, setHistoryBid] = useState<HistoryBid>({
-        bidValue: 0,
-        timeOfTheBid: new Date()
-    });
-
     const formatBidValue = (val: number): string => `$` + val;
 
     const parseValue = (val: string): number => {
@@ -42,6 +52,7 @@ const PopUp: React.FC<Props> = ({id}) => {
 
     const handleOnClick = (): void => {
         onClose();
+
         setHistoryBid(prevState => ({
             ...prevState,
             timeOfTheBid: new Date()
@@ -50,7 +61,19 @@ const PopUp: React.FC<Props> = ({id}) => {
         ApiPostCar("bid/" + id, historyBid)
             .then(() => successfulNotification("Bid placed successfully"))
             .catch(err => console.error(err));
+
+        setTimeout(() => {
+            ApiGetCar("bid-list/" + id)
+                .then(res => setHistoryBidList(res.data))
+                .catch(err => console.log(err))
+        }, 5000);
     }
+
+    useEffect(() => {
+        ApiGetCar("bid-list/" + id)
+            .then(res => setHistoryBidList(res.data))
+            .catch(err => console.log(err))
+    }, []);
 
     const handleOnChange = (valueStr: string): void => {
         setHistoryBid(prevState => ({
