@@ -23,7 +23,7 @@ public class CarController {
     }
 
     @GetMapping(path = "/{carId}")
-    public Optional<Car> getCarById(@PathVariable("carId") Long carId) {
+    public Car getCarById(@PathVariable("carId") Long carId) {
         return carService.getCarById(carId);
     }
 
@@ -34,7 +34,7 @@ public class CarController {
     }
 
     @GetMapping(path = "/bid-list/{carId}")
-    public ResponseEntity<List<HistoryBid>> getHistoryBidsList(@PathVariable("carId") Long carId){
+    public ResponseEntity<List<HistoryBid>> getHistoryBidsList(@PathVariable("carId") Long carId) {
         return carService.getHistoryBidsList(carId);
     }
 }

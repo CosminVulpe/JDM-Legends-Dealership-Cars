@@ -27,31 +27,30 @@ public class CarService {
                 : ResponseEntity.notFound().build();
     }
 
-    public Optional<Car> getCarById(Long carId) {
+    public Car getCarById(Long carId) {
         Optional<Car> car = carRepository.findById(carId);
-        return Optional
-                .ofNullable(car
-                        .orElseThrow(GetCarByIdNotFoundException::new)
-                );
+        return car.orElse(null);
     }
 
     public void bid(Long carId, HistoryBid historyBid) {
-        Optional<Car> getCar = getCarById(carId);
-        if (doesCarExistById(getCar)) {
+        Car car = getCarById(carId);
+        if (doesCarExistById(car)) {
             throw new GetCarByIdNotFoundException();
         }
 
-        getCar.get().addHistoryBid(historyBid);
+        car.addHistoryBid(historyBid);
         historyBidRepository.save(historyBid);
         log.info("Bid Value with ID {} has been saved for the car with ID {}"
-                , historyBid.getId(), getCar.get().getId());
-    }
-
-    private boolean doesCarExistById(Optional<Car> car) {
-        return car.isEmpty();
+                , historyBid.getId(), car.getId());
     }
 
     public ResponseEntity<List<HistoryBid>> getHistoryBidsList(Long carId) {
-        return ResponseEntity.ok(getCarById(carId).get().getHistoryBidList());
+        Car carById = getCarById(carId);
+        return doesCarExistById(carById)
+                ? ResponseEntity.notFound().build() : ResponseEntity.ok(carById.getHistoryBidList());
+    }
+
+    private boolean doesCarExistById(Car car) {
+        return car == null;
     }
 }

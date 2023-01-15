@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity(name = "cars")
 @Table
@@ -22,15 +23,7 @@ import static javax.persistence.CascadeType.ALL;
 @AllArgsConstructor
 public class Car {
     @Id
-    @SequenceGenerator(
-            name = "car_sequence",
-            sequenceName = "car_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "car_sequence"
-    )
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     private String carName;
