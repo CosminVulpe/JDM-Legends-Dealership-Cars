@@ -1,4 +1,4 @@
-import React, {SetStateAction} from "react";
+import React from "react";
 import {useEffect, useState} from 'react';
 
 export const useCountDown = (targetDate: number) => {
@@ -7,9 +7,10 @@ export const useCountDown = (targetDate: number) => {
 
     useEffect(() => {
         const interval: NodeJS.Timer = setInterval(() => {
-            const timeFinish: boolean = getReturnValues(countDown)[3] === 0;
+            const timeFinish: boolean = checkTimeIsFinish(countDown);
             setCountDown((timeFinish) ? 0 : countDownDate - new Date().getTime())
         }, 1000);
+
         return () => clearInterval(interval);
     }, [countDown]);
 
@@ -26,3 +27,15 @@ const getReturnValues = (countDown: number) => {
 
     return [days, hours, minutes, seconds];
 };
+
+const checkTimeIsFinish = (countDown: number): boolean => {
+    const timeFormatObj = {
+        "Days": getReturnValues(countDown)[0],
+        "Hours": getReturnValues(countDown)[1],
+        "Mins": getReturnValues(countDown)[2],
+        "Sec": getReturnValues(countDown)[3]
+    };
+
+    return timeFormatObj["Days"] === 0 && timeFormatObj["Hours"] === 0
+        && timeFormatObj["Mins"] === 0 && timeFormatObj["Mins"] === 0;
+}

@@ -63,7 +63,7 @@ const PopUp: React.FC<Props> = ({
             ApiGetCar("bid-list/" + id)
                 .then(res => setHistoryBidList(res.data))
                 .catch(err => console.log(err))
-        }, 5000);
+        }, 2500);
     }
 
     useEffect(() => {
