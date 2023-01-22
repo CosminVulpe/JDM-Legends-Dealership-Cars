@@ -60,7 +60,7 @@ public class CarService {
         );
     }
 
-    public boolean doesCarExistById(Car car) {
+    private boolean doesCarExistById(Car car) {
         return car == null;
     }
 }
