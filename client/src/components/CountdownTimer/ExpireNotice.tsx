@@ -4,8 +4,8 @@ const ExpireNotice: React.FC = () => {
 
     return (
         <div className="expired-notice">
-            <span>Expired!!!</span>
-            <p>Please select a future date and time.</p>
+            <span>Sold!!!</span>
+            <p>The winner is: </p>
         </div>
     )
 }

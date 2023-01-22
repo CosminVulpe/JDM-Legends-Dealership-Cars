@@ -8,7 +8,8 @@ interface Props {
     seconds: number
 }
 
-const ShowCounter: React.FC<Props> = ({days, hours, minutes, seconds}) => {
+const ShowCounter: React.FC<Props> = ({days, hours
+                                          , minutes, seconds}) => {
 
     return (
         <div className="show-counter">

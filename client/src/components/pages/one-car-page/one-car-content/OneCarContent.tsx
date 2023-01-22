@@ -6,8 +6,7 @@ import {Car, HistoryBid} from "../../../Service/interfaces/Interfaces";
 import CountdownTimer from "../../../CountdownTimer/CountdownTimer";
 import "../../../CountdownTimer/CountdownTimerStyle.css";
 import {ApiGetCar} from "../../../Service/api-requests/ApiRequests";
-import {differenceInDays, isWithinInterval} from "date-fns";
-
+import {differenceInDays} from "date-fns";
 
 interface Props {
     cars?: Car;
@@ -59,7 +58,15 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
             + startDate.getDate()
         )
     );
-    const timeDiff = startDate.getTime() + (numberOfDays * 24 * 60 * 60 * 1000);
+
+    const diffTime: number = Math.abs(endDate.getTime() - startDate.getTime());
+    let timeDiff: number = startDate.getTime();
+
+    if (numberOfDays === 0) {
+        timeDiff += diffTime;
+    } else {
+        timeDiff += numberOfDays * 24 * 60 * 60 * 1000;
+    }
 
     return (
         <>
