@@ -43,6 +43,7 @@ public class DemoApplication {
                     .quantityInStock(10)
                     .startDateCarPostedOnline(now())
                     .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
             Car toyota = Car
@@ -60,6 +61,7 @@ public class DemoApplication {
                     .quantityInStock(3)
                     .startDateCarPostedOnline(now())
                     .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
             Car honda = Car
@@ -77,6 +79,7 @@ public class DemoApplication {
                     .quantityInStock(6)
                     .startDateCarPostedOnline(now())
                     .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
             Car subaru = Car
@@ -94,6 +97,7 @@ public class DemoApplication {
                     .quantityInStock(9)
                     .startDateCarPostedOnline(now())
                     .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
             Car mazda = Car
@@ -111,6 +115,7 @@ public class DemoApplication {
                     .quantityInStock(4)
                     .startDateCarPostedOnline(now())
                     .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
             Car mitsubishi = Car
@@ -128,6 +133,7 @@ public class DemoApplication {
                     .quantityInStock(6)
                     .startDateCarPostedOnline(now())
                     .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
 
@@ -146,6 +152,7 @@ public class DemoApplication {
                     .quantityInStock(2)
                     .startDateCarPostedOnline(now())
                     .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
 
@@ -164,6 +171,7 @@ public class DemoApplication {
                     .quantityInStock(1)
                     .startDateCarPostedOnline(now())
                     .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
             carRepository.saveAll(

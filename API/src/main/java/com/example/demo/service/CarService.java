@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.model.Car;
 import com.example.demo.model.HistoryBid;
 import com.example.demo.service.Repository.CarRepository;
+import com.example.demo.service.Repository.HistoryBidInterface;
 import com.example.demo.service.Repository.HistoryBidRepository;
 import com.example.demo.service.exceptions.GetCarByIdNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -46,10 +47,10 @@ public class CarService {
                 , historyBid.getId(), car.getId());
     }
 
-    public ResponseEntity<List<HistoryBid>> getHistoryBidsList(Long carId) {
+    public ResponseEntity<List<HistoryBidInterface>> getHistoryBidsList(Long carId) {
         Car carById = getCarById(carId);
         return doesCarExistById(carById)
-                ? ResponseEntity.notFound().build() : ResponseEntity.ok(carById.getHistoryBidList());
+                ? ResponseEntity.notFound().build() : ResponseEntity.ok(carRepository.getBiggestHistoryBidByCarID(carId));
     }
 
     public List<LocalDateTime> getDatesCar(Long carId) {
@@ -59,7 +60,7 @@ public class CarService {
         );
     }
 
-    private boolean doesCarExistById(Car car) {
+    public boolean doesCarExistById(Car car) {
         return car == null;
     }
 }
