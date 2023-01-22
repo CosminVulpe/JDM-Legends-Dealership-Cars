@@ -4,21 +4,7 @@ import {Heading} from "@chakra-ui/react";
 import {ApiGetCar, getCancelToken} from "../../Service/api-requests/ApiRequests";
 import axios from "axios";
 import {carBrandData} from "./CarBrandData";
-
-export interface Car {
-    carColor: String,
-    carCompany: String,
-    carFuelType: String,
-    carName: String,
-    carTransmissionType: String,
-    damaged: boolean,
-    hp: number,
-    id: number,
-    km: number,
-    price: number,
-    productionYear: number,
-    quantityInStock: number
-}
+import {Car} from "../../Service/interfaces/Interfaces";
 
 const CarCompany: React.FC = () => {
     window.scrollTo(0, 0);

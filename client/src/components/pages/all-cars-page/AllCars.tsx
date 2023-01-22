@@ -4,11 +4,11 @@ import GifAnimation from "../../Gif/GifAnimation";
 import styled from "styled-components/macro";
 import {ApiGetCar, getCancelToken} from "../../Service/api-requests/ApiRequests";
 import axios from "axios";
-import {Car} from "../../IndexPageContent/CarCompany/CarCompany";
 import Card from "../../Card/Card";
 import {allCarsData} from "./AllCarsData";
 import Footer from "../../Footer/Footer";
 import SearchBar from "../../SearchBar/SearchBar";
+import {Car} from "../../Service/interfaces/Interfaces";
 
 const Wrapper = styled.div`
   display: grid;

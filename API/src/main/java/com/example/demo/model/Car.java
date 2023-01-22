@@ -8,26 +8,23 @@ import com.example.demo.model.enums.CarTransmissionType;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity(name = "Cars")
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.GenerationType.IDENTITY;
+
+@Entity(name = "cars")
 @Table
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Car {
     @Id
-    @SequenceGenerator(
-            name = "car_sequence",
-            sequenceName = "car_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "car_sequence"
-    )
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     private String carName;
@@ -48,12 +45,24 @@ public class Car {
 
     private Integer productionYear;
 
-    private Integer price;
+    private Integer initialPrice;
 
     private Integer hp;
 
     private boolean damaged;
 
     private int quantityInStock;
+    @OneToMany(cascade = ALL
+            , mappedBy = "car")
+    private List<HistoryBid> historyBidList = new ArrayList<>();
+
+    private LocalDateTime startDateCarPostedOnline;
+    private LocalDateTime deadlineCarToSell;
+
+
+    public void addHistoryBid(HistoryBid historyBid) {
+        historyBidList.add(historyBid);
+        historyBid.setCar(this);
+    }
 
 }

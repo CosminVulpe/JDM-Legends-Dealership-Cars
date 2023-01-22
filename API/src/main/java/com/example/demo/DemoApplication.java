@@ -1,7 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.model.Car;
-import com.example.demo.service.DAO.CarRepository;
+import com.example.demo.service.Repository.CarRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +15,8 @@ import static com.example.demo.model.enums.CarFuelType.DIESEL;
 import static com.example.demo.model.enums.CarFuelType.GASOLINE;
 import static com.example.demo.model.enums.CarTransmissionType.AUTOMATIC_TRANSMISSION;
 import static com.example.demo.model.enums.CarTransmissionType.MANUAL_TRANSMISSION;
+import static com.example.demo.service.constants.Constants.AVAILABLE_DAYS_TO_PURCHASE;
+import static java.time.LocalDateTime.now;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -34,11 +36,14 @@ public class DemoApplication {
                     .carCompany(NISSAN)
                     .carFuelType(GASOLINE)
                     .km(120000)
-                    .price(68980)
+                    .initialPrice(68980)
                     .hp(900)
                     .damaged(false)
                     .productionYear(1998)
                     .quantityInStock(10)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
             Car toyota = Car
@@ -49,11 +54,14 @@ public class DemoApplication {
                     .carCompany(TOYOTA)
                     .carFuelType(DIESEL)
                     .km(100000)
-                    .price(44900)
+                    .initialPrice(44900)
                     .hp(1000)
                     .damaged(true)
                     .productionYear(1994)
                     .quantityInStock(3)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
             Car honda = Car
@@ -64,11 +72,14 @@ public class DemoApplication {
                     .carCompany(HONDA)
                     .carFuelType(GASOLINE)
                     .km(89500)
-                    .price(33900)
+                    .initialPrice(33900)
                     .hp(550)
                     .damaged(false)
                     .productionYear(2005)
                     .quantityInStock(6)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
             Car subaru = Car
@@ -79,11 +90,14 @@ public class DemoApplication {
                     .carCompany(SUBARU)
                     .carFuelType(GASOLINE)
                     .km(11600)
-                    .price(33900)
+                    .initialPrice(33900)
                     .hp(445)
                     .damaged(true)
                     .productionYear(2005)
                     .quantityInStock(9)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
             Car mazda = Car
@@ -94,11 +108,14 @@ public class DemoApplication {
                     .carCompany(MAZDA)
                     .carFuelType(GASOLINE)
                     .km(81600)
-                    .price(29600)
+                    .initialPrice(29600)
                     .hp(400)
                     .damaged(false)
                     .productionYear(1999)
                     .quantityInStock(4)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
             Car mitsubishi = Car
@@ -109,11 +126,14 @@ public class DemoApplication {
                     .carCompany(MITSUBISHI)
                     .carFuelType(DIESEL)
                     .km(81600)
-                    .price(34000)
+                    .initialPrice(34000)
                     .hp(850)
                     .damaged(false)
                     .productionYear(2005)
                     .quantityInStock(6)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
 
@@ -125,11 +145,14 @@ public class DemoApplication {
                     .carCompany(INFINITY)
                     .carFuelType(GASOLINE)
                     .km(35690)
-                    .price(39900)
+                    .initialPrice(39900)
                     .hp(985)
                     .damaged(false)
                     .productionYear(2022)
                     .quantityInStock(2)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
 
@@ -141,11 +164,14 @@ public class DemoApplication {
                     .carCompany(LEXUS)
                     .carFuelType(GASOLINE)
                     .km(35690)
-                    .price(39900)
+                    .initialPrice(39900)
                     .hp(225)
                     .damaged(true)
                     .productionYear(2022)
                     .quantityInStock(1)
+                    .startDateCarPostedOnline(now())
+                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+//                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
             carRepository.saveAll(
