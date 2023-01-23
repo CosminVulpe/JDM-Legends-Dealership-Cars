@@ -130,6 +130,9 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                         </div>
                     </div>
                     <div className='bid_information'>
+                        <Heading as='h4' size='md'>
+                            Price: ${getCar.initialPrice.toLocaleString()}
+                        </Heading>
                         <CountdownTimer targetDate={timeDiff}/>
                         <h1 className='bid_title'>Bid Information</h1>
                         <ul>
@@ -154,6 +157,7 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                                    setHistoryBid={setHistoryBid}
                                    historyBid={historyBid}
                                    setHistoryBidList={setHistoryBidList}
+                                   car={getCar}
                             />
                         </div>
                     </div>

@@ -15,7 +15,7 @@ export interface Car {
     hp: number,
     id: number,
     km: number,
-    price: number,
+    initialPrice: number,
     productionYear: number,
     quantityInStock: number
 }

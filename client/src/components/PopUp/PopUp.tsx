@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect} from "react";
 import {
     Button,
     ModalBody,
@@ -17,9 +17,10 @@ import {
     NumberDecrementStepper
 } from "@chakra-ui/react";
 import {ApiGetCar, ApiPostCar} from "../Service/api-requests/ApiRequests";
-import {HistoryBid} from "../Service/interfaces/Interfaces";
+import {Car, HistoryBid} from "../Service/interfaces/Interfaces";
 import {successfulNotification} from "../Service/toastify-notification/ToastifyNotification";
 import {ToastContainer} from "react-toastify";
+import {ca} from "date-fns/locale";
 
 interface Props {
     id: number,
@@ -31,7 +32,9 @@ interface Props {
         timeOfTheBid: Date,
     },
 
-    setHistoryBidList: Dispatch<SetStateAction<HistoryBid[]>>
+    setHistoryBidList: Dispatch<SetStateAction<HistoryBid[]>>,
+
+    car:Car
 }
 
 const PopUp: React.FC<Props> = ({
@@ -39,6 +42,7 @@ const PopUp: React.FC<Props> = ({
                                     , setHistoryBid
                                     , historyBid
                                     , setHistoryBidList
+                                    ,car
                                 }) => {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const formatBidValue = (val: number): string => `$` + val;
@@ -98,10 +102,9 @@ const PopUp: React.FC<Props> = ({
                             <NumberInput
                                 onChange={handleOnChange}
                                 value={formatBidValue(historyBid.bidValue)}
-                                min={0}
+                                min={car.initialPrice}
                                 keepWithinRange={false}
                                 clampValueOnBlur={false}
-                                // max={50}
                             >
                                 <NumberInputField/>
                                 <NumberInputStepper>
@@ -116,6 +119,7 @@ const PopUp: React.FC<Props> = ({
                         <Button colorScheme='teal'
                                 mr={3}
                                 onClick={handleOnClick}
+                                isDisabled={historyBid.bidValue < car.initialPrice}
                         >
                             Submit
                         </Button>
