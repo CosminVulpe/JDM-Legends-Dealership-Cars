@@ -1,19 +1,8 @@
 import axios from "axios";
-import {HistoryBid} from "../interfaces/Interfaces";
+import {TemporaryUser, HistoryBid} from "../interfaces/Interfaces";
 
 export const ApiGetCar = async (endPoint: string) => {
     return await axios.get(process.env.REACT_APP_BACKEND_API_CAR + endPoint);
-}
-
-export const ApiPostCar = async (endPoint: string, data: HistoryBid) => {
-    return await axios.post(process.env.REACT_APP_BACKEND_API_CAR + endPoint
-        , JSON.stringify(data)
-        , {
-            headers: {
-                "Content-Type": "application/json",
-                "accept": "application/json"
-            }
-        });
 }
 
 export const getCancelToken = (): any => {
@@ -41,4 +30,26 @@ export const ApiPostReview = async (data: { description: string; starRating: num
 
 export const ApiGetReview = async (endPoint: string) => {
     return await axios.get(process.env.REACT_APP_BACKEND_API_REVIEW + endPoint);
+}
+
+export const ApiPostTemporaryUser = async (endpoint: string, data: TemporaryUser) => {
+    return await axios.post(process.env.REACT_APP_BACKEND_API_TEMPORARY_USER + endpoint
+        , JSON.stringify(data)
+        , {
+            headers: {
+                "Content-type": "application/json",
+                "accept": "application/json"
+            }
+        })
+}
+
+export const ApiPostHistoryBid = async (endPoint: string, data: HistoryBid) => {
+    return await axios.post(process.env.REACT_APP_BACKEND_API_HISTORY_BID + endPoint
+        , JSON.stringify(data)
+        , {
+            headers: {
+                "Content-Type": "application/json",
+                "accept": "application/json"
+            }
+        });
 }
