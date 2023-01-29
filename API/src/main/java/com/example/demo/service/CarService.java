@@ -35,18 +35,6 @@ public class CarService {
         return car.orElse(null);
     }
 
-    public void bid(Long carId, HistoryBid historyBid) {
-        Car car = getCarById(carId);
-        if (doesCarExistById(car)) {
-            throw new GetCarByIdNotFoundException();
-        }
-
-        car.addHistoryBid(historyBid);
-        historyBidRepository.save(historyBid);
-        log.info("Bid Value with ID {} has been saved for the car with ID {}"
-                , historyBid.getId(), car.getId());
-    }
-
     public ResponseEntity<List<HistoryBidInterface>> getHistoryBidsList(Long carId) {
         Car carById = getCarById(carId);
         return doesCarExistById(carById)
@@ -60,7 +48,7 @@ public class CarService {
         );
     }
 
-    private boolean doesCarExistById(Car car) {
+    public boolean doesCarExistById(Car car) {
         return car == null;
     }
 }
