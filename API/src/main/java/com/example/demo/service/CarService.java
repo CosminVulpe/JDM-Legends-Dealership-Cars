@@ -1,10 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Car;
-import com.example.demo.model.HistoryBid;
 import com.example.demo.service.Repository.CarRepository;
 import com.example.demo.service.Repository.HistoryBidInterface;
-import com.example.demo.service.Repository.HistoryBidRepository;
 import com.example.demo.service.exceptions.GetCarByIdNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -22,7 +19,6 @@ import java.util.Optional;
 public class CarService {
 
     private final CarRepository carRepository;
-    private final HistoryBidRepository historyBidRepository;
 
     public ResponseEntity<List<Car>> getAllCars() {
         return (!carRepository.findAll().isEmpty()) ?
@@ -31,14 +27,11 @@ public class CarService {
     }
 
     public Car getCarById(Long carId) {
-        Optional<Car> car = carRepository.findById(carId);
-        return car.orElse(null);
+        return carRepository.findById(carId).orElseThrow(GetCarByIdNotFoundException::new);
     }
 
-    public ResponseEntity<List<HistoryBidInterface>> getHistoryBidsList(Long carId) {
-        Car carById = getCarById(carId);
-        return doesCarExistById(carById)
-                ? ResponseEntity.notFound().build() : ResponseEntity.ok(carRepository.getBiggestHistoryBidByCarID(carId));
+    public List<HistoryBidInterface> getHistoryBidsList(Long carId) {
+        return carRepository.getBiggestHistoryBidByCarID(carId);
     }
 
     public List<LocalDateTime> getDatesCar(Long carId) {
@@ -48,7 +41,4 @@ public class CarService {
         );
     }
 
-    public boolean doesCarExistById(Car car) {
-        return car == null;
-    }
 }

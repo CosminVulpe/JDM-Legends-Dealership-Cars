@@ -29,7 +29,7 @@ public class CarController {
     }
 
     @GetMapping(path = "/bid-list/{carId}")
-    public ResponseEntity<List<HistoryBidInterface>> getHistoryBidsList(@PathVariable("carId") Long carId) {
+    public List<HistoryBidInterface> getHistoryBidsList(@PathVariable("carId") Long carId) {
         return carService.getHistoryBidsList(carId);
     }
 
