@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Car;
 import com.example.demo.model.TemporaryUser;
 import com.example.demo.service.Repository.TemporaryUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TemporaryUserService {
     private final TemporaryUserRepository temporaryUserRepository;
-    private final CarService carService;
 
     public void saveTemporaryUser(TemporaryUser temporaryUser) {
         temporaryUserRepository.save(temporaryUser);

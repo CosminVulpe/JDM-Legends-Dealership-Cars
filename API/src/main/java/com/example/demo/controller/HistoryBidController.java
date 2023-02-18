@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 public class HistoryBidController {
     private final HistoryBidService historyBidService;
 
-
     @PostMapping(path = "/bid/{carId}")
     public void bidValueToCar(@PathVariable("carId") Long carId
             , @RequestBody HistoryBid historyBid) {

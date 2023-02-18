@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Car;
-import com.example.demo.model.HistoryBid;
 import com.example.demo.service.CarService;
 import com.example.demo.service.Repository.HistoryBidInterface;
 import lombok.RequiredArgsConstructor;
