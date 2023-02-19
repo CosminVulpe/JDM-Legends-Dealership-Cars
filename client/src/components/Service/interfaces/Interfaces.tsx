@@ -1,8 +1,8 @@
-export interface Review {
-    id: number,
+export interface ReviewInterface {
+    id?: number,
     title: String,
     description: String,
-    starRating?: number
+    starRating: number
 }
 
 export interface Car {
