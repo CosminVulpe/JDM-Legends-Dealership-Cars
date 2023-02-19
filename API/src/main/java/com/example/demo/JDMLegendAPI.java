@@ -19,10 +19,10 @@ import static com.example.demo.service.constants.Constants.AVAILABLE_DAYS_TO_PUR
 import static java.time.LocalDateTime.now;
 
 @SpringBootApplication
-public class DemoApplication {
+public class JDMLegendAPI {
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(JDMLegendAPI.class, args);
     }
 
     @Bean

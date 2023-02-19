@@ -14,12 +14,14 @@ import {
     NumberInputField,
     NumberInputStepper,
     NumberIncrementStepper,
-    NumberDecrementStepper
+    NumberDecrementStepper, FormLabel, Input, FormHelperText, FormControl, Checkbox
 } from "@chakra-ui/react";
-import {ApiGetCar, ApiPostCar} from "../Service/api-requests/ApiRequests";
-import {HistoryBid} from "../Service/interfaces/Interfaces";
+import {ApiGetCar, ApiPostHistoryBid, ApiPostTemporaryUser} from "../Service/api-requests/ApiRequests";
+import {TemporaryUser, Car, HistoryBid} from "../Service/interfaces/Interfaces";
 import {successfulNotification} from "../Service/toastify-notification/ToastifyNotification";
 import {ToastContainer} from "react-toastify";
+import {useFormik} from "formik";
+import {saveInfoUserLocal} from "../Service/local-storage/LocalStorage";
 
 interface Props {
     id: number,
@@ -31,16 +33,38 @@ interface Props {
         timeOfTheBid: Date,
     },
 
-    setHistoryBidList: Dispatch<SetStateAction<HistoryBid[]>>
+    setHistoryBidList: Dispatch<SetStateAction<HistoryBid[]>>,
+
+    car: Car
 }
+
+const spacingInputStyle = {
+    marginTop: "1rem"
+};
 
 const PopUp: React.FC<Props> = ({
                                     id
                                     , setHistoryBid
                                     , historyBid
                                     , setHistoryBidList
+                                    , car
                                 }) => {
     const {isOpen, onOpen, onClose} = useDisclosure();
+    const [checkedCheckBox, setCheckedCheckBox] = useState({
+        "YesButton": false,
+        "NoButton": false
+    });
+
+    const formik = useFormik<TemporaryUser>({
+        initialValues: {
+            userName: "",
+            firstName: "",
+            lastName: "",
+            emailAddress: ""
+        },
+        onSubmit: () => undefined
+    });
+
     const formatBidValue = (val: number): string => `$` + val;
 
     const parseValue = (val: string): number => {
@@ -52,12 +76,22 @@ const PopUp: React.FC<Props> = ({
 
         setHistoryBid(prevState => ({
             ...prevState,
+            bidValue: 0,
             timeOfTheBid: new Date()
         }));
+        setCheckedCheckBox({YesButton: false, NoButton: false});
 
-        ApiPostCar("bid/" + id, historyBid)
+        if (checkedCheckBox["YesButton"]) {
+            saveInfoUserLocal("userName", formik.values.userName);
+        }
+
+        ApiPostHistoryBid("bid/" + id, historyBid)
             .then(() => successfulNotification("Bid placed successfully"))
             .catch(err => console.error(err));
+
+        ApiPostTemporaryUser("", formik.values)
+            .then(res => res)
+            .catch((error) => console.log(error));
 
         setTimeout(() => {
             ApiGetCar("bid-list/" + id)
@@ -79,6 +113,15 @@ const PopUp: React.FC<Props> = ({
         }));
     }
 
+    const isSubmitButtonDisable = () => {
+        if (historyBid.bidValue > car.initialPrice) {
+            if (checkedCheckBox["YesButton"] || checkedCheckBox["NoButton"]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     return (
         <>
             <ToastContainer/>
@@ -98,10 +141,9 @@ const PopUp: React.FC<Props> = ({
                             <NumberInput
                                 onChange={handleOnChange}
                                 value={formatBidValue(historyBid.bidValue)}
-                                min={0}
+                                min={car.initialPrice}
                                 keepWithinRange={false}
                                 clampValueOnBlur={false}
-                                // max={50}
                             >
                                 <NumberInputField/>
                                 <NumberInputStepper>
@@ -109,6 +151,49 @@ const PopUp: React.FC<Props> = ({
                                     <NumberDecrementStepper/>
                                 </NumberInputStepper>
                             </NumberInput>
+                            <FormControl>
+                                <FormLabel style={spacingInputStyle}>First name</FormLabel>
+                                <Input placeholder='First name'
+                                       name="firstName"
+                                       type="text"
+                                       onChange={formik.handleChange}
+                                       defaultValue={formik.initialValues.firstName}/>
+
+                                <FormLabel style={spacingInputStyle}>Last name</FormLabel>
+                                <Input placeholder='Last name'
+                                       name="lastName"
+                                       type="text"
+                                       onChange={formik.handleChange}
+                                       defaultValue={formik.initialValues.lastName}/>
+
+                                <FormLabel style={spacingInputStyle}>Username</FormLabel>
+                                <Input placeholder='Username'
+                                       name="userName"
+                                       type="text"
+                                       onChange={formik.handleChange}
+                                       defaultValue={formik.initialValues.userName}/>
+
+                                <FormLabel style={spacingInputStyle}>Email address</FormLabel>
+                                <Input type='email' placeholder={'Email Address'}
+                                       name="emailAddress"
+                                       onChange={formik.handleChange}
+                                       defaultValue={formik.initialValues.emailAddress}/>
+                                <FormHelperText>We'll never share your email.</FormHelperText>
+
+                                <Text fontSize='md' style={spacingInputStyle}>Do you want to store your info
+                                    locally?</Text>
+                                <Checkbox
+                                    isChecked={checkedCheckBox["YesButton"]}
+                                    onChange={(e) => setCheckedCheckBox({NoButton: false, YesButton: e.target.checked})}
+                                    isDisabled={checkedCheckBox["NoButton"]}
+                                    style={spacingInputStyle}>Yes</Checkbox>
+                                <Checkbox
+                                    isChecked={checkedCheckBox["NoButton"]}
+                                    onChange={(e) => setCheckedCheckBox({NoButton: e.target.checked, YesButton: false})}
+                                    isDisabled={checkedCheckBox["YesButton"]}
+                                    style={spacingInputStyle}>No</Checkbox>
+
+                            </FormControl>
                         </Text>
                     </ModalBody>
 
@@ -116,6 +201,7 @@ const PopUp: React.FC<Props> = ({
                         <Button colorScheme='teal'
                                 mr={3}
                                 onClick={handleOnClick}
+                                isDisabled={isSubmitButtonDisable()}
                         >
                             Submit
                         </Button>

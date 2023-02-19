@@ -106,7 +106,6 @@ const ContentIndex: React.FC<IProps> = ({reviews}) => {
                 <Testimonials reviews={reviews}/>
             }
             <CarCompany/>
-            {/*<FrequentlyAskedQuestion/>*/}
             <Footer/>
         </div>
     );

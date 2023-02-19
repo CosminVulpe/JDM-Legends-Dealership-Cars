@@ -15,7 +15,7 @@ export interface Car {
     hp: number,
     id: number,
     km: number,
-    price: number,
+    initialPrice: number,
     productionYear: number,
     quantityInStock: number
 }
@@ -24,4 +24,12 @@ export interface HistoryBid {
     id?: number,
     bidValue: number,
     timeOfTheBid: Date
+}
+
+export interface TemporaryUser {
+    id?: number,
+    userName: string;
+    firstName: string,
+    lastName: string,
+    emailAddress: string
 }

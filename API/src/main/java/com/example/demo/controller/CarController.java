@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Car;
-import com.example.demo.model.HistoryBid;
 import com.example.demo.service.CarService;
 import com.example.demo.service.Repository.HistoryBidInterface;
 import lombok.RequiredArgsConstructor;
@@ -28,14 +27,8 @@ public class CarController {
         return carService.getCarById(carId);
     }
 
-    @PostMapping(path = "/bid/{carId}")
-    public void bidValueToCar(@PathVariable("carId") Long carId
-            , @RequestBody HistoryBid historyBid) {
-        carService.bid(carId, historyBid);
-    }
-
     @GetMapping(path = "/bid-list/{carId}")
-    public ResponseEntity<List<HistoryBidInterface>> getHistoryBidsList(@PathVariable("carId") Long carId) {
+    public List<HistoryBidInterface> getHistoryBidsList(@PathVariable("carId") Long carId) {
         return carService.getHistoryBidsList(carId);
     }
 

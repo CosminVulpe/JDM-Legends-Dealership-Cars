@@ -7,6 +7,7 @@ import CountdownTimer from "../../../CountdownTimer/CountdownTimer";
 import "../../../CountdownTimer/CountdownTimerStyle.css";
 import {ApiGetCar} from "../../../Service/api-requests/ApiRequests";
 import {differenceInDays} from "date-fns";
+import {areUserInfoSavedLocally, getInfoLocalStorage} from "../../../Service/local-storage/LocalStorage";
 
 interface Props {
     cars?: Car;
@@ -42,7 +43,7 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
             .catch(err => console.log(err));
     }, []);
 
-    const numberOfDays = differenceInDays(
+    const daysDifference = differenceInDays(
         new Date(
             endDate.getFullYear()
             + "/"
@@ -62,10 +63,10 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
     const diffTime: number = Math.abs(endDate.getTime() - startDate.getTime());
     let timeDiff: number = startDate.getTime();
 
-    if (numberOfDays === 0) {
+    if (daysDifference === 0) {
         timeDiff += diffTime;
     } else {
-        timeDiff += numberOfDays * 24 * 60 * 60 * 1000;
+        timeDiff += daysDifference * 24 * 60 * 60 * 1000;
     }
 
     return (
@@ -89,7 +90,7 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                             <ul className='details_list'>
                                 <li><i>Damaged:</i> {(cars?.damaged) ? "Yes" : "No"}</li>
                                 <li><i>HP:</i> {cars?.hp}</li>
-                                <li><i>KM:</i> {cars?.km}</li>
+                                <li><i>KM:</i> {cars?.km.toLocaleString()}</li>
                                 <li><i>Production Year:</i> {cars?.productionYear}</li>
                                 <li><i>Quantity in Stock:</i> {cars?.quantityInStock}</li>
                             </ul>
@@ -130,6 +131,9 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                         </div>
                     </div>
                     <div className='bid_information'>
+                        <Heading as='h4' size='md'>
+                            Price: ${getCar.initialPrice.toLocaleString()}
+                        </Heading>
                         <CountdownTimer targetDate={timeDiff}/>
                         <h1 className='bid_title'>Bid Information</h1>
                         <ul>
@@ -142,7 +146,11 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                                     <>
                                         {historyBidList.map((bid) =>
                                             <li className='bid_list' key={bid.id}>
-                                                Bid to:<span>${bid.bidValue}</span>
+                                                Bid by:
+                                                {areUserInfoSavedLocally() ?
+                                                    <span>unknown</span> :
+                                                    <span><b>{getInfoLocalStorage()}</b></span>}
+                                                <span>${bid.bidValue.toLocaleString()}</span>
                                             </li>
                                         )}
                                     </>
@@ -154,6 +162,7 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                                    setHistoryBid={setHistoryBid}
                                    historyBid={historyBid}
                                    setHistoryBidList={setHistoryBidList}
+                                   car={getCar}
                             />
                         </div>
                     </div>
