@@ -7,6 +7,9 @@ import {ApiPostReview} from "../../Service/api-requests/ApiRequests";
 import {successfulNotification} from "../../Service/toastify-notification/ToastifyNotification";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {ReviewInterface} from "../../Service/interfaces/Interfaces";
+import * as Yup from "yup";
+import {useFormik} from "formik";
 
 const colors = {
     orange: "#FFBA5A",
@@ -26,6 +29,12 @@ const Container = styled.div`
 const Stars = styled.div`
   display: flex;
   flex-direction: row;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Textarea = css`
@@ -86,33 +95,36 @@ const Button = styled.button`
 
 
 const Review: React.FC = () => {
-    const titleLengthMin: number = 5;
-    const descriptionLengthMin: number = 15;
 
-    const [reviewSection, setReviewSection] = useState({
-        starRating: 0,
-        title: "",
-        description: ""
+    const validationSchema = Yup.object({
+        title: Yup.string().min(5).max(20).required("Title is required"),
+        description: Yup.string().min(5).required("Description is required"),
+        starRating: Yup.number().required("Star Rating is required")
     });
-    const [hoverValue, setHoverValue] = useState(undefined);
 
-    const handleClickStarEffect = (value: number): void => {
-        setReviewSection(prevState => ({
-            ...prevState,
-            starRating: value
-        }));
-    }
+    const formik = useFormik<ReviewInterface>({
+        initialValues: {
+            title: "",
+            description: "",
+            starRating: 0
+        },
+        validationSchema,
+        onSubmit: (values: any) => console.log(values)
+    })
 
-    const handleMouseOver = (newHoverValue: any): void => {
-        setHoverValue(newHoverValue);
-    };
+    const [starRating, setStarRating] = useState<number>(0);
 
-    const handleMouseLeave = (): void => {
-        setHoverValue(undefined);
-    }
+    const [hoverValue, setHoverValue] = useState<number | React.SetStateAction<undefined>>(undefined);
+
+    const handleClickStarEffect = (value: number): void => setStarRating(value);
+
+    const handleMouseOver = (newHoverValue: number | React.SetStateAction<undefined>): void => setHoverValue(newHoverValue);
+
+    const handleMouseLeave = (): void => setHoverValue(undefined);
 
     const sendInfoReviewBackend = (): void => {
-        ApiPostReview(reviewSection, "")
+        formik.values["starRating"] = starRating;
+        ApiPostReview(formik.values, "")
             .then(response => {
                 if (response.status === 201) {
                     successfulNotification("Review successfully added!");
@@ -121,28 +133,11 @@ const Review: React.FC = () => {
             }).catch(err => console.log(err));
     }
 
-    const handleOnChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
-        setReviewSection(prevState => ({
-            ...prevState,
-            [event.target.name]: event.target.value
-        }));
-    }
-
-    const checkReviewFieldsEmpty = (): boolean => {
-        return reviewSection.starRating > 0
-            && reviewSection.title.length > titleLengthMin
-            && reviewSection.description.length > descriptionLengthMin
-    }
-
     const cleanFieldsReviewSection = (): void => {
         handleClickStarEffect(0);
-        setReviewSection(prevState => ({
-            ...prevState,
-            title: "",
-            description: ""
-        }));
+        setStarRating(0);
+        formik.resetForm();
     }
-
 
     return (
         <>
@@ -162,7 +157,7 @@ const Review: React.FC = () => {
                             onClick={() => handleClickStarEffect(index + 1)}
                             onMouseOver={() => handleMouseOver(index + 1)}
                             onMouseLeave={handleMouseLeave}
-                            color={(hoverValue || reviewSection.starRating) > index ? colors.orange : colors.grey}
+                            color={(hoverValue || starRating) > index ? colors.orange : colors.grey}
                             style={{
                                 marginRight: 10,
                                 cursor: "pointer"
@@ -170,18 +165,27 @@ const Review: React.FC = () => {
                         />
                     )}
                 </Stars>
-                <TitleReview placeholder={"Title for the review"}
-                             onChange={handleOnChange}
-                             name="title" maxLength={30}
-                             value={reviewSection.title} required/>
+                <Form onSubmit={formik.handleSubmit}>
+                    <TitleReview placeholder={"Title for the review"}
+                                 onChange={formik.handleChange}
+                                 onBlur={formik.handleBlur}
+                                 name="title"
+                                 value={formik.values.title.toString()}/>
+                    {(formik.touched.title && formik.errors.title) &&
+                        <div style={{color: "red"}}>{formik.errors.title as unknown as string}</div>}
 
-                <DescriptionReview placeholder={"What's your experience?"}
-                                   onChange={handleOnChange}
-                                   name="description" maxLength={100}
-                                   value={reviewSection.description} required/>
+                    <DescriptionReview placeholder={"What's your experience?"}
+                                       onChange={formik.handleChange}
+                                       onBlur={formik.handleBlur}
+                                       name="description"
+                                       value={formik.values.description.toString()}/>
+                    {(formik.touched.description && formik.errors.description) &&
+                        <div style={{color: "red"}}>{formik.errors.description as unknown as string}</div>}
 
-                <Button onClick={sendInfoReviewBackend}
-                        disabled={!checkReviewFieldsEmpty()}>Submit</Button>
+                    <Button onClick={sendInfoReviewBackend}
+                            disabled={!!formik.errors.title && !!formik.errors.description}
+                            type="submit">Submit</Button>
+                </Form>
 
             </Container>
         </>

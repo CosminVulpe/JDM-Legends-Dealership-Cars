@@ -5,11 +5,11 @@ import GifAnimation from "./components/Gif/GifAnimation";
 import ContentIndex from "./components/IndexPageContent/ContentIndex/ContentIndex";
 import {ApiGetReview, getCancelToken} from "./components/Service/api-requests/ApiRequests";
 import axios from "axios";
-import {Review} from "./components/Service/interfaces/Interfaces";
+import {ReviewInterface} from "./components/Service/interfaces/Interfaces";
 
 const App: React.FC = () => {
 
-    const[topThreeReviews, setTopThreeReviews] = useState<Review[]>([]);
+    const[topThreeReviews, setTopThreeReviews] = useState<ReviewInterface[]>([]);
 
     useEffect(() => {
         ApiGetReview("")

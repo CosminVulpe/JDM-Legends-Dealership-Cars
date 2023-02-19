@@ -1,5 +1,5 @@
 import axios from "axios";
-import {TemporaryUser, HistoryBid} from "../interfaces/Interfaces";
+import {TemporaryUser, HistoryBid, ReviewInterface} from "../interfaces/Interfaces";
 
 export const ApiGetCar = async (endPoint: string) => {
     return await axios.get(process.env.REACT_APP_BACKEND_API_CAR + endPoint);
@@ -15,8 +15,7 @@ export const ApiGetCarPictures = async (carName: String | undefined) => {
         : null;
 }
 
-export const ApiPostReview = async (data: { description: string; starRating: number; title: string }
-    , endPoint: string) => {
+export const ApiPostReview = async (data: ReviewInterface, endPoint: string) => {
     return await axios.post(process.env.REACT_APP_BACKEND_API_REVIEW + endPoint
         , JSON.stringify(data)
         , {
