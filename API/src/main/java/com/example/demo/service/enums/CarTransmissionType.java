@@ -1,4 +1,4 @@
-package com.example.demo.model.enums;
+package com.example.demo.service.enums;
 
 public enum CarTransmissionType {
     MANUAL_TRANSMISSION,

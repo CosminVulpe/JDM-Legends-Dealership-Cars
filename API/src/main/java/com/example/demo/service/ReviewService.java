@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Review;
-import com.example.demo.service.Repository.ReviewRepository;
+import com.example.demo.service.dto.Review;
+import com.example.demo.service.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +19,11 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    public List<Review> getAllReviews() {
-        return reviewRepository.findAll();
+    public List<Review> getRecentReviews() {
+        return reviewRepository.getRecentReviews();
     }
 
-    public ResponseEntity<List<Review>> getRecentReviews() {
-        return (!reviewRepository.getRecentReviews().isEmpty()) ?
-                ResponseEntity.ok(reviewRepository.getRecentReviews())
-                : ResponseEntity.notFound().build();
-    }
-
-    public ResponseEntity<Review> addReview(@RequestBody Review review) {
+    public ResponseEntity<Review> addReview(Review review) {
         reviewRepository.save(review);
 
         log.info("Review with id {} saved", review.getId());

@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.model.TemporaryUser;
-import com.example.demo.service.Repository.TemporaryUserRepository;
+import com.example.demo.service.dto.TemporaryUser;
+import com.example.demo.service.repository.TemporaryUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Car;
+import com.example.demo.service.dto.Car;
 import com.example.demo.service.CarService;
-import com.example.demo.service.Repository.HistoryBidInterface;
+import com.example.demo.service.repository.HistoryBidInterface;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -18,7 +17,7 @@ public class CarController {
     private final CarService carService;
 
     @GetMapping
-    public ResponseEntity<List<Car>> getAll() {
+    public List<Car> getAll() {
         return carService.getAllCars();
     }
 
@@ -34,7 +33,7 @@ public class CarController {
 
     @GetMapping(path = "/dates/{carId}")
     public List<LocalDateTime> getCarDates(@PathVariable("carId") Long carId) {
-        return carService.getDatesCar(carId);
+        return carService.getDateCar(carId);
     }
 
 }

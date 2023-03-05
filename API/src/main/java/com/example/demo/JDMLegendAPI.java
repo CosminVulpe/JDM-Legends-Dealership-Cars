@@ -1,7 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.model.Car;
-import com.example.demo.service.Repository.CarRepository;
+import com.example.demo.service.dto.Car;
+import com.example.demo.service.repository.CarRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,12 +9,12 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 
-import static com.example.demo.model.enums.CarColor.*;
-import static com.example.demo.model.enums.CarCompany.*;
-import static com.example.demo.model.enums.CarFuelType.DIESEL;
-import static com.example.demo.model.enums.CarFuelType.GASOLINE;
-import static com.example.demo.model.enums.CarTransmissionType.AUTOMATIC_TRANSMISSION;
-import static com.example.demo.model.enums.CarTransmissionType.MANUAL_TRANSMISSION;
+import static com.example.demo.service.enums.CarColor.*;
+import static com.example.demo.service.enums.CarCompany.*;
+import static com.example.demo.service.enums.CarFuelType.DIESEL;
+import static com.example.demo.service.enums.CarFuelType.GASOLINE;
+import static com.example.demo.service.enums.CarTransmissionType.AUTOMATIC_TRANSMISSION;
+import static com.example.demo.service.enums.CarTransmissionType.MANUAL_TRANSMISSION;
 import static com.example.demo.service.constants.Constants.AVAILABLE_DAYS_TO_PURCHASE;
 import static java.time.LocalDateTime.now;
 
