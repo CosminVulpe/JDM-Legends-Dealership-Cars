@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Car;
-import com.example.demo.model.HistoryBid;
-import com.example.demo.service.Repository.HistoryBidRepository;
+import com.example.demo.service.dto.Car;
+import com.example.demo.service.dto.HistoryBid;
+import com.example.demo.service.repository.HistoryBidRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

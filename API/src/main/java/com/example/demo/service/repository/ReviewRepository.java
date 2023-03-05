@@ -1,6 +1,6 @@
-package com.example.demo.service.Repository;
+package com.example.demo.service.repository;
 
-import com.example.demo.model.Review;
+import com.example.demo.service.dto.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

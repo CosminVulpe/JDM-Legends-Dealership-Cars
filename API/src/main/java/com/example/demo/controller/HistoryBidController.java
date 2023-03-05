@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.HistoryBid;
+import com.example.demo.service.dto.HistoryBid;
 import com.example.demo.service.HistoryBidService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

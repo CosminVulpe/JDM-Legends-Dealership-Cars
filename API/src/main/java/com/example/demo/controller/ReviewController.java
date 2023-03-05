@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Review;
+import com.example.demo.service.dto.Review;
 import com.example.demo.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class ReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Review>> getRecentReviews(){
+    public List<Review> getRecentReviews(){
         return reviewService.getRecentReviews();
     }
 

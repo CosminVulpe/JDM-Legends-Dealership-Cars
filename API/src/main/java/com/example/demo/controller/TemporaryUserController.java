@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.TemporaryUser;
+import com.example.demo.service.dto.TemporaryUser;
 import com.example.demo.service.TemporaryUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

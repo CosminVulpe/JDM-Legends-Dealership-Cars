@@ -1,10 +1,10 @@
-package com.example.demo.model;
+package com.example.demo.service.dto;
 
 
-import com.example.demo.model.enums.CarColor;
-import com.example.demo.model.enums.CarCompany;
-import com.example.demo.model.enums.CarFuelType;
-import com.example.demo.model.enums.CarTransmissionType;
+import com.example.demo.service.enums.CarColor;
+import com.example.demo.service.enums.CarCompany;
+import com.example.demo.service.enums.CarFuelType;
+import com.example.demo.service.enums.CarTransmissionType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,6 +22,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Car {
     @Id
     @GeneratedValue(strategy = IDENTITY)

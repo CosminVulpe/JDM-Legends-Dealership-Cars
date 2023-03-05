@@ -1,4 +1,4 @@
-package com.example.demo.service.Repository;
+package com.example.demo.service.repository;
 
 public interface HistoryBidInterface {
     Integer getId();
