@@ -33,7 +33,7 @@ public class ReviewServiceTest {
         when(reviewRepository.getRecentReviews()).thenReturn(reviewList);
 
         List<Review> recentReviews = reviewService.getRecentReviews();
-        assertEquals(recentReviews, reviewList);
+        assertEquals(reviewList, recentReviews);
     }
 
     @Test
