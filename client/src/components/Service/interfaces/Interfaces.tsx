@@ -31,5 +31,6 @@ export interface TemporaryUser {
     userName: string;
     firstName: string,
     lastName: string,
-    emailAddress: string
+    emailAddress: string,
+    timeOfTheCreation: Date
 }
