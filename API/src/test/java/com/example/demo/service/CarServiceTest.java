@@ -1,8 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.service.dto.Car;
-import com.example.demo.service.repository.CarRepository;
-import com.example.demo.service.repository.HistoryBidInterface;
+import com.example.legend.service.CarService;
+import com.example.legend.service.dto.Car;
+import com.example.legend.service.repository.CarRepository;
+import com.example.legend.service.repository.HistoryBidInterface;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -69,8 +70,8 @@ public class CarServiceTest {
             }
 
             @Override
-            public Integer getBidValue() {
-                return 111;
+            public Double getBidValue() {
+                return 111.0;
             }
         };
 
@@ -81,8 +82,8 @@ public class CarServiceTest {
             }
 
             @Override
-            public Integer getBidValue() {
-                return 6543;
+            public Double getBidValue() {
+                return 6543.11;
             }
         };
 
