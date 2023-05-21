@@ -17,4 +17,5 @@ public class HistoryBidController {
             , @RequestBody HistoryBid historyBid) {
         historyBidService.bid(carId, historyBid);
     }
+
 }

@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
-import com.example.legend.service.ReviewService;
-import com.example.legend.service.dto.Review;
-import com.example.legend.service.repository.ReviewRepository;
+
+import com.example.demo.service.dto.Review;
+import com.example.demo.service.repository.ReviewRepository;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
