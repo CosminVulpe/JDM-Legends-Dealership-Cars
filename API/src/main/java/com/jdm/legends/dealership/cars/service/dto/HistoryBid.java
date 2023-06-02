@@ -1,4 +1,4 @@
-package com.example.demo.service.dto;
+package com.jdm.legends.dealership.cars.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -26,15 +26,6 @@ public class HistoryBid {
     private Integer id;
     private Integer bidValue;
     private LocalDateTime timeOfTheBid;
-
-    @ManyToMany(fetch = LAZY, cascade = PERSIST)
-    @JoinTable(name = "historyBid_TemporaryUser"
-            , joinColumns = {
-            @JoinColumn(name = "history_bid_id", referencedColumnName = "id")
-    }, inverseJoinColumns = {
-            @JoinColumn(name = "temporary_user_id", referencedColumnName = "id")
-    })
-    private List<TemporaryUser> temporaryUsersList = new ArrayList<>();
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "car_id", referencedColumnName = "id")

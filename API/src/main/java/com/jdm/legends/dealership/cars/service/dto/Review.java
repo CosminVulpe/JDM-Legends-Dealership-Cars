@@ -1,4 +1,4 @@
-package com.example.demo.service.dto;
+package com.jdm.legends.dealership.cars.service.dto;
 
 import lombok.*;
 

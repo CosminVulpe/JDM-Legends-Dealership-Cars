@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.jdm.legends.dealership.cars.service;
 
-import com.example.demo.service.dto.Car;
-import com.example.demo.service.dto.HistoryBid;
-import com.example.demo.service.repository.HistoryBidRepository;
+import com.jdm.legends.dealership.cars.service.dto.Car;
+import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
+import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

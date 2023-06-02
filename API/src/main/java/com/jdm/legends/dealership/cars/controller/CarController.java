@@ -1,8 +1,8 @@
-package com.example.demo.controller;
+package com.jdm.legends.dealership.cars.controller;
 
-import com.example.demo.service.dto.Car;
-import com.example.demo.service.CarService;
-import com.example.demo.service.repository.HistoryBidInterface;
+import com.jdm.legends.dealership.cars.service.CarService;
+import com.jdm.legends.dealership.cars.service.dto.Car;
+import com.jdm.legends.dealership.cars.service.repository.HistoryBidInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

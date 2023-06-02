@@ -1,8 +1,9 @@
 package com.example.demo.service;
 
 
-import com.example.demo.service.dto.Review;
-import com.example.demo.service.repository.ReviewRepository;
+import com.jdm.legends.dealership.cars.service.ReviewService;
+import com.jdm.legends.dealership.cars.service.dto.Review;
+import com.jdm.legends.dealership.cars.service.repository.ReviewRepository;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

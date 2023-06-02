@@ -1,12 +1,11 @@
-package com.example.demo.service;
+package com.jdm.legends.dealership.cars.service;
 
-import com.example.demo.service.dto.Review;
-import com.example.demo.service.repository.ReviewRepository;
+import com.jdm.legends.dealership.cars.service.dto.Review;
+import com.jdm.legends.dealership.cars.service.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
