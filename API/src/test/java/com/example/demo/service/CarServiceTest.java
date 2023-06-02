@@ -1,8 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.service.dto.Car;
-import com.example.demo.service.repository.CarRepository;
-import com.example.demo.service.repository.HistoryBidInterface;
+import com.jdm.legends.dealership.cars.service.CarService;
+import com.jdm.legends.dealership.cars.service.dto.Car;
+import com.jdm.legends.dealership.cars.service.repository.CarRepository;
+import com.jdm.legends.dealership.cars.service.repository.HistoryBidInterface;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

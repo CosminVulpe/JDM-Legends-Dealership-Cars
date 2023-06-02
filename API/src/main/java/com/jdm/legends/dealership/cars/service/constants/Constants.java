@@ -1,4 +1,4 @@
-package com.example.demo.service.constants;
+package com.jdm.legends.dealership.cars.service.constants;
 
 import java.time.LocalDateTime;
 

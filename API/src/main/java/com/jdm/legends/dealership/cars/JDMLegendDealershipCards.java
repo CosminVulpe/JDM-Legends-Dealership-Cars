@@ -1,7 +1,7 @@
-package com.example.demo;
+package com.jdm.legends.dealership.cars;
 
-import com.example.demo.service.dto.Car;
-import com.example.demo.service.repository.CarRepository;
+import com.jdm.legends.dealership.cars.service.dto.Car;
+import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,20 +9,20 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 
-import static com.example.demo.service.enums.CarColor.*;
-import static com.example.demo.service.enums.CarCompany.*;
-import static com.example.demo.service.enums.CarFuelType.DIESEL;
-import static com.example.demo.service.enums.CarFuelType.GASOLINE;
-import static com.example.demo.service.enums.CarTransmissionType.AUTOMATIC_TRANSMISSION;
-import static com.example.demo.service.enums.CarTransmissionType.MANUAL_TRANSMISSION;
-import static com.example.demo.service.constants.Constants.AVAILABLE_DAYS_TO_PURCHASE;
+import static com.jdm.legends.dealership.cars.service.enums.CarColor.*;
+import static com.jdm.legends.dealership.cars.service.enums.CarCompany.*;
+import static com.jdm.legends.dealership.cars.service.enums.CarFuelType.DIESEL;
+import static com.jdm.legends.dealership.cars.service.enums.CarFuelType.GASOLINE;
+import static com.jdm.legends.dealership.cars.service.enums.CarTransmissionType.AUTOMATIC_TRANSMISSION;
+import static com.jdm.legends.dealership.cars.service.enums.CarTransmissionType.MANUAL_TRANSMISSION;
+import static com.jdm.legends.dealership.cars.service.constants.Constants.AVAILABLE_DAYS_TO_PURCHASE;
 import static java.time.LocalDateTime.now;
 
 @SpringBootApplication
-public class JDMLegendAPI {
+public class JDMLegendDealershipCards {
 
     public static void main(String[] args) {
-        SpringApplication.run(JDMLegendAPI.class, args);
+        SpringApplication.run(JDMLegendDealershipCards.class, args);
     }
 
     @Bean

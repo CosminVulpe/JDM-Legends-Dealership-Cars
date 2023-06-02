@@ -1,7 +1,7 @@
-package com.example.demo.controller;
+package com.jdm.legends.dealership.cars.controller;
 
-import com.example.demo.service.dto.Review;
-import com.example.demo.service.ReviewService;
+import com.jdm.legends.dealership.cars.service.ReviewService;
+import com.jdm.legends.dealership.cars.service.dto.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
