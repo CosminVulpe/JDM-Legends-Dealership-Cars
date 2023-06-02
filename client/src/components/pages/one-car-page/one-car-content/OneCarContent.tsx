@@ -2,10 +2,10 @@ import React, {useEffect, useState} from "react";
 import {Heading} from "@chakra-ui/react";
 import './OneCarContent.css';
 import PopUp from "../../../PopUp/PopUp";
-import {Car, HistoryBid, TemporaryUser} from "../../../Service/interfaces/Interfaces";
+import {Car, HistoryBid} from "../../../Service/interfaces/Interfaces";
 import CountdownTimer from "../../../CountdownTimer/CountdownTimer";
 import "../../../CountdownTimer/CountdownTimerStyle.css";
-import {ApiGetCar, ApiGetHistoryBid, ApiGetTemporaryUser} from "../../../Service/api-requests/ApiRequests";
+import {ApiGetCar} from "../../../Service/api-requests/ApiRequests";
 import {differenceInDays} from "date-fns";
 
 interface Props {
@@ -40,13 +40,6 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                 setEndDate(new Date(res.data[1]));
             })
             .catch(err => console.log(err));
-        ApiGetTemporaryUser("")
-            .then(res => {
-                const data: TemporaryUser = res.data;
-                let array = [];
-                array.push(data.userName);
-                console.log(array)
-            })
     }, [cars?.id]);
 
     const daysDifference = differenceInDays(

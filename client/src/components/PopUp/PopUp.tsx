@@ -21,8 +21,8 @@ import {
     FormControl,
     Checkbox
 } from "@chakra-ui/react";
-import {ApiGetCar, ApiPostHistoryBid, ApiPostTemporaryUser} from "../Service/api-requests/ApiRequests";
-import {TemporaryUser, Car, HistoryBid} from "../Service/interfaces/Interfaces";
+import {ApiGetCar, ApiPostHistoryBid} from "../Service/api-requests/ApiRequests";
+import {Car, HistoryBid} from "../Service/interfaces/Interfaces";
 import {successfulNotification} from "../Service/toastify-notification/ToastifyNotification";
 import {ToastContainer} from "react-toastify";
 import {useFormik} from "formik";
@@ -63,7 +63,7 @@ const PopUp: React.FC<Props> = ({
         "NoButton": false
     });
 
-    const formik = useFormik<TemporaryUser>({
+    const formik = useFormik({
         initialValues: {
             userName: "",
             firstName: "",
@@ -90,11 +90,6 @@ const PopUp: React.FC<Props> = ({
         }));
         setCheckedCheckBox({YesButton: false, NoButton: false});
 
-        if (checkedCheckBox["YesButton"]) {
-            ApiPostTemporaryUser("", formik.values)
-                .then(res => res)
-                .catch((error) => console.log(error));
-        }
 
         ApiPostHistoryBid("bid/" + id, historyBid)
             .then(() => successfulNotification("Bid placed successfully"))
