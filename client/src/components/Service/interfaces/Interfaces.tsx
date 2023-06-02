@@ -25,11 +25,3 @@ export interface HistoryBid {
     bidValue: number,
     timeOfTheBid: Date
 }
-
-export interface TemporaryUser {
-    id?: number,
-    userName: string;
-    firstName: string,
-    lastName: string,
-    emailAddress: string
-}

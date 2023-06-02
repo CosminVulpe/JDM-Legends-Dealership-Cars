@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+
 import com.example.demo.service.dto.Car;
 import com.example.demo.service.dto.HistoryBid;
 import com.example.demo.service.repository.HistoryBidRepository;
@@ -35,4 +36,5 @@ public class HistoryBidServiceTest {
         historyBidService.bid(123L, historyBid);
         verify(repository).save(historyBid);
     }
+
 }

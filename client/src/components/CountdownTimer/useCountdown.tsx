@@ -37,5 +37,5 @@ const checkTimeIsFinish = (countDown: number): boolean => {
     };
 
     return timeFormatObj["Days"] === 0 && timeFormatObj["Hours"] === 0
-        && timeFormatObj["Mins"] === 0 && timeFormatObj["Mins"] === 0;
+        && timeFormatObj["Mins"] === 0 && timeFormatObj["Sec"] === 0;
 }

@@ -7,7 +7,6 @@ import CountdownTimer from "../../../CountdownTimer/CountdownTimer";
 import "../../../CountdownTimer/CountdownTimerStyle.css";
 import {ApiGetCar} from "../../../Service/api-requests/ApiRequests";
 import {differenceInDays} from "date-fns";
-import {areUserInfoSavedLocally, getInfoLocalStorage} from "../../../Service/local-storage/LocalStorage";
 
 interface Props {
     cars?: Car;
@@ -41,7 +40,7 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                 setEndDate(new Date(res.data[1]));
             })
             .catch(err => console.log(err));
-    }, []);
+    }, [cars?.id]);
 
     const daysDifference = differenceInDays(
         new Date(
@@ -68,7 +67,6 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
     } else {
         timeDiff += daysDifference * 24 * 60 * 60 * 1000;
     }
-
     return (
         <>
             <div>
@@ -147,9 +145,6 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                                         {historyBidList.map((bid) =>
                                             <li className='bid_list' key={bid.id}>
                                                 Bid by:
-                                                {areUserInfoSavedLocally() ?
-                                                    <span>unknown</span> :
-                                                    <span><b>{getInfoLocalStorage()}</b></span>}
                                                 <span>${bid.bidValue.toLocaleString()}</span>
                                             </li>
                                         )}

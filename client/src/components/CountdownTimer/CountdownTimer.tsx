@@ -6,7 +6,8 @@ import ShowCounter from "./ShowCounter";
 const CountdownTimer: React.FC<{ targetDate: number }> = ({targetDate}) => {
     const [days, hours, minutes, seconds] = useCountDown(targetDate);
 
-    if (days === 0 && seconds === 0 && minutes === 0 && seconds === 0) {
+    const isTimerFinished: boolean = days === 0 && hours === 0 && minutes === 0 && seconds === 0;
+    if (isTimerFinished) {
         return <ExpireNotice/>;
     }
 
