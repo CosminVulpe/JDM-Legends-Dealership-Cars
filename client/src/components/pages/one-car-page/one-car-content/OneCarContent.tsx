@@ -7,6 +7,7 @@ import CountdownTimer from "../../../CountdownTimer/CountdownTimer";
 import "../../../CountdownTimer/CountdownTimerStyle.css";
 import {ApiGetCar} from "../../../Service/api-requests/ApiRequests";
 import {differenceInDays} from "date-fns";
+import {id} from "date-fns/locale";
 
 interface Props {
     cars?: Car;
@@ -14,7 +15,6 @@ interface Props {
 
 const OneCarContent: React.FC<Props> = ({cars}) => {
     const getCar = cars as Car;
-
     const [historyBid, setHistoryBid] = useState<HistoryBid>({
         bidValue: 0,
         timeOfTheBid: new Date()
@@ -59,14 +59,18 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
         )
     );
 
-    const diffTime: number = Math.abs(endDate.getTime() - startDate.getTime());
-    let timeDiff: number = startDate.getTime();
+    const computeTimeDiff = (): number => {
+        const diffTime: number = Math.abs(endDate.getTime() - startDate.getTime());
+        let timeDiff: number = startDate.getTime();
 
-    if (daysDifference === 0) {
-        timeDiff += diffTime;
-    } else {
-        timeDiff += daysDifference * 24 * 60 * 60 * 1000;
+        if (daysDifference === 0) {
+            timeDiff += diffTime;
+        } else {
+            timeDiff += daysDifference * 24 * 60 * 60 * 1000;
+        }
+        return timeDiff;
     }
+
     return (
         <>
             <div>
@@ -111,11 +115,9 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                             <div style={{marginBottom: "30px"}}>
                                 <Heading as='h3' size='lg'>OE equipment</Heading>
                                 <ul className='details_paragraph_list'>
-                                    <li>16 inch alloy rims</li>
-                                    <li>16 inch alloy rims</li>
-                                    <li>16 inch alloy rims</li>
-                                    <li>16 inch alloy rims</li>
-                                    <li>16 inch alloy rims</li>
+                                    {[...Array(5)].map((nr, index) =>
+                                        <li key={index}>16 inch alloy rims</li>
+                                    )}
                                 </ul>
                             </div>
                             <div style={{marginBottom: "30px"}}>
@@ -132,14 +134,12 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                         <Heading as='h4' size='md'>
                             Price: ${getCar.initialPrice.toLocaleString()}
                         </Heading>
-                        <CountdownTimer targetDate={timeDiff}/>
+                        <CountdownTimer targetDate={computeTimeDiff()}/>
                         <h1 className='bid_title'>Bid Information</h1>
                         <ul>
                             <>
                                 {(historyBidList.length === 0) ?
-                                    <>
-                                        <p>No Bids So Far !</p>
-                                    </>
+                                    <p>No Bids So Far !</p>
                                     :
                                     <>
                                         {historyBidList.map((bid) =>

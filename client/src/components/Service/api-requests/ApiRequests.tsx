@@ -1,5 +1,5 @@
 import axios from "axios";
-import {HistoryBid, ReviewInterface} from "../interfaces/Interfaces";
+import {HistoryBid, ReviewInterface, TemporaryUser} from "../interfaces/Interfaces";
 
 export const ApiGetCar = async (endPoint: string) =>
     await axios.get(process.env.REACT_APP_BACKEND_API_CAR + endPoint);
@@ -39,5 +39,14 @@ export const ApiPostHistoryBid = async (endPoint: string, data: HistoryBid) => {
         });
 }
 
-export const ApiGetHistoryBid = async (endPoint: string) =>
-    await axios.get(process.env.REACT_APP_BACKEND_API_HISTORY_BID + endPoint);
+export const ApiPostTemporaryUser = async (data: TemporaryUser, endpoint?: string,) => {
+    return await axios.post(process.env.REACT_APP_USERS_BACKEND_API_USERS + ""
+        , JSON.stringify(data)
+        , {
+            headers: {
+                "Content-Type": "application/json",
+                "accept": "application/json"
+            }
+        }
+    );
+}

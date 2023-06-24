@@ -25,3 +25,12 @@ export interface HistoryBid {
     bidValue: number,
     timeOfTheBid: Date
 }
+
+export interface TemporaryUser {
+    id?: number,
+    fullName: string,
+    userName: string,
+    emailAddress: string,
+    areInFoSavedLocally?: boolean,
+    carIdBid?: Set<Number>
+}

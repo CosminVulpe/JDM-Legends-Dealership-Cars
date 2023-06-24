@@ -109,7 +109,7 @@ const Review: React.FC = () => {
             starRating: 0
         },
         validationSchema,
-        onSubmit: (values: any) => console.log(values)
+        onSubmit: () => undefined
     })
 
     const [starRating, setStarRating] = useState<number>(0);

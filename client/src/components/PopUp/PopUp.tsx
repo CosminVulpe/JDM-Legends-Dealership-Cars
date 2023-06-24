@@ -21,12 +21,14 @@ import {
     FormControl,
     Checkbox
 } from "@chakra-ui/react";
-import {ApiGetCar, ApiPostHistoryBid} from "../Service/api-requests/ApiRequests";
-import {Car, HistoryBid} from "../Service/interfaces/Interfaces";
+import {ApiGetCar, ApiPostHistoryBid, ApiPostTemporaryUser} from "../Service/api-requests/ApiRequests";
+import {Car, HistoryBid, TemporaryUser} from "../Service/interfaces/Interfaces";
 import {successfulNotification} from "../Service/toastify-notification/ToastifyNotification";
 import {ToastContainer} from "react-toastify";
 import {useFormik} from "formik";
 import AlertNotification from "../AlertNotification/AlerNotification";
+import {getTemporaryUserInfo, setTemporaryUserInfo} from "../Service/session-storage/SessionStorage";
+
 
 interface Props {
     id: number,
@@ -50,13 +52,10 @@ const spacingInputStyle = {
 const REGEX_VALIDATE_NAME = /^[a-zA-Z ]{2,30}$/;
 const REGEX_VALID_EMAIL_ADDRESS = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-const PopUp: React.FC<Props> = ({
-                                    id
-                                    , setHistoryBid
-                                    , historyBid
-                                    , setHistoryBidList
-                                    , car
-                                }) => {
+const PopUp: React.FC<Props> = (props) => {
+
+    const {id, setHistoryBid, historyBid, setHistoryBidList, car} = props;
+
     const {isOpen, onOpen, onClose} = useDisclosure();
     const [checkedCheckBox, setCheckedCheckBox] = useState({
         "YesButton": false,
@@ -69,27 +68,25 @@ const PopUp: React.FC<Props> = ({
             firstName: "",
             lastName: "",
             emailAddress: "",
-            timeOfTheCreation: new Date()
+            timeOfTheCreation: new Date(),
+            carIdBid: new Set()
         },
         onSubmit: () => undefined
     });
 
+
+    useEffect(() => {
+        ApiGetCar("bid-list/" + id)
+            .then(res => setHistoryBidList(res.data))
+            .catch(err => console.log(err))
+    }, []);
+
     const formatBidValue = (val: number): string => `$` + val;
 
-    const parseValue = (val: string): number => {
-        return parseInt(val.replace(/^\$/, ""));
-    }
+    const parseValue = (val: string): number => parseInt(val.replace(/^\$/, ""));
 
     const handleOnClick = (): void => {
         onClose();
-
-        setHistoryBid(prevState => ({
-            ...prevState,
-            bidValue: 0,
-            timeOfTheBid: new Date()
-        }));
-        setCheckedCheckBox({YesButton: false, NoButton: false});
-
 
         ApiPostHistoryBid("bid/" + id, historyBid)
             .then(() => successfulNotification("Bid placed successfully"))
@@ -99,14 +96,29 @@ const PopUp: React.FC<Props> = ({
             ApiGetCar("bid-list/" + id)
                 .then(res => setHistoryBidList(res.data))
                 .catch(err => console.log(err))
-        }, 1500);
-    }
+        }, 1000);
 
-    useEffect(() => {
-        ApiGetCar("bid-list/" + id)
-            .then(res => setHistoryBidList(res.data))
-            .catch(err => console.log(err))
-    }, []);
+        if (checkedCheckBox["YesButton"]) {
+            if (getTemporaryUserInfo() === null) {
+                let temporaryUser = {
+                    fullName: formik.values.firstName.concat(" ").concat(formik.values.lastName),
+                    userName: formik.values.userName,
+                    emailAddress: formik.values.emailAddress,
+                };
+                setTemporaryUserInfo(temporaryUser);
+                ApiPostTemporaryUser(temporaryUser)
+                    .then(() => successfulNotification("Information saved successfully"))
+                    .catch(err => console.error(err));
+            }
+        }
+
+        setCheckedCheckBox({YesButton: false, NoButton: false});
+        setHistoryBid(prevState => ({
+            ...prevState,
+            bidValue: 0,
+            timeOfTheBid: new Date()
+        }));
+    }
 
     const handleOnChange = (valueStr: string): void => {
         setHistoryBid(prevState => ({
