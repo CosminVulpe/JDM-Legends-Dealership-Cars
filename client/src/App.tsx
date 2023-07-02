@@ -12,7 +12,7 @@ const App: React.FC = () => {
     const[topThreeReviews, setTopThreeReviews] = useState<ReviewInterface[]>([]);
 
     useEffect(() => {
-        ApiGetReview("")
+        ApiGetReview()
             .then((response) => {
                 if (response.status === 200) {
                     setTopThreeReviews(response.data);
