@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
@@ -21,7 +22,7 @@ public class HistoryBid {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    private Integer bidValue;
+    private BigDecimal bidValue;
 
     private LocalDateTime timeOfTheBid;
 

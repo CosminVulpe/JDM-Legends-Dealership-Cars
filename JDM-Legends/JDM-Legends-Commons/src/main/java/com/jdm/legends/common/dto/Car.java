@@ -47,7 +47,7 @@ public class Car {
 
     private int productionYear;
 
-    private BigDecimal initialPrice;
+    private Integer initialPrice;
 
     private int hp;
 
