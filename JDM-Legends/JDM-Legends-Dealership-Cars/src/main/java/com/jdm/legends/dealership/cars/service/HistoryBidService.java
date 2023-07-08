@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class HistoryBidService {
     private final HistoryBidRepository historyBidRepository;
     private final CarService carService;
+
     public void bid(Long carId, HistoryBid historyBid) {
         Car car = carService.getCarById(carId);
 

@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -70,8 +71,8 @@ public class CarServiceTest {
             }
 
             @Override
-            public Integer getBidValue() {
-                return 111;
+            public BigDecimal getBidValue() {
+                return new BigDecimal("11223344556677");
             }
         };
 
@@ -82,8 +83,8 @@ public class CarServiceTest {
             }
 
             @Override
-            public Integer getBidValue() {
-                return 6543;
+            public BigDecimal getBidValue() {
+                return new BigDecimal("7823486.990");
             }
         };
 
