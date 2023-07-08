@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {GlobalStyle} from "./components/GlobalStyle/GlobalStyle";
-import NavBar from "./components/NavBar/NavBar";
-import GifAnimation from "./components/Gif/GifAnimation";
-import ContentIndex from "./components/IndexPageContent/ContentIndex/ContentIndex";
-import {ApiGetReview, getCancelToken} from "./components/Service/api-requests/ApiRequests";
+import {GlobalStyle} from "./flow/DealershipCars/components/GlobalStyle/GlobalStyle";
+import NavBar from "./flow/DealershipCars/components/NavBar/NavBar";
+import GifAnimation from "./flow/DealershipCars/components/Gif/GifAnimation";
+import ContentIndex from "./flow/DealershipCars/components/IndexPageContent/ContentIndex/ContentIndex";
+import {ApiGetReview, getCancelToken} from "./flow/DealershipCars/components/Service/api-requests/ApiRequests";
 import axios from "axios";
-import {ReviewInterface} from "./components/Service/interfaces/Interfaces";
+import {ReviewInterface} from "./flow/DealershipCars/components/Service/interfaces/Interfaces";
 
 const App: React.FC = () => {
 

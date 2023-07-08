@@ -124,7 +124,7 @@ const Review: React.FC = () => {
 
     const sendInfoReviewBackend = (): void => {
         formik.values["starRating"] = starRating;
-        ApiPostReview(formik.values, "")
+        ApiPostReview(formik.values)
             .then(response => {
                 if (response.status === 201) {
                     successfulNotification("Review successfully added!");

@@ -22,7 +22,7 @@ import {
     Checkbox
 } from "@chakra-ui/react";
 import {ApiGetCar, ApiPostHistoryBid, ApiPostTemporaryUser} from "../Service/api-requests/ApiRequests";
-import {Car, HistoryBid, TemporaryUser} from "../Service/interfaces/Interfaces";
+import {Car, HistoryBid} from "../Service/interfaces/Interfaces";
 import {successfulNotification} from "../Service/toastify-notification/ToastifyNotification";
 import {ToastContainer} from "react-toastify";
 import {useFormik} from "formik";
@@ -36,7 +36,7 @@ interface Props {
     setHistoryBid: Dispatch<SetStateAction<HistoryBid>>,
 
     historyBid: {
-        bidValue: number,
+        bidValue: BigInt,
         timeOfTheBid: Date,
     },
 
@@ -68,8 +68,7 @@ const PopUp: React.FC<Props> = (props) => {
             firstName: "",
             lastName: "",
             emailAddress: "",
-            timeOfTheCreation: new Date(),
-            carIdBid: new Set()
+            timeOfTheCreation: new Date()
         },
         onSubmit: () => undefined
     });
@@ -81,9 +80,9 @@ const PopUp: React.FC<Props> = (props) => {
             .catch(err => console.log(err))
     }, []);
 
-    const formatBidValue = (val: number): string => `$` + val;
+    const formatBidValue = (val: BigInt): string => `$` + val;
 
-    const parseValue = (val: string): number => parseInt(val.replace(/^\$/, ""));
+    const parseValue = (val: string): BigInt => BigInt(val.replace(/^\$/, ""));
 
     const handleOnClick = (): void => {
         onClose();
@@ -100,7 +99,7 @@ const PopUp: React.FC<Props> = (props) => {
 
         if (checkedCheckBox["YesButton"]) {
             if (getTemporaryUserInfo() === null) {
-                let temporaryUser = {
+                const temporaryUser = {
                     fullName: formik.values.firstName.concat(" ").concat(formik.values.lastName),
                     userName: formik.values.userName,
                     emailAddress: formik.values.emailAddress,
@@ -115,7 +114,7 @@ const PopUp: React.FC<Props> = (props) => {
         setCheckedCheckBox({YesButton: false, NoButton: false});
         setHistoryBid(prevState => ({
             ...prevState,
-            bidValue: 0,
+            bidValue: BigInt(0),
             timeOfTheBid: new Date()
         }));
     }
@@ -128,7 +127,7 @@ const PopUp: React.FC<Props> = (props) => {
     }
 
     const isSubmitButtonDisable = () => {
-        if (historyBid.bidValue > car.initialPrice) {
+        if (historyBid.bidValue > BigInt(car.initialPrice)) {
             if (checkedCheckBox["YesButton"] || checkedCheckBox["NoButton"]) {
                 return false;
             }
@@ -168,7 +167,7 @@ const PopUp: React.FC<Props> = (props) => {
                                         <NumberDecrementStepper/>
                                     </NumberInputStepper>
                                 </NumberInput>
-                                {historyBid.bidValue < car.initialPrice &&
+                                {historyBid.bidValue < BigInt(car.initialPrice)  &&
                                     <AlertNotification
                                         alertType={"error"}
                                         textAlert={"The bid is lower than car's price"}

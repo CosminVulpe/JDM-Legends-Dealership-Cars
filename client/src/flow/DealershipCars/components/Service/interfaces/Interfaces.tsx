@@ -22,7 +22,7 @@ export interface Car {
 
 export interface HistoryBid {
     id?: number,
-    bidValue: number,
+    bidValue: BigInt,
     timeOfTheBid: Date
 }
 
@@ -31,6 +31,5 @@ export interface TemporaryUser {
     fullName: string,
     userName: string,
     emailAddress: string,
-    areInFoSavedLocally?: boolean,
-    carIdBid?: Set<Number>
+    areInFoSavedLocally?: boolean
 }

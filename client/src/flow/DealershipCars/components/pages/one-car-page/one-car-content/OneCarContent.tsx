@@ -16,14 +16,14 @@ interface Props {
 const OneCarContent: React.FC<Props> = ({cars}) => {
     const getCar = cars as Car;
     const [historyBid, setHistoryBid] = useState<HistoryBid>({
-        bidValue: 0,
+        bidValue: BigInt(0),
         timeOfTheBid: new Date()
     });
     const [historyBidList, setHistoryBidList] = useState<HistoryBid[]>([]);
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
 
-
+    console.log(historyBidList)
     const capitalizeLetterString = (value: String): string => {
         if (value.includes("_")) {
             return value.split("_")
