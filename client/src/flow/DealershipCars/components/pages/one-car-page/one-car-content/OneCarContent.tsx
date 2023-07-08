@@ -23,7 +23,6 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
 
-    console.log(historyBidList)
     const capitalizeLetterString = (value: String): string => {
         if (value.includes("_")) {
             return value.split("_")
