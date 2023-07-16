@@ -1,7 +1,7 @@
 package com.jdm.legends.dealership.cars.controller;
 
-import com.jdm.legends.common.dto.HistoryBid;
 import com.jdm.legends.dealership.cars.service.HistoryBidService;
+import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +13,8 @@ public class HistoryBidController {
     private final HistoryBidService historyBidService;
 
     @PostMapping(path = "/bid/{carId}")
-    public void bidValueToCar(@PathVariable("carId") Long carId, @RequestBody HistoryBid historyBid) {
-        historyBidService.bid(carId, historyBid);
+    public void bidValueToCar(@PathVariable("carId") Long carId, @RequestBody HistoryBidTemporaryUser request) {
+        historyBidService.bid(carId, request);
     }
 
 }

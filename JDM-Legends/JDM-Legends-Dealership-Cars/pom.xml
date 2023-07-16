@@ -25,9 +25,8 @@
         <dependency>
             <groupId>com.jdm.legends.common</groupId>
             <artifactId>jdm-legends-commons</artifactId>
-            <version>0.0.8</version>
+            <version>0.0.47</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.hibernate</groupId>
