@@ -8,7 +8,6 @@ import com.jdm.legends.common.enums.CarTransmissionType;
 import lombok.*;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,15 +54,15 @@ public class Car {
 
     private int quantityInStock;
 
-    @OneToMany(cascade = ALL, mappedBy = "car")
+    @OneToMany(cascade = ALL, orphanRemoval = true,mappedBy = "car")
     private List<HistoryBid> historyBidList = new ArrayList<>();
 
     private LocalDateTime startDateCarPostedOnline;
     private LocalDateTime deadlineCarToSell;
 
     public void addHistoryBid(HistoryBid historyBid) {
-        historyBidList.add(historyBid);
         historyBid.setCar(this);
+        historyBidList.add(historyBid);
     }
 
 }
