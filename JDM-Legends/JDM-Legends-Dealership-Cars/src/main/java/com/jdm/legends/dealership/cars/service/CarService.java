@@ -30,6 +30,10 @@ public class CarService {
         return carRepository.findById(carId).orElseThrow(GetCarByIdNotFoundException::new);
     }
 
+    public void saveCar(Car car){
+        carRepository.save(car);
+    }
+
     public List<HistoryBidInterface> getHistoryBidsList(Long carId) {
         return carRepository.getBiggestHistoryBidByCarID(carId);
     }

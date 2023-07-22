@@ -2,10 +2,7 @@ package com.jdm.legends.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -19,7 +16,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity(name = "HistoryBid")
 @Table
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,7 +30,7 @@ public class HistoryBid {
 
     private LocalDateTime timeOfTheBid;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(targetEntity = Car.class, fetch = LAZY)
     @JoinColumn(name = "car_id", referencedColumnName = "id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Car car;

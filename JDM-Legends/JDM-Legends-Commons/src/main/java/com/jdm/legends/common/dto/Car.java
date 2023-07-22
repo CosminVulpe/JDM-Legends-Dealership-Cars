@@ -19,7 +19,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity(name = "cars")
 @Table
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -61,8 +62,8 @@ public class Car {
     private LocalDateTime deadlineCarToSell;
 
     public void addHistoryBid(HistoryBid historyBid) {
-        historyBid.setCar(this);
         historyBidList.add(historyBid);
+        historyBid.setCar(this);
     }
 
 }

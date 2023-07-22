@@ -110,7 +110,7 @@ public class CarServiceTest {
 
         when(carRepository.findById(any())).thenReturn(optionalCar);
 
-        List<LocalDateTime> datesCar = carService.getDateCar(CAR_ID);
+        List<LocalDateTime> datesCar = carService.getDatesCar(CAR_ID);
         assertEquals(actualDate, datesCar);
     }
 
