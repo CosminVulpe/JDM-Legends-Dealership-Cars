@@ -33,7 +33,7 @@ public class CarController {
 
     @GetMapping(path = "/dates/{carId}")
     public List<LocalDateTime> getCarDates(@PathVariable("carId") Long carId) {
-        return carService.getDateCar(carId);
+        return carService.getDatesCar(carId);
     }
 
 }

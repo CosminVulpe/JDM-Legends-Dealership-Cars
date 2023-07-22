@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -22,7 +23,7 @@ public class CarService {
     private final CarRepository carRepository;
 
     public List<Car> getAllCars() {
-        return  carRepository.findAll();
+        return carRepository.findAll();
     }
 
     public Car getCarById(Long carId) {
@@ -33,10 +34,11 @@ public class CarService {
         return carRepository.getBiggestHistoryBidByCarID(carId);
     }
 
-    public List<LocalDateTime> getDateCar(Long carId) {
-        return new ArrayList<>(
-                List.of(getCarById(carId).getStartDateCarPostedOnline()
-                        , getCarById(carId).getDeadlineCarToSell())
+    public List<LocalDateTime> getDatesCar(Long carId) {
+        return Collections.unmodifiableList(
+                new ArrayList<>(List.of(
+                        getCarById(carId).getStartDateCarPostedOnline(),
+                        getCarById(carId).getDeadlineCarToSell()))
         );
     }
 
