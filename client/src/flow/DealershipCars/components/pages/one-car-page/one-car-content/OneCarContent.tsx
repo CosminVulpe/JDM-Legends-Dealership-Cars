@@ -7,7 +7,7 @@ import CountdownTimer from "../../../CountdownTimer/CountdownTimer";
 import "../../../CountdownTimer/CountdownTimerStyle.css";
 import {ApiGetCar} from "../../../Service/api-requests/ApiRequests";
 import {differenceInDays} from "date-fns";
-import {id} from "date-fns/locale";
+import {getTemporaryUserInfo} from "../../../Service/session-storage/SessionStorage";
 
 interface Props {
     cars?: Car;
@@ -144,6 +144,7 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                                         {historyBidList.map((bid) =>
                                             <li className='bid_list' key={bid.id}>
                                                 Bid by:
+                                                <span>{ (getTemporaryUserInfo() !== null) ? getTemporaryUserInfo()?.userName : "anonymous"}</span>
                                                 <span>${bid.bidValue.toLocaleString()}</span>
                                             </li>
                                         )}

@@ -1,8 +1,8 @@
 import axios from "axios";
-import {HistoryBid, ReviewInterface, TemporaryUser} from "../interfaces/Interfaces";
+import {HistoryBid, HistoryBidTemporaryUser, ReviewInterface, TemporaryUser} from "../interfaces/Interfaces";
 
-export const ApiGetCar = async (endPoint: string) =>
-    await axios.get(process.env.REACT_APP_BACKEND_API_CAR + endPoint);
+export const ApiGetCar = async (endPoint?: string) =>
+    await axios.get(process.env.REACT_APP_BACKEND_API_CAR + (endPoint ? endPoint : ""));
 
 
 export const getCancelToken = (): any => {
@@ -28,11 +28,14 @@ export const ApiGetReview = async (endPoint?: string) =>
     await axios.get(process.env.REACT_APP_BACKEND_API_REVIEW + (endPoint ? endPoint : ""));
 
 
-export const ApiPostHistoryBid = async (endPoint: string, data: HistoryBid) => {
+export const ApiPostHistoryBid = async (endPoint: string, data: HistoryBidTemporaryUser) => {
     return await axios.post(process.env.REACT_APP_BACKEND_API_HISTORY_BID + endPoint
         , JSON.stringify({
             ...data,
-            bidValue: data.bidValue.toString()
+            historyBid: {
+                ...data.historyBid,
+                bidValue: data.historyBid.bidValue.toString()
+            }
         })
         , {
             headers: {
@@ -42,8 +45,8 @@ export const ApiPostHistoryBid = async (endPoint: string, data: HistoryBid) => {
         });
 }
 
-export const ApiPostTemporaryUser = async (data: TemporaryUser, endpoint?: string,) => {
-    return await axios.post(process.env.REACT_APP_USERS_BACKEND_API_USERS + ""
+export const ApiPostTemporaryUser = async (data: TemporaryUser | string, endpoint?: string,) => {
+    return await axios.post(process.env.REACT_APP_USERS_BACKEND_API_USERS + (endpoint ? endpoint : "")
         , JSON.stringify(data)
         , {
             headers: {

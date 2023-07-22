@@ -31,5 +31,10 @@ export interface TemporaryUser {
     fullName: string,
     userName: string,
     emailAddress: string,
-    areInFoSavedLocally?: boolean
+    checkInformationStoredTemporarily?: boolean
+}
+
+export interface HistoryBidTemporaryUser {
+    historyBid: HistoryBid,
+    temporaryUser: TemporaryUser
 }

@@ -35,29 +35,25 @@ const OneCar: React.FC = () => {
     let {id} = useParams();
 
     const [oneCarDetails, setOneCarDetails] = useState<Car>();
-    const [doesCarExist, setCarExist] = useState<boolean>(false);
     const [photosLinks, setPhotosLinks] = useState<string[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
         ApiGetCar((id !== undefined) ? id : "")
-            .then((res: any) => {
-                setCarExist(true);
-                setOneCarDetails(res.data)
-            })
+            .then((res: any) => setOneCarDetails(res.data))
             .catch(err => {
                 if (axios.isCancel(err)) {
                     console.log("cancelled!");
                 }
                 if (err.response.status === 400 || err.response.status === 404) {
-                    setCarExist(false);
+                    setOneCarDetails(undefined);
                 }
             });
 
         return () => {
             getCancelToken().cancel();
         }
-    }, []);
+    }, [setOneCarDetails]);
 
     useEffect(() => {
         ApiGetCarPictures(oneCarDetails?.carName)
@@ -95,7 +91,7 @@ const OneCar: React.FC = () => {
         backgroundImage: `url(${photosLinks[currentIndex]})`,
     };
 
-    if (!doesCarExist) {
+    if (oneCarDetails === undefined) {
         return (
             <Error/>
         )

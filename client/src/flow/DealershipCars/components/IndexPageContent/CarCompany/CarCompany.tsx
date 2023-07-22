@@ -12,7 +12,7 @@ const CarCompany: React.FC = () => {
     const [cars, setCars] = useState<Car[]>([]);
 
     useEffect(() => {
-        ApiGetCar("")
+        ApiGetCar()
             .then((res: any) => setCars(res.data))
             .catch(err => {
                 if (axios.isCancel(err)) {

@@ -21,13 +21,13 @@ import {
     FormControl,
     Checkbox
 } from "@chakra-ui/react";
-import {ApiGetCar, ApiPostHistoryBid, ApiPostTemporaryUser} from "../Service/api-requests/ApiRequests";
-import {Car, HistoryBid} from "../Service/interfaces/Interfaces";
+import {ApiGetCar, ApiPostHistoryBid} from "../Service/api-requests/ApiRequests";
+import {Car, HistoryBid, TemporaryUser} from "../Service/interfaces/Interfaces";
 import {successfulNotification} from "../Service/toastify-notification/ToastifyNotification";
 import {ToastContainer} from "react-toastify";
 import {useFormik} from "formik";
 import AlertNotification from "../AlertNotification/AlerNotification";
-import {getTemporaryUserInfo, setTemporaryUserInfo} from "../Service/session-storage/SessionStorage";
+import {setTemporaryUserInfo} from "../Service/session-storage/SessionStorage";
 
 
 interface Props {
@@ -77,7 +77,7 @@ const PopUp: React.FC<Props> = (props) => {
     useEffect(() => {
         ApiGetCar("bid-list/" + id)
             .then(res => setHistoryBidList(res.data))
-            .catch(err => console.log(err))
+            .catch(err => console.log("ERROR??? " + err))
     }, []);
 
     const formatBidValue = (val: BigInt): string => `$` + val;
@@ -87,7 +87,19 @@ const PopUp: React.FC<Props> = (props) => {
     const handleOnClick = (): void => {
         onClose();
 
-        ApiPostHistoryBid("bid/" + id, historyBid)
+        //TODO
+        const temporaryUser: TemporaryUser = {
+            fullName: formik.values.firstName.concat(" ").concat(formik.values.lastName),
+            userName: formik.values.userName,
+            emailAddress: formik.values.emailAddress,
+            checkInformationStoredTemporarily: checkedCheckBox["YesButton"]
+        };
+        setTemporaryUserInfo(temporaryUser);
+
+        ApiPostHistoryBid("bid/" + id, {
+            historyBid: historyBid,
+            temporaryUser: temporaryUser
+        })
             .then(() => successfulNotification("Bid placed successfully"))
             .catch(err => console.error(err));
 
@@ -95,21 +107,8 @@ const PopUp: React.FC<Props> = (props) => {
             ApiGetCar("bid-list/" + id)
                 .then(res => setHistoryBidList(res.data))
                 .catch(err => console.log(err))
-        }, 1000);
+        }, 4000);
 
-        if (checkedCheckBox["YesButton"]) {
-            if (getTemporaryUserInfo() === null) {
-                const temporaryUser = {
-                    fullName: formik.values.firstName.concat(" ").concat(formik.values.lastName),
-                    userName: formik.values.userName,
-                    emailAddress: formik.values.emailAddress,
-                };
-                setTemporaryUserInfo(temporaryUser);
-                ApiPostTemporaryUser(temporaryUser)
-                    .then(() => successfulNotification("Information saved successfully"))
-                    .catch(err => console.error(err));
-            }
-        }
 
         setCheckedCheckBox({YesButton: false, NoButton: false});
         setHistoryBid(prevState => ({
@@ -167,7 +166,7 @@ const PopUp: React.FC<Props> = (props) => {
                                         <NumberDecrementStepper/>
                                     </NumberInputStepper>
                                 </NumberInput>
-                                {historyBid.bidValue < BigInt(car.initialPrice)  &&
+                                {historyBid.bidValue < BigInt(car.initialPrice) &&
                                     <AlertNotification
                                         alertType={"error"}
                                         textAlert={"The bid is lower than car's price"}
@@ -245,7 +244,7 @@ const PopUp: React.FC<Props> = (props) => {
                                     {checkedCheckBox["YesButton"] &&
                                         <AlertNotification
                                             alertType={"warning"}
-                                            textAlert={"Your info will be stored only for 30 days"}
+                                            textAlert={"Your info is stored temporarily"}
                                         />
                                     }
 
