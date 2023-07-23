@@ -2,7 +2,7 @@ package com.jdm.legends.dealership.cars.service;
 
 import com.jdm.legends.common.dto.Car;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
-import com.jdm.legends.dealership.cars.service.repository.HistoryBidInterface;
+import com.jdm.legends.dealership.cars.service.repository.HighestBid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class CarService {
         carRepository.save(car);
     }
 
-    public List<HistoryBidInterface> getHistoryBidsList(Long carId) {
+    public List<HighestBid> getHistoryBidsList(Long carId) {
         return carRepository.getBiggestHistoryBidByCarID(carId);
     }
 

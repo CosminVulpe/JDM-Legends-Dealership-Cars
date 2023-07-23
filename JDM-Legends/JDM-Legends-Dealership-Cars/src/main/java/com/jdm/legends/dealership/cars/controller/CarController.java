@@ -2,7 +2,7 @@ package com.jdm.legends.dealership.cars.controller;
 
 import com.jdm.legends.common.dto.Car;
 import com.jdm.legends.dealership.cars.service.CarService;
-import com.jdm.legends.dealership.cars.service.repository.HistoryBidInterface;
+import com.jdm.legends.dealership.cars.service.repository.HighestBid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +27,7 @@ public class CarController {
     }
 
     @GetMapping(path = "/bid-list/{carId}")
-    public List<HistoryBidInterface> getHistoryBidsList(@PathVariable("carId") Long carId) {
+    public List<HighestBid> getHistoryBidsList(@PathVariable("carId") Long carId) {
         return carService.getHistoryBidsList(carId);
     }
 

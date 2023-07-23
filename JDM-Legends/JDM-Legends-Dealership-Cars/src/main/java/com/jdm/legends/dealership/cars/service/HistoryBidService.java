@@ -4,7 +4,9 @@ import com.jdm.legends.common.dto.Car;
 import com.jdm.legends.common.dto.HistoryBid;
 import com.jdm.legends.common.dto.TemporaryUser;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUser;
+import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
 import com.jdm.legends.dealership.cars.service.repository.TemporaryUserRepo;
+import com.jdm.legends.dealership.cars.service.repository.TemporaryUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 public class HistoryBidService {
     private final CarService carService;
     private final TemporaryUserRepo temporaryUserRepo;
+    private final HistoryBidRepository historyBidRepository;
+    private final TemporaryUserRepository temporaryUserRepository;
 
     private static final String POTENTIAL_CLIENT = "Potential Client";
     private static final String ANONYMOUS = "Anonymous";
@@ -25,11 +29,12 @@ public class HistoryBidService {
         TemporaryUser temporaryUser = request.getTemporaryUser();
 
         car.addHistoryBid(historyBid);
-        carService.saveCar(car);
+        HistoryBid historyBidSaved = historyBidRepository.save(historyBid);
 
-        temporaryUser.setRole( (temporaryUser.isCheckInformationStoredTemporarily()) ? POTENTIAL_CLIENT : ANONYMOUS);
-        temporaryUser.addHistoryBid(historyBid);
-        temporaryUserRepo.saveTempUser(temporaryUser);
+        temporaryUser.setRole((temporaryUser.isCheckInformationStoredTemporarily()) ? POTENTIAL_CLIENT : ANONYMOUS);
+        temporaryUser.addHistoryBid(historyBidSaved);
+
+        temporaryUserRepository.save(temporaryUser);
 
         log.info("Bid Value has been saved for the car with ID {}", car.getId());
     }

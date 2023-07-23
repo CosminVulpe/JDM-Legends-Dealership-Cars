@@ -26,8 +26,7 @@ public class TemporaryUserRepo {
 
     public void saveTempUser(TemporaryUser temporaryUser) {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-user/save");
-        ResponseEntity<TemporaryUser> temporaryUserResponseEntity = restTemplate.postForEntity(uriComponentsBuilder.toUriString()
-                , new HttpEntity<>(temporaryUser), TemporaryUser.class);
+        ResponseEntity<TemporaryUser> temporaryUserResponseEntity = restTemplate.postForEntity(uriComponentsBuilder.toUriString(), new HttpEntity<>(temporaryUser), TemporaryUser.class);
 
         if (!temporaryUserResponseEntity.getStatusCode().is2xxSuccessful()) {
             throw new SaveTemporaryUserError();

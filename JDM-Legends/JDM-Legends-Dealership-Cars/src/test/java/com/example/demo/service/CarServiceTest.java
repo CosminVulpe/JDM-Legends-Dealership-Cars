@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.jdm.legends.common.dto.Car;
 import com.jdm.legends.dealership.cars.service.CarService;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
-import com.jdm.legends.dealership.cars.service.repository.HistoryBidInterface;
+import com.jdm.legends.dealership.cars.service.repository.HighestBid;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -64,7 +64,7 @@ public class CarServiceTest {
     @Test
     @Order(4)
     void shouldGetHistoryBidCarByCarId() {
-        HistoryBidInterface historyBid1 = new HistoryBidInterface() {
+        HighestBid historyBid1 = new HighestBid() {
             @Override
             public Integer getId() {
                 return 1;
@@ -76,7 +76,7 @@ public class CarServiceTest {
             }
         };
 
-        HistoryBidInterface historyBid2 = new HistoryBidInterface() {
+        HighestBid historyBid2 = new HighestBid() {
             @Override
             public Integer getId() {
                 return 2;
@@ -88,11 +88,11 @@ public class CarServiceTest {
             }
         };
 
-        List<HistoryBidInterface> historyBidInterfaceList = List.of(historyBid1, historyBid2);
-        when(carRepository.getBiggestHistoryBidByCarID(any())).thenReturn(historyBidInterfaceList);
+        List<HighestBid> highestBidList = List.of(historyBid1, historyBid2);
+        when(carRepository.getBiggestHistoryBidByCarID(any())).thenReturn(highestBidList);
 
-        List<HistoryBidInterface> historyBidsList = carService.getHistoryBidsList(CAR_ID);
-        assertEquals(historyBidInterfaceList, historyBidsList);
+        List<HighestBid> historyBidsList = carService.getHistoryBidsList(CAR_ID);
+        assertEquals(highestBidList, historyBidsList);
     }
 
     @Test
