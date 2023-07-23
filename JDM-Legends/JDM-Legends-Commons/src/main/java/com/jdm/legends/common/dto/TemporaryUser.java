@@ -1,10 +1,7 @@
 package com.jdm.legends.common.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -20,7 +17,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity(name = "TemporaryUser")
 @Table
-@Data
+@Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
