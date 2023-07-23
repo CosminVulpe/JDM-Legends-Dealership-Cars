@@ -87,7 +87,6 @@ const PopUp: React.FC<Props> = (props) => {
     const handleOnClick = (): void => {
         onClose();
 
-        //TODO
         const temporaryUser: TemporaryUser = {
             fullName: formik.values.firstName.concat(" ").concat(formik.values.lastName),
             userName: formik.values.userName,
@@ -107,7 +106,7 @@ const PopUp: React.FC<Props> = (props) => {
             ApiGetCar("bid-list/" + id)
                 .then(res => setHistoryBidList(res.data))
                 .catch(err => console.log(err))
-        }, 4000);
+        }, 2500);
 
 
         setCheckedCheckBox({YesButton: false, NoButton: false});

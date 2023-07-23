@@ -23,7 +23,8 @@ export interface Car {
 export interface HistoryBid {
     id?: number,
     bidValue: BigInt,
-    timeOfTheBid: Date
+    timeOfTheBid: Date,
+    userName?: string,
 }
 
 export interface TemporaryUser {

@@ -144,7 +144,7 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                                         {historyBidList.map((bid) =>
                                             <li className='bid_list' key={bid.id}>
                                                 Bid by:
-                                                <span>{ (getTemporaryUserInfo() !== null) ? getTemporaryUserInfo()?.userName : "anonymous"}</span>
+                                                <span>{ bid.userName }</span>
                                                 <span>${bid.bidValue.toLocaleString()}</span>
                                             </li>
                                         )}
