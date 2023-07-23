@@ -7,4 +7,6 @@ public interface HighestBid {
 
     BigDecimal getBidValue();
 
+    String getUserName();
+
 }

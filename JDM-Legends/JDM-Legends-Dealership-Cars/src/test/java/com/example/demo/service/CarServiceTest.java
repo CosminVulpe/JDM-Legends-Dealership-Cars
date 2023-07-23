@@ -74,6 +74,11 @@ public class CarServiceTest {
             public BigDecimal getBidValue() {
                 return new BigDecimal("11223344556677");
             }
+
+            @Override
+            public String getUserName() {
+                return "john_Cats";
+            }
         };
 
         HighestBid historyBid2 = new HighestBid() {
@@ -85,6 +90,11 @@ public class CarServiceTest {
             @Override
             public BigDecimal getBidValue() {
                 return new BigDecimal("7823486.990");
+            }
+
+            @Override
+            public String getUserName() {
+                return "Mitch_Fotball";
             }
         };
 
