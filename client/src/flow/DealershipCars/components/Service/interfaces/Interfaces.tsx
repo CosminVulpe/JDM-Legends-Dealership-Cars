@@ -25,6 +25,8 @@ export interface HistoryBid {
     bidValue: BigInt,
     timeOfTheBid: Date,
     userName?: string,
+    role?: string,
+    checkInformationStoredTemporarily?: boolean,
 }
 
 export interface TemporaryUser {
@@ -32,6 +34,7 @@ export interface TemporaryUser {
     fullName: string,
     userName: string,
     emailAddress: string,
+    role?: string,
     checkInformationStoredTemporarily?: boolean
 }
 

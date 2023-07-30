@@ -54,7 +54,7 @@ const NavLink = css`
 
   &:hover {
     cursor: pointer;
-    color: ${({primary}: { primary: boolean }) => (primary ? "#4CA8EE" : "#ed2f2f")};
+    color: ${ ( { primary }: { primary: boolean } ) => (primary ? "#4CA8EE" : "#ed2f2f")};
 
     &:after {
       left: -10%;
@@ -153,7 +153,7 @@ const NavBar: React.FC = () => {
             </Logo>
             <NavMenu>
                 <NavMenuLinks to="/all-cars" primary={false}>Cars </NavMenuLinks>
-                <NavMenuLinks to="/shop" primary={false}>SHop </NavMenuLinks>
+                <NavMenuLinks to="/shop" primary={false}>Shop </NavMenuLinks>
                 <NavMenuLinks to="/review" primary={false}>Review</NavMenuLinks>
             </NavMenu>
             <NavBtn>
