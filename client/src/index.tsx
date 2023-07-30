@@ -5,9 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {ChakraProvider} from '@chakra-ui/react';
-import AllCars from "./components/pages/all-cars-page/AllCars";
-import OneCar from "./components/pages/one-car-page/OneCar";
-import Review from "./components/pages/review-page/Review";
+import AllCars from "./flow/DealershipCars/components/pages/all-cars-page/AllCars";
+import OneCar from "./flow/DealershipCars/components/pages/one-car-page/OneCar";
+import Review from "./flow/DealershipCars/components/pages/review-page/Review";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
