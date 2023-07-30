@@ -36,7 +36,7 @@ public class HistoryBidService {
 
         temporaryUserRepository.save(temporaryUser);
 
-        log.info("Bid Value has been saved for the car with ID {}", car.getId());
+        log.info("Bid Value saved for the car with ID {}", car.getId());
     }
 
 }

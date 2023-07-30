@@ -79,6 +79,16 @@ public class CarServiceTest {
             public String getUserName() {
                 return "john_Cats";
             }
+
+            @Override
+            public String getRole() {
+                return "client";
+            }
+
+            @Override
+            public boolean getCheckInformationStoredTemporarily() {
+                return false;
+            }
         };
 
         HighestBid historyBid2 = new HighestBid() {
@@ -95,6 +105,16 @@ public class CarServiceTest {
             @Override
             public String getUserName() {
                 return "Mitch_Fotball";
+            }
+
+            @Override
+            public String getRole() {
+                return "potential client";
+            }
+
+            @Override
+            public boolean getCheckInformationStoredTemporarily() {
+                return false;
             }
         };
 

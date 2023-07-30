@@ -9,4 +9,8 @@ public interface HighestBid {
 
     String getUserName();
 
+    String getRole();
+
+    boolean getCheckInformationStoredTemporarily();
+
 }

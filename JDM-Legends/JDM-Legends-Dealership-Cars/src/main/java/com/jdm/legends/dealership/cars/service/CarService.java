@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -35,10 +33,10 @@ public class CarService {
     }
 
     public List<LocalDateTime> getDatesCar(Long carId) {
-        return Collections.unmodifiableList(
-                new ArrayList<>(List.of(
-                        getCarById(carId).getStartDateCarPostedOnline(),
-                        getCarById(carId).getDeadlineCarToSell()))
+        return List.copyOf(
+                List.of(getCarById(carId).getStartDateCarPostedOnline(),
+                        getCarById(carId).getDeadlineCarToSell()
+                )
         );
     }
 

@@ -11,11 +11,11 @@ import java.util.List;
 public interface CarRepository extends JpaRepository<Car, Long> {
 
     @Query(value = """
-            SELECT hb.id AS id, hb.bid_value AS bidValue, tu.user_name AS userName
+            SELECT hb.id AS id, hb.bid_value AS bidValue, tu.user_name AS userName, tu.role AS role, tu.check_information_stored_temporarily AS checkInformationStoredTemporarily
             FROM history_bid hb
-            INNER JOIN cars c on hb.car_id = c.id
-            INNER JOIN temporary_user_history_bid tuhb on hb.id = tuhb.history_bid_id
-            INNER JOIN temporary_user tu on tuhb.temporary_user_id = tu.id
+                INNER JOIN cars c on hb.car_id = c.id
+                INNER JOIN temporary_user_history_bid tuhb on hb.id = tuhb.history_bid_id
+                INNER JOIN temporary_user tu on tuhb.temporary_user_id = tu.id
             WHERE c.id = :id
             ORDER BY hb.bid_value DESC LIMIT 7;
             """, nativeQuery = true)
