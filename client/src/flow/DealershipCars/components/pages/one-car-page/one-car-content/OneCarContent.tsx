@@ -132,7 +132,7 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                         <Heading as='h4' size='md'>
                             Price: ${getCar.initialPrice.toLocaleString()}
                         </Heading>
-                        <CountdownTimer targetDate={computeTimeDiff()}/>
+                        <CountdownTimer targetDate={computeTimeDiff()} carId={getCar.id}/>
                         <h1 className='bid_title'>Bid Information</h1>
                         <ul>
                             <>

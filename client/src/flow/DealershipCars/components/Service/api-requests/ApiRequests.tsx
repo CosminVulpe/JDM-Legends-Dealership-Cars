@@ -56,3 +56,6 @@ export const ApiPostTemporaryUser = async (data: TemporaryUser | string, endpoin
         }
     );
 }
+
+export const ApiGetTemporaryUser = async (endPoint?: string) =>
+    await axios.get(process.env.REACT_APP_USERS_BACKEND_API_USERS + (endPoint ? endPoint : ""));
