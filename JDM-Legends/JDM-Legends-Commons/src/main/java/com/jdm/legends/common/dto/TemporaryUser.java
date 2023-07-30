@@ -1,12 +1,12 @@
 package com.jdm.legends.common.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,10 +27,10 @@ public class TemporaryUser {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @NotBlank
+    @Nullable
     private String fullName;
 
-    @NotBlank
+    @Nullable
     private String userName;
 
     @Email
@@ -47,6 +47,7 @@ public class TemporaryUser {
             joinColumns =  @JoinColumn(name = "temporary_user_id") ,
             inverseJoinColumns =  @JoinColumn(name = "history_bid_id")
     )
+    @JsonIgnore
     private List<HistoryBid> historyBidList = new ArrayList<>();
 
     public void addHistoryBid(HistoryBid historyBid) {
