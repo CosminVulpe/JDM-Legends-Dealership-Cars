@@ -1,4 +1,4 @@
-package com.jdm.legends.users.service.repository;
+package com.jdm.legends.users.repository;
 
 import com.jdm.legends.common.dto.TemporaryUser;
 import org.springframework.data.jpa.repository.JpaRepository;
