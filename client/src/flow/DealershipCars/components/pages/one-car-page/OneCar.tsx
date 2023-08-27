@@ -92,9 +92,7 @@ const OneCar: React.FC = () => {
     };
 
     if (oneCarDetails === undefined) {
-        return (
-            <Error/>
-        )
+        return <Error/>
     }
 
     return (

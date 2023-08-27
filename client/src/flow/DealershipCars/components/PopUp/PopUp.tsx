@@ -21,9 +21,9 @@ import {
     FormControl,
     Checkbox
 } from "@chakra-ui/react";
-import {ApiGetCar, ApiPostHistoryBid} from "../Service/api-requests/ApiRequests";
+import {ApiGetCar, ApiGetTemporaryUser, ApiPostHistoryBid} from "../Service/api-requests/ApiRequests";
 import {Car, HistoryBid, TemporaryUser} from "../Service/interfaces/Interfaces";
-import {successfulNotification} from "../Service/toastify-notification/ToastifyNotification";
+import {successfulNotification, warningNotification} from "../Service/toastify-notification/ToastifyNotification";
 import {ToastContainer} from "react-toastify";
 import {useFormik} from "formik";
 import AlertNotification from "../AlertNotification/AlerNotification";
@@ -61,6 +61,7 @@ const PopUp: React.FC<Props> = (props) => {
         "YesButton": false,
         "NoButton": false
     });
+    const[tempUsers, setTempUsers] = useState<TemporaryUser[]>([]);
 
     const formik = useFormik({
         initialValues: {
@@ -70,9 +71,8 @@ const PopUp: React.FC<Props> = (props) => {
             emailAddress: "",
             timeOfTheCreation: new Date()
         },
-        onSubmit: () => undefined
+        onSubmit: () => undefined,
     });
-
 
     useEffect(() => {
         ApiGetCar("bid-list/" + id)
@@ -124,7 +124,14 @@ const PopUp: React.FC<Props> = (props) => {
         }));
     }
 
-    const isSubmitButtonDisable = () => {
+    const handleOpenModel = () => {
+        onOpen();
+        ApiGetTemporaryUser()
+            .then( (res: any) => setTempUsers(res.data))
+            .catch(() => warningNotification("Something went wrong"))
+    }
+
+    const isSubmitButtonDisable = (): boolean => {
         if (historyBid.bidValue > BigInt(car.initialPrice)) {
             if (checkedCheckBox["YesButton"] || checkedCheckBox["NoButton"]) {
                 return false;
@@ -134,10 +141,12 @@ const PopUp: React.FC<Props> = (props) => {
     }
     const isInputValid = (text: string): boolean => !(REGEX_VALIDATE_NAME.test(text));
 
+    const doesUsernameAlreadyExist: boolean = tempUsers.map(item => item.userName).includes(formik.values.userName);
+
     return (
         <>
             <ToastContainer/>
-            <Button onClick={onOpen}
+            <Button onClick={handleOpenModel}
                     colorScheme="teal">Bid Now</Button>
             <form onSubmit={formik.handleSubmit}>
                 <Modal blockScrollOnMount={false}
@@ -206,6 +215,12 @@ const PopUp: React.FC<Props> = (props) => {
                                            onChange={formik.handleChange}
                                            onBlur={formik.handleBlur}
                                            defaultValue={formik.initialValues.userName}/>
+                                    { (doesUsernameAlreadyExist && formik.touched.userName) &&
+                                        <AlertNotification
+                                            alertType={"error"}
+                                            textAlert={"Username is already taken"}
+                                        />
+                                    }
 
                                     <FormLabel style={spacingInputStyle}>Email address</FormLabel>
                                     <Input type='email' placeholder={'Email Address'}
