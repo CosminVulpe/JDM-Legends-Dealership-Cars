@@ -43,7 +43,7 @@ const OneCar: React.FC = () => {
             .then((res: any) => setOneCarDetails(res.data))
             .catch(err => {
                 if (axios.isCancel(err)) {
-                    console.log("cancelled!");
+                    console.error("cancelled!");
                 }
                 if (err.response.status === 400 || err.response.status === 404) {
                     setOneCarDetails(undefined);

@@ -31,7 +31,7 @@ const AllCars: React.FC = () => {
             .then((res: any) => setCars(res.data))
             .catch(err => {
                 if (axios.isCancel(err)) {
-                    console.log("cancelled!");
+                    console.error("cancelled!");
                 }
             });
         return () => {
