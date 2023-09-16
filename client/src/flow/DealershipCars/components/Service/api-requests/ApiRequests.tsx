@@ -1,5 +1,5 @@
 import axios from "axios";
-import {HistoryBid, HistoryBidTemporaryUser, ReviewInterface, TemporaryUser} from "../interfaces/Interfaces";
+import {HistoryBidTemporaryUser, ReviewInterface, TemporaryUser} from "../interfaces/Interfaces";
 
 export const ApiGetCar = async (endPoint?: string) =>
     await axios.get(process.env.REACT_APP_BACKEND_API_CAR + (endPoint ? endPoint : ""));

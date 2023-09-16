@@ -39,7 +39,7 @@ const OneCar: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        ApiGetCar((id !== undefined) ? id : "")
+        ApiGetCar(id ? id : "")
             .then((res: any) => setOneCarDetails(res.data))
             .catch(err => {
                 if (axios.isCancel(err)) {
@@ -53,7 +53,7 @@ const OneCar: React.FC = () => {
         return () => {
             getCancelToken().cancel();
         }
-    }, [setOneCarDetails]);
+    }, [setOneCarDetails, id]);
 
     useEffect(() => {
         ApiGetCarPictures(oneCarDetails?.carName)
@@ -68,8 +68,7 @@ const OneCar: React.FC = () => {
     }, [oneCarDetails]);
 
 
-    const length = (oneCarDetails !== undefined) ?
-        Object.keys(oneCarDetails).length : 0;
+    const length:number = (oneCarDetails !== undefined) ? Object.keys(oneCarDetails).length : 0;
 
     const goToPrevious = () => {
         const isFirstSlide = currentIndex === 0;

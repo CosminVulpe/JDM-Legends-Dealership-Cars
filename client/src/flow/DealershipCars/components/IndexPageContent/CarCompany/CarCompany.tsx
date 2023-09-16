@@ -23,8 +23,7 @@ const CarCompany: React.FC = () => {
         return () => {
             getCancelToken().cancel();
         }
-    }, []);
-
+    }, [setCars]);
 
     return (
         <>

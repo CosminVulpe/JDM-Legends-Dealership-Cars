@@ -78,7 +78,7 @@ const PopUp: React.FC<Props> = (props) => {
         ApiGetCar("bid-list/" + id)
             .then(res => setHistoryBidList(res.data))
             .catch(err => console.log(err))
-    }, []);
+    }, [id, setHistoryBidList]);
 
     const formatBidValue = (val: BigInt): string => `$` + val;
 

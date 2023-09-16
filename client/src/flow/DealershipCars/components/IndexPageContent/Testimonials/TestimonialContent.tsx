@@ -1,5 +1,5 @@
 import {Stack, useColorModeValue} from "@chakra-ui/react";
-import React, {ReactNode} from "react";
+import React from "react";
 
 export interface PropsTestimonials {
     children?: React.ReactNode;
