@@ -1,5 +1,7 @@
 package com.jdm.legends.users.service;
 
+import com.jdm.legends.common.dto.Car;
+import com.jdm.legends.common.dto.HistoryBid;
 import com.jdm.legends.common.dto.TemporaryUser;
 import com.jdm.legends.users.repository.TemporaryUserRepository;
 import org.junit.jupiter.api.Test;
@@ -8,10 +10,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,11 +45,26 @@ public class TemporaryUserServiceTest {
         assertEquals(getTempUsersMockData().size(), allTempUsers.size());
     }
 
+    @Test
+    void saveTempUserSuccessfully() {
+        temporaryUserService.saveUser(getTempUsersMockData().get(0), getHistoryBidMockData());
+        verify(repository).save(any());
+    }
+
     private List<TemporaryUser> getTempUsersMockData() {
         return List.of(
-                TemporaryUser.builder().userName("tes12").fullName("John Mick").emailAddress("john12@gmail.com").build(),
-                TemporaryUser.builder().userName("harry66").fullName("Harry Style").emailAddress("harrymusic@gmail.com").build(),
-                TemporaryUser.builder().userName("therock").fullName("The Rock").emailAddress("sevenbucksprod@gmail.com").build()
+                TemporaryUser.builder().userName("tes12").fullName("John Mick").emailAddress("john12@gmail.com").historyBidList(new ArrayList<>()).build(),
+                TemporaryUser.builder().userName("harry66").fullName("Harry Style").emailAddress("harrymusic@gmail.com").historyBidList(new ArrayList<>()).build(),
+                TemporaryUser.builder().userName("therock").fullName("The Rock").emailAddress("sevenbucksprod@gmail.com").historyBidList(new ArrayList<>()).build()
         );
+    }
+
+    private HistoryBid getHistoryBidMockData() {
+        return HistoryBid.builder()
+                .bidValue(new BigDecimal("98098908954"))
+                .temporaryUsersList(new HashSet<>(getTempUsersMockData()))
+                .timeOfTheBid(LocalDateTime.MIN)
+                .car(new Car())
+                .build();
     }
 }

@@ -1,11 +1,11 @@
 package com.jdm.legends.users.controller;
 
+import com.jdm.legends.common.dto.HistoryBidTemporaryUser;
 import com.jdm.legends.common.dto.TemporaryUser;
 import com.jdm.legends.users.service.TemporaryUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,7 +16,8 @@ public class TemporaryUserController {
     private final TemporaryUserService service;
 
     @PostMapping(path = "/save")
-    public void saveTempUser(@RequestBody @Valid TemporaryUser temporaryUser){
+    public void saveTempUser(@RequestBody HistoryBidTemporaryUser historyBidTemporaryUser) {
+        service.saveUser(historyBidTemporaryUser.getTemporaryUser(), historyBidTemporaryUser.getHistoryBid());
     }
 
     @GetMapping()

@@ -21,7 +21,7 @@
         <dependency>
             <groupId>com.jdm.legends.common</groupId>
             <artifactId>jdm-legends-commons</artifactId>
-            <version>0.0.76</version>
+            <version>0.0.82</version>
         </dependency>
 
         <dependency>
