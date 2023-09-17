@@ -2,7 +2,7 @@ import axios from "axios";
 import {HistoryBidTemporaryUser, ReviewInterface, TemporaryUser} from "../interfaces/Interfaces";
 
 export const ApiGetCar = async (endPoint?: string) =>
-    await axios.get(process.env.REACT_APP_BACKEND_API_CAR + (endPoint ? endPoint : ""));
+    await axios.get(process.env.REACT_APP_BACKEND_API_CAR + (endPoint || ""));
 
 
 export const getCancelToken = (): any => {
@@ -13,7 +13,7 @@ export const ApiGetCarPictures = async (carName: String | undefined) =>
     await axios.get(`https://api.unsplash.com/search/photos?query=${carName as String}&client_id=${process.env.REACT_APP_UNSPLASH_KEY}&page=1&orientation=landscape`);
 
 export const ApiPostReview = async (data: ReviewInterface, endPoint?: string) => {
-    return await axios.post(process.env.REACT_APP_BACKEND_API_REVIEW + (endPoint ? endPoint : "")
+    return await axios.post(process.env.REACT_APP_BACKEND_API_REVIEW + (endPoint || "")
         , JSON.stringify(data)
         , {
             headers: {
@@ -25,7 +25,7 @@ export const ApiPostReview = async (data: ReviewInterface, endPoint?: string) =>
 }
 
 export const ApiGetReview = async (endPoint?: string) =>
-    await axios.get(process.env.REACT_APP_BACKEND_API_REVIEW + (endPoint ? endPoint : ""));
+    await axios.get(process.env.REACT_APP_BACKEND_API_REVIEW + (endPoint || ""));
 
 
 export const ApiPostHistoryBid = async (endPoint: string, data: HistoryBidTemporaryUser) => {
@@ -45,8 +45,8 @@ export const ApiPostHistoryBid = async (endPoint: string, data: HistoryBidTempor
         });
 }
 
-export const ApiPostTemporaryUser = async (data: TemporaryUser | string, endpoint?: string,) => {
-    return await axios.post(process.env.REACT_APP_USERS_BACKEND_API_USERS + (endpoint ? endpoint : "")
+export const ApiPostTemporaryUser = async (data: TemporaryUser | string, endPoint?: string,) => {
+    return await axios.post(process.env.REACT_APP_USERS_BACKEND_API_USERS + (endPoint || "")
         , JSON.stringify(data)
         , {
             headers: {
@@ -59,5 +59,5 @@ export const ApiPostTemporaryUser = async (data: TemporaryUser | string, endpoin
 
 
 export const ApiGetTemporaryUser = async (endPoint?: string) =>
-    await axios.get(process.env.REACT_APP_USERS_BACKEND_API_USERS + (endPoint ? endPoint : ""));
+    await axios.get(process.env.REACT_APP_USERS_BACKEND_API_USERS + (endPoint || ""));
 

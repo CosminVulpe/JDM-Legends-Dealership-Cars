@@ -77,7 +77,7 @@ const PopUp: React.FC<Props> = (props) => {
     useEffect(() => {
         ApiGetCar("bid-list/" + id)
             .then(res => setHistoryBidList(res.data))
-            .catch(err => console.log(err))
+            .catch(err => console.error(err))
     }, [id, setHistoryBidList]);
 
     const formatBidValue = (val: BigInt): string => `$` + val;
@@ -99,12 +99,12 @@ const PopUp: React.FC<Props> = (props) => {
             historyBid: historyBid,
             temporaryUser: temporaryUser
         })
-            .then( (response :any) => {
+            .then((response :any) => {
                 if (response.status === 200 || response.status === 201) {
                     successfulNotification("Bid placed successfully");
                     ApiGetCar("bid-list/" + id)
                         .then(res => setHistoryBidList(res.data))
-                        .catch(err => console.log(err))
+                        .catch(err => console.error(err))
                 }
             })
             .catch(err => console.error(err));
