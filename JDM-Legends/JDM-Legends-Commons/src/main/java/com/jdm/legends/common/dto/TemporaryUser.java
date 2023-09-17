@@ -22,7 +22,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TemporaryUser {
+public final class TemporaryUser {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -41,7 +41,7 @@ public class TemporaryUser {
 
     private boolean checkInformationStoredTemporarily;
 
-    @ManyToMany(fetch = EAGER, cascade = { PERSIST, MERGE })
+    @ManyToMany(fetch = EAGER, cascade = MERGE)
     @JoinTable(
             name = "temporary_user_history_bid",
             joinColumns =  @JoinColumn(name = "temporary_user_id") ,

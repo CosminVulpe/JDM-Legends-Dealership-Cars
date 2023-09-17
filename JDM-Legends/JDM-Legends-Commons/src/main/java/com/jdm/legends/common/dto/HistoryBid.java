@@ -21,7 +21,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class HistoryBid {
+public final class HistoryBid {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
