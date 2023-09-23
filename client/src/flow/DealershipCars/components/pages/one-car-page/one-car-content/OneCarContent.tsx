@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Heading} from "@chakra-ui/react";
 import './OneCarContent.css';
 import PopUp from "../../../PopUp/PopUp";
-import {Car, HistoryBid} from "../../../Service/interfaces/Interfaces";
+import {Car, HistoryBid, WinnerUser} from "../../../Service/interfaces/Interfaces";
 import CountdownTimer from "../../../CountdownTimer/CountdownTimer";
 import "../../../CountdownTimer/CountdownTimerStyle.css";
 import {ApiGetCar} from "../../../Service/api-requests/ApiRequests";
@@ -21,6 +21,11 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
     const [historyBidList, setHistoryBidList] = useState<HistoryBid[]>([]);
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
+
+    const [winner, setWinner] = useState<WinnerUser>({
+        userName: "",
+        bidValue: BigInt(0)
+    });
 
     const capitalizeLetterString = (value: String): string => {
         if (value.includes("_")) {
@@ -132,33 +137,46 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                         <Heading as='h4' size='md'>
                             Price: ${getCar.initialPrice.toLocaleString()}
                         </Heading>
-                        <CountdownTimer targetDate={computeTimeDiff()}/>
-                        <h1 className='bid_title'>Bid Information</h1>
-                        <ul>
-                            <>
-                                {(historyBidList.length === 0) ?
-                                    <p>No Bids So Far !</p>
-                                    :
-                                    <>
-                                        {historyBidList.map((bid) =>
-                                            <li className='bid_list' key={bid.id}>
-                                                Bid by:
-                                                <span>{ bid.checkInformationStoredTemporarily ? bid.userName : bid.role }</span>
-                                                <span>${bid.bidValue.toLocaleString()}</span>
-                                            </li>
-                                        )}
-                                    </>
-                                }
-                            </>
-                        </ul>
-                        <div style={{paddingTop: "20px"}}>
-                            <PopUp id={getCar.id}
-                                   setHistoryBid={setHistoryBid}
-                                   historyBid={historyBid}
-                                   setHistoryBidList={setHistoryBidList}
-                                   car={getCar}
-                            />
-                        </div>
+                        <CountdownTimer
+                            targetDate={computeTimeDiff()}
+                            carId={getCar.id}
+                            winner={winner}
+                            setWinner={setWinner}
+                        />
+                        {
+                            winner.userName === "" &&
+                            (
+                                <>
+                                    <h1 className='bid_title'>Bid Information</h1>
+                                    <ul>
+                                        <>
+                                            {(historyBidList.length === 0) ?
+                                                <p>No Bids So Far !</p>
+                                                :
+                                                <>
+                                                    {historyBidList.map((bid) =>
+                                                        <li className='bid_list' key={bid.id}>
+                                                            Bid by:
+                                                            <span>{bid.checkInformationStoredTemporarily ? bid.userName : bid.role}</span>
+                                                            <span>${bid.bidValue.toLocaleString()}</span>
+                                                        </li>
+                                                    )}
+                                                </>
+                                            }
+                                        </>
+                                    </ul>
+
+                                    <div style={{paddingTop: "20px"}}>
+                                        <PopUp id={getCar.id}
+                                               setHistoryBid={setHistoryBid}
+                                               historyBid={historyBid}
+                                               setHistoryBidList={setHistoryBidList}
+                                               car={getCar}
+                                        />
+                                    </div>
+                                </>
+                            )
+                        }
                     </div>
                 </div>
             </div>

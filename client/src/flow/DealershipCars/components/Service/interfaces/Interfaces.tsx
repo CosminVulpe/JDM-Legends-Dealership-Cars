@@ -42,3 +42,8 @@ export interface HistoryBidTemporaryUser {
     historyBid: HistoryBid,
     temporaryUser: TemporaryUser
 }
+
+export interface WinnerUser {
+    userName: "",
+    bidValue: BigInt
+}
