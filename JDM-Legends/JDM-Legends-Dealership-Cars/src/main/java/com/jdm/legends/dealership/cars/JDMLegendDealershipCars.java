@@ -18,7 +18,7 @@ import static com.jdm.legends.common.enums.CarFuelType.DIESEL;
 import static com.jdm.legends.common.enums.CarFuelType.GASOLINE;
 import static com.jdm.legends.common.enums.CarTransmissionType.AUTOMATIC_TRANSMISSION;
 import static com.jdm.legends.common.enums.CarTransmissionType.MANUAL_TRANSMISSION;
-import static com.jdm.legends.dealership.cars.service.constants.Constants.AVAILABLE_DAYS_TO_PURCHASE;
+import static com.jdm.legends.dealership.cars.service.constants.MockConstants.AVAILABLE_DAYS_TO_PURCHASE;
 import static java.time.LocalDateTime.now;
 
 
