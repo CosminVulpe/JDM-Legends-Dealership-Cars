@@ -27,8 +27,7 @@ import {successfulNotification, warningNotification} from "../Service/toastify-n
 import {ToastContainer} from "react-toastify";
 import {useFormik} from "formik";
 import AlertNotification from "../AlertNotification/AlerNotification";
-import {setTemporaryUserInfo} from "../Service/session-storage/SessionStorage";
-
+import {isTempUserActive, setTemporaryUserInfo} from "../Service/session-storage/SessionStorage";
 
 interface Props {
     id: number,
@@ -61,7 +60,7 @@ const PopUp: React.FC<Props> = (props) => {
         "YesButton": false,
         "NoButton": false
     });
-    const[tempUsers, setTempUsers] = useState<TemporaryUser[]>([]);
+    const [tempUsers, setTempUsers] = useState<TemporaryUser[]>([]);
 
     const formik = useFormik({
         initialValues: {
@@ -91,7 +90,7 @@ const PopUp: React.FC<Props> = (props) => {
             fullName: formik.values.firstName.concat(" ").concat(formik.values.lastName),
             userName: formik.values.userName,
             emailAddress: formik.values.emailAddress,
-            checkInformationStoredTemporarily: checkedCheckBox["YesButton"]
+            checkInformationStoredTemporarily: isTempUserActive ? checkedCheckBox["YesButton"] : true
         };
         setTemporaryUserInfo(temporaryUser);
 
@@ -99,7 +98,7 @@ const PopUp: React.FC<Props> = (props) => {
             historyBid: historyBid,
             temporaryUser: temporaryUser
         })
-            .then((response :any) => {
+            .then((response: any) => {
                 if (response.status === 200 || response.status === 201) {
                     successfulNotification("Bid placed successfully");
                     ApiGetCar("bid-list/" + id)
@@ -127,21 +126,24 @@ const PopUp: React.FC<Props> = (props) => {
     const handleOpenModel = () => {
         onOpen();
         ApiGetTemporaryUser()
-            .then( (res: any) => setTempUsers(res.data))
+            .then((res: any) => setTempUsers(res.data))
             .catch(() => warningNotification("Something went wrong"))
     }
 
     const isSubmitButtonDisable = (): boolean => {
-        if (historyBid.bidValue > BigInt(car.initialPrice)) {
-            if (checkedCheckBox["YesButton"] || checkedCheckBox["NoButton"]) {
+        if (isTempUserActive) {
+            if ((historyBid.bidValue > BigInt(car.initialPrice)) && (checkedCheckBox["YesButton"] || checkedCheckBox["NoButton"])) {
                 return false;
             }
+            return true;
         }
-        return true;
-    }
-    const isInputValid = (text: string): boolean => !(REGEX_VALIDATE_NAME.test(text));
 
+        return isPriceLowerThanCarPrice;
+    }
+
+    const isInputValid = (text: string): boolean => !(REGEX_VALIDATE_NAME.test(text));
     const doesUsernameAlreadyExist: boolean = tempUsers.map(item => item.userName).includes(formik.values.userName);
+    const isPriceLowerThanCarPrice: boolean = historyBid.bidValue < BigInt(car.initialPrice);
 
     return (
         <>
@@ -174,95 +176,101 @@ const PopUp: React.FC<Props> = (props) => {
                                         <NumberDecrementStepper/>
                                     </NumberInputStepper>
                                 </NumberInput>
-                                {historyBid.bidValue < BigInt(car.initialPrice) &&
+                                {isPriceLowerThanCarPrice &&
                                     <AlertNotification
                                         alertType={"error"}
                                         textAlert={"The bid is lower than car's price"}
                                     />
                                 }
-                                <FormControl>
-                                    <FormLabel style={spacingInputStyle}>First name</FormLabel>
-                                    <Input placeholder='First name'
-                                           name="firstName"
-                                           type="text"
-                                           onChange={formik.handleChange}
-                                           onBlur={formik.handleBlur}
-                                           defaultValue={formik.initialValues.firstName}/>
-                                    {isInputValid(formik.values.firstName) && (formik.touched.firstName) &&
-                                        <AlertNotification
-                                            alertType={"error"}
-                                            textAlert={"First Name not valid"}
-                                        />
-                                    }
-                                    <FormLabel style={spacingInputStyle}>Last name</FormLabel>
-                                    <Input placeholder='Last name'
-                                           name="lastName"
-                                           type="text"
-                                           onChange={formik.handleChange}
-                                           onBlur={formik.handleBlur}
-                                           defaultValue={formik.initialValues.lastName}/>
-                                    {isInputValid(formik.values.lastName) && (formik.touched.lastName) &&
-                                        <AlertNotification
-                                            alertType={"error"}
-                                            textAlert={"Last Name not valid"}
-                                        />
-                                    }
+                                {
+                                    isTempUserActive &&
+                                    (
+                                        <FormControl>
+                                            <FormLabel style={spacingInputStyle}>First name</FormLabel>
+                                            <Input placeholder='First name'
+                                                   name="firstName"
+                                                   type="text"
+                                                   onChange={formik.handleChange}
+                                                   onBlur={formik.handleBlur}
+                                                   defaultValue={formik.initialValues.firstName}/>
+                                            {isInputValid(formik.values.firstName) && (formik.touched.firstName) &&
+                                                <AlertNotification
+                                                    alertType={"error"}
+                                                    textAlert={"First Name not valid"}
+                                                />
+                                            }
+                                            <FormLabel style={spacingInputStyle}>Last name</FormLabel>
+                                            <Input placeholder='Last name'
+                                                   name="lastName"
+                                                   type="text"
+                                                   onChange={formik.handleChange}
+                                                   onBlur={formik.handleBlur}
+                                                   defaultValue={formik.initialValues.lastName}/>
+                                            {isInputValid(formik.values.lastName) && (formik.touched.lastName) &&
+                                                <AlertNotification
+                                                    alertType={"error"}
+                                                    textAlert={"Last Name not valid"}
+                                                />
+                                            }
 
-                                    <FormLabel style={spacingInputStyle}>Username</FormLabel>
-                                    <Input placeholder='Username'
-                                           name="userName"
-                                           type="text"
-                                           onChange={formik.handleChange}
-                                           onBlur={formik.handleBlur}
-                                           defaultValue={formik.initialValues.userName}/>
-                                    { (doesUsernameAlreadyExist && formik.touched.userName) &&
-                                        <AlertNotification
-                                            alertType={"error"}
-                                            textAlert={"Username is already taken"}
-                                        />
-                                    }
+                                            <FormLabel style={spacingInputStyle}>Username</FormLabel>
+                                            <Input placeholder='Username'
+                                                   name="userName"
+                                                   type="text"
+                                                   onChange={formik.handleChange}
+                                                   onBlur={formik.handleBlur}
+                                                   defaultValue={formik.initialValues.userName}/>
+                                            {(doesUsernameAlreadyExist && formik.touched.userName) &&
+                                                <AlertNotification
+                                                    alertType={"error"}
+                                                    textAlert={"Username is already taken"}
+                                                />
+                                            }
 
-                                    <FormLabel style={spacingInputStyle}>Email address</FormLabel>
-                                    <Input type='email' placeholder={'Email Address'}
-                                           name="emailAddress"
-                                           onChange={formik.handleChange}
-                                           onBlur={formik.handleBlur}
-                                           defaultValue={formik.initialValues.emailAddress}/>
-                                    <FormHelperText>We'll never share your email.</FormHelperText>
-                                    {!REGEX_VALID_EMAIL_ADDRESS.test(formik.values.emailAddress) && (formik.touched.emailAddress) &&
-                                        <AlertNotification
-                                            alertType={"error"}
-                                            textAlert={"Email Address not valid"}
-                                        />
-                                    }
+                                            <FormLabel style={spacingInputStyle}>Email address</FormLabel>
+                                            <Input type='email' placeholder={'Email Address'}
+                                                   name="emailAddress"
+                                                   onChange={formik.handleChange}
+                                                   onBlur={formik.handleBlur}
+                                                   defaultValue={formik.initialValues.emailAddress}/>
+                                            <FormHelperText>We'll never share your email.</FormHelperText>
+                                            {!REGEX_VALID_EMAIL_ADDRESS.test(formik.values.emailAddress) && (formik.touched.emailAddress) &&
+                                                <AlertNotification
+                                                    alertType={"error"}
+                                                    textAlert={"Email Address not valid"}
+                                                />
+                                            }
 
-                                    <Text fontSize='md' style={spacingInputStyle}>Do you want to store your info
-                                        locally?</Text>
-                                    <Checkbox
-                                        isChecked={checkedCheckBox["YesButton"]}
-                                        onChange={(e) => setCheckedCheckBox({
-                                            NoButton: false,
-                                            YesButton: e.target.checked
-                                        })}
-                                        isDisabled={checkedCheckBox["NoButton"]}
-                                        style={spacingInputStyle}>Yes</Checkbox>
-                                    <Checkbox
-                                        isChecked={checkedCheckBox["NoButton"]}
-                                        onChange={(e) => setCheckedCheckBox({
-                                            NoButton: e.target.checked,
-                                            YesButton: false
-                                        })}
-                                        isDisabled={checkedCheckBox["YesButton"]}
-                                        style={spacingInputStyle}>No</Checkbox>
+                                            <Text fontSize='md' style={spacingInputStyle}>Do you want to store your info
+                                                locally?</Text>
+                                            <Checkbox
+                                                isChecked={checkedCheckBox["YesButton"]}
+                                                onChange={(e) => setCheckedCheckBox({
+                                                    NoButton: false,
+                                                    YesButton: e.target.checked
+                                                })}
+                                                isDisabled={checkedCheckBox["NoButton"]}
+                                                style={spacingInputStyle}>Yes</Checkbox>
+                                            <Checkbox
+                                                isChecked={checkedCheckBox["NoButton"]}
+                                                onChange={(e) => setCheckedCheckBox({
+                                                    NoButton: e.target.checked,
+                                                    YesButton: false
+                                                })}
+                                                isDisabled={checkedCheckBox["YesButton"]}
+                                                style={spacingInputStyle}>No</Checkbox>
 
-                                    {checkedCheckBox["YesButton"] &&
-                                        <AlertNotification
-                                            alertType={"warning"}
-                                            textAlert={"Your info is stored temporarily"}
-                                        />
-                                    }
+                                            {checkedCheckBox["YesButton"] &&
+                                                <AlertNotification
+                                                    alertType={"warning"}
+                                                    textAlert={"Your info is stored temporarily"}
+                                                />
+                                            }
 
-                                </FormControl>
+                                        </FormControl>
+                                    )
+                                }
+
                             </Text>
                         </ModalBody>
 
@@ -271,7 +279,7 @@ const PopUp: React.FC<Props> = (props) => {
                                     mr={3}
                                     onClick={handleOnClick}
                                     isDisabled={isSubmitButtonDisable()}
-                                    type={"submit"}
+                                    type="submit"
                             >
                                 Submit
                             </Button>

@@ -10,3 +10,10 @@ export const getTemporaryUserInfo = (): TemporaryUser | null => {
 export const setTemporaryUserInfo = (temporaryUser: TemporaryUser): void => {
     sessionStorage.setItem(keySession, JSON.stringify(temporaryUser));
 }
+
+
+export const clearSessionStorage = (): void => {
+    sessionStorage.clear();
+}
+
+export const isTempUserActive: boolean = getTemporaryUserInfo() == null;
