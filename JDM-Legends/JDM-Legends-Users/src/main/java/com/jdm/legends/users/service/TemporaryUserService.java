@@ -3,6 +3,7 @@ package com.jdm.legends.users.service;
 import com.jdm.legends.common.dto.HistoryBid;
 import com.jdm.legends.common.dto.TemporaryUser;
 import com.jdm.legends.users.repository.TemporaryUserRepository;
+import com.jdm.legends.users.repository.WinnerUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,10 @@ public class TemporaryUserService {
         temporaryUser.addHistoryBid(historyBid);
         repository.save(temporaryUser);
         log.info("Successfully saved temporary user");
+    }
+
+    public WinnerUser getWinnerUser(Long carId) {
+        return repository.getWinnerUser(carId);
     }
 
 }

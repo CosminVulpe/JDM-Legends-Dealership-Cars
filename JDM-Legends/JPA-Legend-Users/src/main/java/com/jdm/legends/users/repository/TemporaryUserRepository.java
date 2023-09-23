@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TemporaryUserRepository extends JpaRepository<TemporaryUser, Long> {
+
     @Query(value = """
                 SELECT ts.user_name AS userName, MAX(hb.bid_value) AS bidValue
                 FROM temporary_user_history_bid tshb

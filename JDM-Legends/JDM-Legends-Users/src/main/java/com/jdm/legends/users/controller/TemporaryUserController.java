@@ -2,6 +2,7 @@ package com.jdm.legends.users.controller;
 
 import com.jdm.legends.common.dto.HistoryBidTemporaryUser;
 import com.jdm.legends.common.dto.TemporaryUser;
+import com.jdm.legends.users.repository.WinnerUser;
 import com.jdm.legends.users.service.TemporaryUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -23,5 +24,10 @@ public class TemporaryUserController {
     @GetMapping()
     public List<TemporaryUser> getAllTempUsers() {
         return service.getAllTempUsers();
+    }
+
+    @GetMapping(path = "/winner/{carId}")
+    public WinnerUser getWinner(@PathVariable Long carId){
+        return service.getWinnerUser(carId);
     }
 }
