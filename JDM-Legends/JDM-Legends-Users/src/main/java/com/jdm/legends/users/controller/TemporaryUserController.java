@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class TemporaryUserController {
     }
 
     @GetMapping(path = "/winner/{carId}")
-    public WinnerUser getWinner(@PathVariable Long carId){
+    public Optional<WinnerUser> getWinner(@PathVariable Long carId){
         return service.getWinnerUser(carId);
     }
 }

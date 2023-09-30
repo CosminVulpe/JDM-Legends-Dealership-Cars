@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -17,7 +18,7 @@ import java.util.List;
 public class TemporaryUserService {
     private final TemporaryUserRepository repository;
 
-    public List<TemporaryUser> getAllTempUsers(){
+    public List<TemporaryUser> getAllTempUsers() {
         return repository.findAll();
     }
 
@@ -27,7 +28,7 @@ public class TemporaryUserService {
         log.info("Successfully saved temporary user");
     }
 
-    public WinnerUser getWinnerUser(Long carId) {
+    public Optional<WinnerUser> getWinnerUser(Long carId) {
         return repository.getWinnerUser(carId);
     }
 
