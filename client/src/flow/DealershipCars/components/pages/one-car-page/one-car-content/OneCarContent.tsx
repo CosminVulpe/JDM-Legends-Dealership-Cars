@@ -22,7 +22,7 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
 
-    const [winner, setWinner] = useState<WinnerUser>({
+    const [winner, setWinner] = useState<WinnerUser | null>({
         userName: "",
         bidValue: BigInt(0)
     });
@@ -118,7 +118,7 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                             <div style={{marginBottom: "30px"}}>
                                 <Heading as='h3' size='lg'>OE equipment</Heading>
                                 <ul className='details_paragraph_list'>
-                                    {[...Array(5)].map((nr, index) =>
+                                    {[...Array(5)].map( (index) =>
                                         <li key={index}>16 inch alloy rims</li>
                                     )}
                                 </ul>
@@ -140,11 +140,11 @@ const OneCarContent: React.FC<Props> = ({cars}) => {
                         <CountdownTimer
                             targetDate={computeTimeDiff()}
                             carId={getCar.id}
-                            winner={winner}
+                            winner={winner as WinnerUser}
                             setWinner={setWinner}
                         />
                         {
-                            winner.userName === "" &&
+                            winner?.userName === "" &&
                             (
                                 <>
                                     <h1 className='bid_title'>Bid Information</h1>
