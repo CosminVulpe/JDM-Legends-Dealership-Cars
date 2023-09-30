@@ -1,4 +1,3 @@
-import React from "react";
 import {useEffect, useState} from 'react';
 
 export const useCountDown = (targetDate: number) => {
@@ -12,7 +11,7 @@ export const useCountDown = (targetDate: number) => {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [countDown]);
+    }, [countDown, countDownDate]);
 
     return getReturnValues(countDown);
 }
@@ -36,6 +35,5 @@ const checkTimeIsFinish = (countDown: number): boolean => {
         "Sec": getReturnValues(countDown)[3]
     };
 
-    return timeFormatObj["Days"] === 0 && timeFormatObj["Hours"] === 0
-        && timeFormatObj["Mins"] === 0 && timeFormatObj["Sec"] === 0;
+    return Object.values(timeFormatObj).every(item => item === 0)
 }

@@ -26,11 +26,7 @@ const SearchBar: React.FC<IProps> = ({cars}) => {
                         .toLowerCase());
             });
 
-        if (searchWord === "") {
-            setFilteredData([]);
-        } else {
-            setFilteredData(newFilter);
-        }
+        setFilteredData( (searchWord === "") ? []: newFilter);
     };
 
     const clearInput = () => {

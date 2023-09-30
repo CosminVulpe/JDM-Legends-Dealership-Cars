@@ -19,7 +19,7 @@ const App: React.FC = () => {
                 }
             }).catch(err => {
             if (axios.isCancel(err)) {
-                console.log("cancelled!");
+                console.error("cancelled!");
             }
         });
 

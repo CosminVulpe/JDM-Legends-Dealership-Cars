@@ -24,7 +24,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Car {
+public final class Car {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;

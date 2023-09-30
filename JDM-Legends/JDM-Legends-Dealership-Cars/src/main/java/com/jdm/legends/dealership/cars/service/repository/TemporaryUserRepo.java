@@ -1,5 +1,6 @@
 package com.jdm.legends.dealership.cars.service.repository;
 
+import com.jdm.legends.common.dto.HistoryBidTemporaryUser;
 import com.jdm.legends.common.dto.TemporaryUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +25,9 @@ public class TemporaryUserRepo {
     @Value("${jdm-legends.users.port}")
     private int serverPort;
 
-    public void saveTempUser(TemporaryUser temporaryUser) {
+    public void saveTempUser(HistoryBidTemporaryUser historyBidTemporaryUser) {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-user/save");
-        ResponseEntity<TemporaryUser> temporaryUserResponseEntity = restTemplate.postForEntity(uriComponentsBuilder.toUriString(), new HttpEntity<>(temporaryUser), TemporaryUser.class);
+        ResponseEntity<TemporaryUser> temporaryUserResponseEntity = restTemplate.postForEntity(uriComponentsBuilder.toUriString(), new HttpEntity<>(historyBidTemporaryUser), TemporaryUser.class);
 
         if (!temporaryUserResponseEntity.getStatusCode().is2xxSuccessful()) {
             throw new SaveTemporaryUserError();
