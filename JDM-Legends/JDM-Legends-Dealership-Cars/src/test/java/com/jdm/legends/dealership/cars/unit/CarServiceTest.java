@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.jdm.legends.dealership.cars.unit;
 
 import com.jdm.legends.common.dto.Car;
 import com.jdm.legends.dealership.cars.service.CarService;

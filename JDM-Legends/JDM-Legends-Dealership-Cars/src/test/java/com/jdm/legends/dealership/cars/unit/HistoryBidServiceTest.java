@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.jdm.legends.dealership.cars.unit;
 
 import com.jdm.legends.common.dto.Car;
 import com.jdm.legends.common.dto.HistoryBid;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import static java.util.Collections.emptyList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -49,7 +49,7 @@ public class HistoryBidServiceTest {
         historyBidService.bid(1L, buildRequestMockData());
 
         verify(historyBidRepository).save(any());
-        assertEquals(POTENTIAL_CLIENT, buildRequestMockData().getTemporaryUser().getRole());
+        assertThat(buildRequestMockData().getTemporaryUser().getRole()).isEqualTo(POTENTIAL_CLIENT);
         verify(temporaryUserRepo).saveTempUser(any());
     }
 
@@ -68,8 +68,6 @@ public class HistoryBidServiceTest {
                 .temporaryUsersList(Set.of(temporaryUser))
                 .build();
          return HistoryBidTemporaryUser.builder().historyBid(historyBid).temporaryUser(temporaryUser).build();
-
     }
-
 
 }
