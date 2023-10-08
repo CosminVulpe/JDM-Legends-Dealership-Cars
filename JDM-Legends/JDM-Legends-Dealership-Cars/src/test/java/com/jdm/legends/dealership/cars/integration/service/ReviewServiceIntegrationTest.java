@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpStatus.CREATED;
 
 
-public class ReviewServiceTest extends IntegrationTest{
+public class ReviewServiceIntegrationTest extends IntegrationTest{
 
     @Autowired
     private ReviewService service;
