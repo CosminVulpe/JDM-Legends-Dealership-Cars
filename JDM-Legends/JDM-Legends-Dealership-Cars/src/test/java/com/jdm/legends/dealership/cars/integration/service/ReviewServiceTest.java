@@ -1,24 +1,22 @@
 package com.jdm.legends.dealership.cars.integration.service;
 
+import com.jdm.legends.dealership.cars.integration.IntegrationTest;
 import com.jdm.legends.dealership.cars.service.ReviewService;
 import com.jdm.legends.dealership.cars.service.dto.Review;
 import com.jdm.legends.dealership.cars.service.repository.ReviewRepository;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static com.jdm.legends.dealership.cars.utils.UtilsMock.buildReviewRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpStatus.CREATED;
 
-@SpringBootTest
-@Transactional
-public class ReviewServiceTest {
+
+public class ReviewServiceTest extends IntegrationTest{
 
     @Autowired
     private ReviewService service;
@@ -26,14 +24,9 @@ public class ReviewServiceTest {
     @Autowired
     private ReviewRepository repository;
 
-    private static final String description = "Very good";
-    private static final String title = "Recommended to friends";
-    private static final int starRating = 5;
-
     @Test
-    @Order(1)
     void getRecentReviewsShouldEqualToFive() {
-        List<Review> reviewList = IntStream.range(0, 5).mapToObj(i -> repository.saveAndFlush(getReviewRequest())).toList();
+        List<Review> reviewList = IntStream.range(0, 5).mapToObj(i -> repository.saveAndFlush(buildReviewRequest())).toList();
         List<Review> recentReviews = service.getRecentReviews();
 
         assertThat(recentReviews.size()).isEqualTo(reviewList.size());
@@ -45,9 +38,8 @@ public class ReviewServiceTest {
     }
 
     @Test
-    @Order(2)
     void addReviewToDBSuccessfully() {
-        Review review = getReviewRequest();
+        Review review = buildReviewRequest();
 
         ResponseEntity<Review> reviewResponseEntity = service.addReview(review);
         Review body = reviewResponseEntity.getBody();
@@ -62,11 +54,4 @@ public class ReviewServiceTest {
         assertThat(repository.findAll().size()).isNotEqualTo(0);
     }
 
-    private Review getReviewRequest() {
-        return Review.builder()
-                .description(description)
-                .title(title)
-                .starRating(starRating)
-                .build();
-    }
 }

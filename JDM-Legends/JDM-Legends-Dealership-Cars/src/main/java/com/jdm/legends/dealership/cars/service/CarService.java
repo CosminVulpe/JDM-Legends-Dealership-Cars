@@ -41,10 +41,10 @@ public class CarService {
     }
 
     @Slf4j
-    @ResponseStatus(value = NOT_FOUND, reason = "Car with Id provided does not exist")
+    @ResponseStatus(value = NOT_FOUND)
     public static class GetCarByIdNotFoundException extends RuntimeException {
         public GetCarByIdNotFoundException() {
-            super();
+            super("Car with Id provided does not exist");
             log.error("Car with Id provided does not exist");
         }
     }
