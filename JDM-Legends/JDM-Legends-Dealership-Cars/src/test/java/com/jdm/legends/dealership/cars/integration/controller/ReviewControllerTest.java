@@ -1,18 +1,21 @@
 package com.jdm.legends.dealership.cars.integration.controller;
 
-import com.jdm.legends.dealership.cars.service.ReviewService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jdm.legends.dealership.cars.service.dto.Review;
 import com.jdm.legends.dealership.cars.service.repository.ReviewRepository;
-import com.jdm.legends.dealership.cars.utils.UtilsMock;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 import static com.jdm.legends.dealership.cars.utils.UtilsMock.buildReviewRequest;
 import static com.jdm.legends.dealership.cars.utils.UtilsMock.writeJsonAsString;
@@ -22,10 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class ReviewControllerTest {
-    @Autowired
-    private ReviewService service;
-
     @Autowired
     private ReviewRepository repository;
 
@@ -33,7 +34,7 @@ public class ReviewControllerTest {
     private MockMvc mvc;
 
     @Test
-    void addReviewController() throws Exception{
+    void addReview() throws Exception {
         Review review = buildReviewRequest();
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/review")
                 .contentType(APPLICATION_JSON)
@@ -42,6 +43,24 @@ public class ReviewControllerTest {
 
         mvc.perform(builder).andExpect(status().isCreated());
         assertThat(repository.findAll().size()).isEqualTo(1);
+    }
+
+
+    @Test
+    void getRecentReviews() throws Exception {
+        List<Review> reviewList = IntStream.range(0, 2).mapToObj(i -> repository.save(buildReviewRequest())).toList();
+
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/review")
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON);
+
+        MvcResult mvcResult = mvc.perform(builder).andExpect(status().isOk()).andReturn();
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<Review> retrievedReviewList = mapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {
+        });
+
+        assertThat(reviewList.size()).isEqualTo(retrievedReviewList.size());
     }
 
 }
