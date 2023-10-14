@@ -30,15 +30,15 @@ public class TemporaryUserRepo {
         ResponseEntity<TemporaryUser> temporaryUserResponseEntity = restTemplate.postForEntity(uriComponentsBuilder.toUriString(), new HttpEntity<>(historyBidTemporaryUser), TemporaryUser.class);
 
         if (!temporaryUserResponseEntity.getStatusCode().is2xxSuccessful()) {
-            throw new SaveTemporaryUserError();
+            throw new SaveTemporaryUserException();
         }
     }
 
 
     @Slf4j
     @ResponseStatus(value = INTERNAL_SERVER_ERROR, reason = "Error while trying to save temporary user")
-    private static class SaveTemporaryUserError extends RuntimeException {
-        public SaveTemporaryUserError() {
+    private static class SaveTemporaryUserException extends RuntimeException {
+        public SaveTemporaryUserException() {
             super();
             log.error("Error while trying to save temporary user");
         }
