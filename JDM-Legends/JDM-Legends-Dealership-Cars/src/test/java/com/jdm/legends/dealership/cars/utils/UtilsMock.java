@@ -1,6 +1,7 @@
 package com.jdm.legends.dealership.cars.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jdm.legends.common.dto.Car;
 import com.jdm.legends.common.dto.HistoryBid;
 import com.jdm.legends.common.dto.TemporaryUser;
@@ -35,9 +36,10 @@ public class UtilsMock {
     public static String writeJsonAsString(final Object obj) {
         try {
             final ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
             return mapper.writeValueAsString(obj);
         } catch (Exception e) {
-            throw new RuntimeException("Something went wrong while parsing the object", e.getCause());
+            throw new RuntimeException("Something went wrong while parsing the object", e);
         }
     }
 

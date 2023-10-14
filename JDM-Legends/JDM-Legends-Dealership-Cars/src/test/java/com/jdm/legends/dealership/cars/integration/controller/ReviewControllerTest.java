@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -21,11 +22,13 @@ import static com.jdm.legends.dealership.cars.utils.UtilsMock.buildReviewRequest
 import static com.jdm.legends.dealership.cars.utils.UtilsMock.writeJsonAsString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
+@ActiveProfiles("test-in-memory")
 public class ReviewControllerTest {
     @Autowired
     private ReviewRepository repository;
@@ -41,7 +44,11 @@ public class ReviewControllerTest {
                 .content(writeJsonAsString(review))
                 .accept(APPLICATION_JSON);
 
-        mvc.perform(builder).andExpect(status().isCreated());
+        mvc.perform(builder)
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.title").value("Recommended to friends"))
+                .andExpect(jsonPath("$.description").value("Very good"))
+                .andExpect(jsonPath("$.starRating").value(5));
         assertThat(repository.findAll().size()).isEqualTo(1);
     }
 

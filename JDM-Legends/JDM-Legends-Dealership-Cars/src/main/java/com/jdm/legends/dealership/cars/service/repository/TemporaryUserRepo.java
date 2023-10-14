@@ -15,15 +15,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Service
-@RequiredArgsConstructor
 public class TemporaryUserRepo {
     private final RestTemplate restTemplate;
+    private final String serverHost;
+    private final int serverPort;
 
-    @Value("${server.host}")
-    private String serverHost;
-
-    @Value("${jdm-legends.users.port}")
-    private int serverPort;
+    public TemporaryUserRepo(RestTemplate restTemplate, @Value("${server.host}") String serverHost, @Value("${jdm-legends.users.port}") int serverPort) {
+        this.restTemplate = restTemplate;
+        this.serverHost = serverHost;
+        this.serverPort = serverPort;
+    }
 
     public void saveTempUser(HistoryBidTemporaryUser historyBidTemporaryUser) {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-user/save");
