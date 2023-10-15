@@ -20,8 +20,8 @@
         <java.version>17</java.version>
 
         <skip.unit.tests>false</skip.unit.tests>
-        <skip.integration.tests>true</skip.integration.tests>
-        <itCoverageAgent>90</itCoverageAgent>
+        <skip.integration.tests>false</skip.integration.tests>
+        <itCoverageAgent></itCoverageAgent>
         <build-helper-maven-plugin.version>3.1.0</build-helper-maven-plugin.version>
         <maven-failsafe-plugin.version>2.19.1</maven-failsafe-plugin.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
@@ -147,7 +147,7 @@
                 <configuration>
                     <skipTests>${skip.unit.tests}</skipTests>
                     <excludes>
-                        <exclude>**/IT*.java</exclude>
+                        <exclude>**/IT.java</exclude>
                     </excludes>
                     <includes>
                         <include>**/*UnitTest.java</include>
@@ -172,7 +172,7 @@
                         <configuration>
                             <skipTests>${skip.integration.tests}</skipTests>
                             <includes>
-                                <include>**/IT*.java</include>
+                                <include>**/IT.java</include>
                             </includes>
                             <reuseForks>true</reuseForks>
                             <argLine>${itCoverageAgent}</argLine>
