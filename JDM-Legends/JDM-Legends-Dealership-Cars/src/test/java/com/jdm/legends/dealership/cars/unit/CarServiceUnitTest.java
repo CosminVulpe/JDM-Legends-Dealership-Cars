@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class CarServiceTest {
+public class CarServiceUnitTest {
     private static final long CAR_ID = 123L;
 
     @Mock

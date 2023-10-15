@@ -4,7 +4,7 @@ import com.jdm.legends.common.dto.Car;
 import com.jdm.legends.common.dto.HistoryBid;
 import com.jdm.legends.common.dto.HistoryBidTemporaryUser;
 import com.jdm.legends.common.dto.TemporaryUser;
-import com.jdm.legends.dealership.cars.integration.IntegrationTest;
+import com.jdm.legends.common.enums.Roles;
 import com.jdm.legends.dealership.cars.service.HistoryBidService;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
@@ -12,14 +12,20 @@ import com.jdm.legends.dealership.cars.service.repository.TemporaryUserRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.jdm.legends.dealership.cars.utils.UtilsMock.buildCarRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 
-public class HistoryBidIntegrationTest extends IntegrationTest {
+@SpringBootTest
+@ActiveProfiles("test-in-memory")
+@Transactional
+public class HistoryBidIT {
 
     @Autowired
     private CarRepository carRepository;
@@ -55,5 +61,6 @@ public class HistoryBidIntegrationTest extends IntegrationTest {
 
         assertThat(car.getHistoryBidList().size()).isEqualTo(2);
         assertThat(historyBidRepository.findAll()).contains(historyBid);
+        assertThat(temporaryUser.getRole()).isEqualTo(Roles.POTENTIAL_CLIENT.getValue());
     }
 }

@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @ActiveProfiles("test-in-memory")
-public class ReviewControllerTest {
+public class ReviewControllerIT {
     @Autowired
     private ReviewRepository repository;
 

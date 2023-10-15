@@ -62,7 +62,7 @@ public class UtilsMock {
                 .fullName("John Cena")
                 .userName("cannot_see_me98")
                 .emailAddress("johnCeva12@yahoo.com")
-                .role("ADMIN")
+                .role("Potential Client")
                 .checkInformationStoredTemporarily(true)
                 .build();
 

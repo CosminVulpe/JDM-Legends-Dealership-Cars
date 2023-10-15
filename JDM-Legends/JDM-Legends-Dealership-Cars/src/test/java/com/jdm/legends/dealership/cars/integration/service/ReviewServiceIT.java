@@ -1,12 +1,14 @@
 package com.jdm.legends.dealership.cars.integration.service;
 
-import com.jdm.legends.dealership.cars.integration.IntegrationTest;
 import com.jdm.legends.dealership.cars.service.ReviewService;
 import com.jdm.legends.dealership.cars.service.dto.Review;
 import com.jdm.legends.dealership.cars.service.repository.ReviewRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -15,8 +17,10 @@ import static com.jdm.legends.dealership.cars.utils.UtilsMock.buildReviewRequest
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpStatus.CREATED;
 
-
-public class ReviewServiceIntegrationTest extends IntegrationTest{
+@SpringBootTest
+@ActiveProfiles("test-in-memory")
+@Transactional
+public class ReviewServiceIT {
 
     @Autowired
     private ReviewService service;

@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test-in-memory")
 @Transactional
-public class HistoryBidControllerTest {
+public class HistoryBidControllerIT {
     @Autowired
     private MockMvc mvc;
 
