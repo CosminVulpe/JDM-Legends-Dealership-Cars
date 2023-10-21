@@ -22,6 +22,7 @@ import static com.jdm.legends.dealership.cars.utils.UtilsMock.buildReviewRequest
 import static com.jdm.legends.dealership.cars.utils.UtilsMock.writeJsonAsString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,6 +47,7 @@ public class ReviewControllerIT {
 
         mvc.perform(builder)
                 .andExpect(status().isCreated())
+                .andDo(print())
                 .andExpect(jsonPath("$.title").value("Recommended to friends"))
                 .andExpect(jsonPath("$.description").value("Very good"))
                 .andExpect(jsonPath("$.starRating").value(5));

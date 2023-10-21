@@ -4,6 +4,7 @@ import com.jdm.legends.common.dto.Car;
 import com.jdm.legends.common.dto.HistoryBid;
 import com.jdm.legends.common.dto.HistoryBidTemporaryUser;
 import com.jdm.legends.common.dto.TemporaryUser;
+import com.jdm.legends.common.enums.Roles;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
 import com.jdm.legends.dealership.cars.service.repository.TemporaryUserRepo;
@@ -57,7 +58,7 @@ public class HistoryBidControllerIT {
         TemporaryUser temporaryUser = historyBid.getTemporaryUsersList().stream().findFirst().orElse(new TemporaryUser());
         HistoryBidTemporaryUser request = HistoryBidTemporaryUser.builder().temporaryUser(temporaryUser).historyBid(historyBid).build();
 
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/history-bid/bid/{carId}",car.getId())
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/history-bid/bid/{carId}", car.getId())
                 .contentType(APPLICATION_JSON)
                 .content(writeJsonAsString(request))
                 .accept(APPLICATION_JSON);
@@ -69,6 +70,7 @@ public class HistoryBidControllerIT {
         assertThat(car.getHistoryBidList().size()).isEqualTo(2);
         assertThat(historyBidRepository.findAll().size()).isEqualTo(1);
         assertThat(temporaryUser.getEmailAddress()).isEqualTo("johnCeva12@yahoo.com");
+        assertThat(temporaryUser.getRole()).isEqualTo(Roles.POTENTIAL_CLIENT.getValue());
         verify(temporaryUserRepo, atLeastOnce()).saveTempUser(any());
     }
 }
