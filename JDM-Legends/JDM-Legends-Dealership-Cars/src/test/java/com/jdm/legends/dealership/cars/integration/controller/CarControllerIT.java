@@ -97,7 +97,7 @@ public class CarControllerIT {
     void shouldGetHistoryBidListByCarId() throws Exception {
         Car car = carRepository.findAll().get(0);
         HistoryBid carHistoryBidList = car.getHistoryBidList().get(0);
-        TemporaryUser temporaryUser = carHistoryBidList.getTemporaryUsersList().stream().findFirst().get();
+        TemporaryUser temporaryUser = carHistoryBidList.getTemporaryUsersList().stream().findFirst().orElse(new TemporaryUser());
 
         carHistoryBidList.setId(car.getId());
         temporaryUser.setId(car.getId());
