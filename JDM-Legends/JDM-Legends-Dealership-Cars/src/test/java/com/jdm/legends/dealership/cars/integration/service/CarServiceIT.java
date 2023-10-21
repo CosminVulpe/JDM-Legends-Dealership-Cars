@@ -7,6 +7,7 @@ import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
 import com.jdm.legends.dealership.cars.service.repository.TemporaryUserRepo;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -68,6 +69,7 @@ public class CarServiceIT {
     }
 
     @Test
+    @Disabled
     void getBiggestHistoryBidsPerCar() {
         //TODO
     }
@@ -78,8 +80,8 @@ public class CarServiceIT {
         List<LocalDateTime> datesCar = carService.getDatesCar(car.getId());
 
         assertThat(datesCar).isNotEmpty();
-        assertThat(datesCar.get(0)).isNotNull();
-        assertThat(datesCar.get(1)).isNotNull();
+        assertThat(datesCar.get(0)).isEqualTo(car.getStartDateCarPostedOnline().toString());
+        assertThat(datesCar.get(1)).isEqualTo(car.getDeadlineCarToSell().toString());
     }
 
 }
