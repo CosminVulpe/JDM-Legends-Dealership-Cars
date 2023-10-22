@@ -180,7 +180,7 @@ public class JDMLegendDealershipCars {
 //                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
-            carRepository.saveAll(
+            carRepository.saveAllAndFlush(
                     List.of(
                             nissan, toyota, honda, subaru, mazda, mitsubishi, infinity, lexus
                     ));

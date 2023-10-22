@@ -15,30 +15,31 @@ import org.springframework.web.util.UriComponentsBuilder;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Service
-@RequiredArgsConstructor
 public class TemporaryUserRepo {
     private final RestTemplate restTemplate;
+    private final String serverHost;
+    private final int serverPort;
 
-    @Value("${server.host}")
-    private String serverHost;
-
-    @Value("${jdm-legends.users.port}")
-    private int serverPort;
+    public TemporaryUserRepo(RestTemplate restTemplate, @Value("${server.host}") String serverHost, @Value("${jdm-legends.users.port}") int serverPort) {
+        this.restTemplate = restTemplate;
+        this.serverHost = serverHost;
+        this.serverPort = serverPort;
+    }
 
     public void saveTempUser(HistoryBidTemporaryUser historyBidTemporaryUser) {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-user/save");
         ResponseEntity<TemporaryUser> temporaryUserResponseEntity = restTemplate.postForEntity(uriComponentsBuilder.toUriString(), new HttpEntity<>(historyBidTemporaryUser), TemporaryUser.class);
 
         if (!temporaryUserResponseEntity.getStatusCode().is2xxSuccessful()) {
-            throw new SaveTemporaryUserError();
+            throw new SaveTemporaryUserException();
         }
     }
 
 
     @Slf4j
     @ResponseStatus(value = INTERNAL_SERVER_ERROR, reason = "Error while trying to save temporary user")
-    private static class SaveTemporaryUserError extends RuntimeException {
-        public SaveTemporaryUserError() {
+    private static class SaveTemporaryUserException extends RuntimeException {
+        public SaveTemporaryUserException() {
             super();
             log.error("Error while trying to save temporary user");
         }

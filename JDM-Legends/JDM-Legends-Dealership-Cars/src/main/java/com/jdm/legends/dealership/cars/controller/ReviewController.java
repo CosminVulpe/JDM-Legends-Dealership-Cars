@@ -22,7 +22,7 @@ public class ReviewController {
     }
 
     @GetMapping
-    public List<Review> getRecentReviews(){
+    public List<Review> getRecentReviews() {
         return reviewService.getRecentReviews();
     }
 

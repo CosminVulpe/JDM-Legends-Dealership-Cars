@@ -1,11 +1,9 @@
 package com.jdm.legends.common.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor

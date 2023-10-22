@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.jdm.legends.dealership.cars.unit;
 
 
 import com.jdm.legends.dealership.cars.service.ReviewService;
@@ -14,13 +14,14 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ReviewServiceTest {
+public class ReviewServiceUnitTest {
 
     @Mock
     private ReviewRepository reviewRepository;
@@ -47,7 +48,7 @@ public class ReviewServiceTest {
         ResponseEntity<Review> reviewResponseEntity = reviewService.addReview(review);
 
         verify(reviewRepository).save(review);
-        assertEquals(201, reviewResponseEntity.getStatusCodeValue());
+        assertThat(reviewResponseEntity.getStatusCodeValue()).isEqualTo(201);
     }
 
 }
