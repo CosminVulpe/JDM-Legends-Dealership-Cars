@@ -2,7 +2,6 @@ package com.jdm.legends.dealership.cars.integration.repositories;
 
 import com.jdm.legends.dealership.cars.service.dto.Review;
 import com.jdm.legends.dealership.cars.service.repository.ReviewRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test-in-memory")
 @Transactional
 public class ReviewRepositoryIT {
-    
+
     @Autowired
     private ReviewRepository reviewRepository;
 
