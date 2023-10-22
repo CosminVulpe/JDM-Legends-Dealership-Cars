@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.jdm.legends.dealership.cars.utils.UtilsMock.buildCarRequest;
+import static com.jdm.legends.common.utils.UtilsMock.buildCarRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

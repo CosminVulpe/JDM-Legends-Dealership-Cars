@@ -26,7 +26,8 @@ import java.util.List;
 
 import static com.jdm.legends.common.enums.CarColor.BLACK;
 import static com.jdm.legends.common.enums.CarCompany.TOYOTA;
-import static com.jdm.legends.dealership.cars.utils.UtilsMock.buildCarRequest;
+import static com.jdm.legends.common.utils.UtilsMock.buildCarRequest;
+import static com.jdm.legends.common.utils.UtilsMock.writeJsonAsString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -137,7 +138,7 @@ public class CarControllerIT {
     private void saveTempUser(TemporaryUser temporaryUser) throws Exception{
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post(serverHost + serverPort + "/temporary-user/save")
                 .contentType(APPLICATION_JSON)
-                .content(UtilsMock.writeJsonAsString(temporaryUser))
+                .content(writeJsonAsString(temporaryUser))
                 .accept(APPLICATION_JSON);
         mvc.perform(builder)
                 .andExpect(status().isOk());

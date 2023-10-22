@@ -20,8 +20,8 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.jdm.legends.dealership.cars.utils.UtilsMock.buildCarRequest;
-import static com.jdm.legends.dealership.cars.utils.UtilsMock.writeJsonAsString;
+import static com.jdm.legends.common.utils.UtilsMock.buildCarRequest;
+import static com.jdm.legends.common.utils.UtilsMock.writeJsonAsString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
