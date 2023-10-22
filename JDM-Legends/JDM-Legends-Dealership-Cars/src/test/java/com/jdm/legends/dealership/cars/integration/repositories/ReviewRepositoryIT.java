@@ -19,9 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test-in-memory")
 @Transactional
 public class ReviewRepositoryIT {
+    
     @Autowired
     private ReviewRepository reviewRepository;
-
 
     @Test
     void shouldGetRecentReviews() {
