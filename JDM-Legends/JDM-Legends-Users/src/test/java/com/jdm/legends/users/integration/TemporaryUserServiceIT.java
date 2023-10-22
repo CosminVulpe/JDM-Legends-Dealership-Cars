@@ -4,8 +4,8 @@ import com.jdm.legends.common.dto.Car;
 import com.jdm.legends.common.dto.HistoryBid;
 import com.jdm.legends.common.dto.HistoryBidTemporaryUser;
 import com.jdm.legends.common.dto.TemporaryUser;
+import com.jdm.legends.common.utils.UtilsMock;
 import com.jdm.legends.users.repository.TemporaryUserRepository;
-import com.jdm.legends.users.utils.UtilsMock;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.jdm.legends.common.utils.UtilsMock.buildCarRequest;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -36,7 +37,7 @@ public class TemporaryUserServiceIT {
 
     @Test
     void shouldSaveTempUserSuccessfully() throws Exception {
-        Car car = UtilsMock.buildCarRequest();
+        Car car = buildCarRequest();
         HistoryBid historyBid = car.getHistoryBidList().get(0);
         TemporaryUser temporaryUser = historyBid.getTemporaryUsersList().stream().findFirst().orElse(new TemporaryUser());
 
@@ -56,7 +57,7 @@ public class TemporaryUserServiceIT {
 
     @Test
     void shouldGetAllTempUsers() throws Exception {
-        Car car = UtilsMock.buildCarRequest();
+        Car car = buildCarRequest();
         HistoryBid historyBid = car.getHistoryBidList().get(0);
         TemporaryUser temporaryUser = historyBid.getTemporaryUsersList().stream().findFirst().orElse(new TemporaryUser());
 
@@ -77,7 +78,7 @@ public class TemporaryUserServiceIT {
     @Test
     @Disabled
     void shouldGetWinnerCarBid() throws Exception {
-        Car car = UtilsMock.buildCarRequest();
+        Car car = buildCarRequest();
 
 
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/temporary-user/winner/{carId}", car.getId())
@@ -87,7 +88,6 @@ public class TemporaryUserServiceIT {
         mvc.perform(builder)
                 .andExpect(status().isOk())
                 .andDo(print());
-
     }
 
 }
