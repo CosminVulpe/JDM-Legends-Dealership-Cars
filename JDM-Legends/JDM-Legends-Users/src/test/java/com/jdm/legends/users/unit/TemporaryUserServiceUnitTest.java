@@ -17,15 +17,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-public class TemporaryUserServiceUnitTest {
+class TemporaryUserServiceUnitTest {
 
     @Mock
     private TemporaryUserRepository repository;
@@ -40,9 +40,9 @@ public class TemporaryUserServiceUnitTest {
         List<TemporaryUser> allTempUsers = temporaryUserService.getAllTempUsers();
 
         verify(repository).findAll();
-        assertFalse(allTempUsers.isEmpty());
-
+        assertThat(allTempUsers).isNotEmpty();
         assertEquals(getTempUsersMockData().size(), allTempUsers.size());
+        assertThat(getTempUsersMockData()).hasSameSizeAs(allTempUsers);
     }
 
     @Test

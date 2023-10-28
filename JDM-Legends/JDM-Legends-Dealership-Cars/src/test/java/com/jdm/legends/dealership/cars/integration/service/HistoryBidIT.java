@@ -25,7 +25,7 @@ import static org.mockito.Mockito.doNothing;
 @SpringBootTest
 @ActiveProfiles("test-in-memory")
 @Transactional
-public class HistoryBidIT {
+class HistoryBidIT {
 
     @Autowired
     private CarRepository carRepository;
@@ -39,15 +39,9 @@ public class HistoryBidIT {
     @MockBean
     private TemporaryUserRepo temporaryUserRepo;
 
-    @BeforeEach
-    void setUpDB() {
-        carRepository.deleteAll();
-        carRepository.save(buildCarRequest());
-    }
-
     @Test
     void bidPerCarSuccessfully() {
-        Car car = carRepository.findAll().get(0);
+        Car car = carRepository.save(buildCarRequest());
         HistoryBid historyBid = car.getHistoryBidList().get(0);
         TemporaryUser temporaryUser = historyBid.getTemporaryUsersList().stream().findFirst().get();
 
@@ -59,7 +53,7 @@ public class HistoryBidIT {
 
         historyBidService.bid(car.getId(), build);
 
-        assertThat(car.getHistoryBidList().size()).isEqualTo(2);
+        assertThat(car.getHistoryBidList()).hasSize(2);
         assertThat(historyBidRepository.findAll()).contains(historyBid);
         assertThat(temporaryUser.getRole()).isEqualTo(Roles.POTENTIAL_CLIENT.getValue());
     }

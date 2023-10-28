@@ -4,8 +4,6 @@ import com.jdm.legends.common.dto.Car;
 import com.jdm.legends.dealership.cars.service.CarService;
 import com.jdm.legends.dealership.cars.service.CarService.GetCarByIdNotFoundException;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
-import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
-import com.jdm.legends.dealership.cars.service.repository.TemporaryUserRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -24,30 +22,23 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @SpringBootTest
 @ActiveProfiles("test-in-memory")
 @Transactional
-public class CarServiceIT {
+class CarServiceIT {
 
     @Autowired
     private CarRepository carRepository;
-
-    @Autowired
-    private HistoryBidRepository historyBidRepository;
-
-    @Autowired
-    private TemporaryUserRepo temporaryUserRepo;
 
     @Autowired
     private CarService carService;
 
     @BeforeEach
     void setUpDB() {
-        carRepository.deleteAll();
         carRepository.save(buildCarRequest());
     }
 
     @Test
     void getAllCars() {
         List<Car> allCars = carService.getAllCars();
-        assertThat(allCars.size()).isEqualTo(1);
+        assertThat(allCars).hasSize(1);
     }
 
     @Test
@@ -58,7 +49,7 @@ public class CarServiceIT {
         assertThat(carById.getCarName()).isEqualTo(car.getCarName());
         assertThat(carById.getKm()).isEqualTo(car.getKm());
         assertThat(carById.getInitialPrice()).isEqualTo(car.getInitialPrice());
-        assertThat(carById.getHistoryBidList().size()).isEqualTo(1);
+        assertThat(carById.getHistoryBidList()).hasSize(1);
     }
 
     @Test
@@ -69,9 +60,8 @@ public class CarServiceIT {
     }
 
     @Test
-    @Disabled
+    @Disabled("Test is under development")
     void getBiggestHistoryBidsPerCar() {
-        //TODO
     }
 
     @Test

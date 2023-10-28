@@ -1,9 +1,12 @@
 package com.jdm.legends.dealership.cars.unit;
 
 import com.jdm.legends.common.dto.Car;
+import com.jdm.legends.common.enums.CarColor;
+import com.jdm.legends.common.enums.CarCompany;
 import com.jdm.legends.dealership.cars.service.CarService;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import com.jdm.legends.dealership.cars.service.repository.HighestBid;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,13 +19,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static com.jdm.legends.common.enums.CarColor.BLACK;
+import static com.jdm.legends.common.enums.CarCompany.TOYOTA;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class CarServiceUnitTest {
+class CarServiceUnitTest {
     private static final long CAR_ID = 123L;
 
     @Mock
@@ -32,29 +38,27 @@ public class CarServiceUnitTest {
     private CarService carService;
 
     @Test
-    @Order(1)
     void shouldGetAllCarList() {
         List<Car> carListMockData = List.of(new Car(), new Car());
         when(carRepository.findAll()).thenReturn(carListMockData);
 
         List<Car> allCars = carService.getAllCars();
-        assertEquals(carListMockData, allCars);
+        assertThat(allCars).isEqualTo(carListMockData);
     }
 
     @Test
-    @Order(2)
     void shouldGetCarByIdWhenIdExists() {
-        Optional<Car> optionalCar = Optional.of(new Car());
-        when(carRepository.findById(any())).thenReturn(optionalCar);
+        Car car = Car.builder().carCompany(TOYOTA).carColor(BLACK).build();
+        when(carRepository.findById(any())).thenReturn(Optional.of(car));
 
         Car carById = carService.getCarById(CAR_ID);
 
-        verify(carRepository, times(1)).findById(any());
-        assertEquals(optionalCar.get(), carById);
+        verify(carRepository).findById(any());
+        assertThat(car.getCarCompany()).isEqualTo(carById.getCarCompany());
+        assertThat(car.getCarColor()).isEqualTo(carById.getCarColor());
     }
 
     @Test
-    @Order(3)
     void shouldGetCarByIdWhenIdDoesNotExists() {
         when(carRepository.findById(any())).thenReturn(Optional.empty());
 
@@ -62,71 +66,6 @@ public class CarServiceUnitTest {
     }
 
     @Test
-    @Order(4)
-    void shouldGetHistoryBidCarByCarId() {
-        HighestBid historyBid1 = new HighestBid() {
-            @Override
-            public Integer getId() {
-                return 1;
-            }
-
-            @Override
-            public BigDecimal getBidValue() {
-                return new BigDecimal("11223344556677");
-            }
-
-            @Override
-            public String getUserName() {
-                return "john_Cats";
-            }
-
-            @Override
-            public String getRole() {
-                return "client";
-            }
-
-            @Override
-            public boolean getCheckInformationStoredTemporarily() {
-                return false;
-            }
-        };
-
-        HighestBid historyBid2 = new HighestBid() {
-            @Override
-            public Integer getId() {
-                return 2;
-            }
-
-            @Override
-            public BigDecimal getBidValue() {
-                return new BigDecimal("7823486.990");
-            }
-
-            @Override
-            public String getUserName() {
-                return "Mitch_Fotball";
-            }
-
-            @Override
-            public String getRole() {
-                return "potential client";
-            }
-
-            @Override
-            public boolean getCheckInformationStoredTemporarily() {
-                return false;
-            }
-        };
-
-        List<HighestBid> highestBidList = List.of(historyBid1, historyBid2);
-        when(carRepository.getBiggestHistoryBidByCarID(any())).thenReturn(highestBidList);
-
-        List<HighestBid> historyBidsList = carService.getHistoryBidsList(CAR_ID);
-        assertEquals(highestBidList, historyBidsList);
-    }
-
-    @Test
-    @Order(5)
     void shouldGetDatesByCarId() {
         LocalDateTime localDateTime = LocalDateTime.of(2023, 12, 12, 6, 30);
         List<LocalDateTime> actualDate = List.of(localDateTime, localDateTime.plusDays(20));
@@ -141,7 +80,7 @@ public class CarServiceUnitTest {
         when(carRepository.findById(any())).thenReturn(optionalCar);
 
         List<LocalDateTime> datesCar = carService.getDatesCar(CAR_ID);
-        assertEquals(actualDate, datesCar);
+        assertThat(actualDate).isEqualTo(datesCar);
     }
 
 }

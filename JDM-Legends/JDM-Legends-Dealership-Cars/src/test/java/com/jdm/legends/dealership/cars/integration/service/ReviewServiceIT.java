@@ -13,14 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static com.jdm.legends.dealership.cars.utils.UtilsMock.buildReviewRequest;
+import static com.jdm.legends.dealership.cars.utils.TestData.buildReviewRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @SpringBootTest
 @ActiveProfiles("test-in-memory")
 @Transactional
-public class ReviewServiceIT {
+class ReviewServiceIT {
 
     @Autowired
     private ReviewService service;
@@ -33,7 +33,7 @@ public class ReviewServiceIT {
         List<Review> reviewList = IntStream.range(0, 5).mapToObj(i -> repository.saveAndFlush(buildReviewRequest())).toList();
         List<Review> recentReviews = service.getRecentReviews();
 
-        assertThat(recentReviews.size()).isEqualTo(reviewList.size());
+        assertThat(recentReviews.size()).isSameAs(reviewList.size());
         IntStream.range(0, 5).forEach(nr -> {
             assertThat(recentReviews.get(nr).getDescription()).isEqualTo(reviewList.get(nr).getDescription());
             assertThat(recentReviews.get(nr).getTitle()).isEqualTo(reviewList.get(nr).getTitle());
@@ -55,7 +55,7 @@ public class ReviewServiceIT {
 
         Review savedReview = repository.findAll().get(0);
         assertThat(savedReview).isEqualTo(review);
-        assertThat(repository.findAll().size()).isNotEqualTo(0);
+        assertThat(repository.findAll().size()).isNotZero();
     }
 
 }

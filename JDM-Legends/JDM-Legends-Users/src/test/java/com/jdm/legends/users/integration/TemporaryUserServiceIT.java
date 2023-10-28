@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @ActiveProfiles("test-in-memory")
-public class TemporaryUserServiceIT {
+class TemporaryUserServiceIT {
 
     @Autowired
     private MockMvc mvc;
@@ -51,8 +51,7 @@ public class TemporaryUserServiceIT {
                 .content(UtilsMock.writeJsonAsString(request))
                 .accept(APPLICATION_JSON);
 
-        mvc.perform(builder)
-                .andExpect(status().isOk());
+        mvc.perform(builder).andExpect(status().isOk());
     }
 
     @Test
@@ -63,9 +62,7 @@ public class TemporaryUserServiceIT {
 
         repository.save(temporaryUser);
 
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/temporary-user")
-                .contentType(APPLICATION_JSON)
-                .accept(APPLICATION_JSON);
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/temporary-user").accept(APPLICATION_JSON);
 
         mvc.perform(builder)
                 .andExpect(status().isOk())
@@ -76,18 +73,15 @@ public class TemporaryUserServiceIT {
     }
 
     @Test
-    @Disabled
+    @Disabled("Under development")
     void shouldGetWinnerCarBid() throws Exception {
         Car car = buildCarRequest();
-
 
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/temporary-user/winner/{carId}", car.getId())
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON);
-
         mvc.perform(builder)
                 .andExpect(status().isOk())
                 .andDo(print());
     }
-
 }

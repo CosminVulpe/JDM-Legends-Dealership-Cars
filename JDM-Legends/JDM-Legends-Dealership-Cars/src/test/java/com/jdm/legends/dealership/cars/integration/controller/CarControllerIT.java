@@ -7,12 +7,10 @@ import com.jdm.legends.common.dto.HistoryBid;
 import com.jdm.legends.common.dto.TemporaryUser;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
-import com.jdm.legends.dealership.cars.utils.UtilsMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -27,7 +25,6 @@ import java.util.List;
 import static com.jdm.legends.common.enums.CarColor.BLACK;
 import static com.jdm.legends.common.enums.CarCompany.TOYOTA;
 import static com.jdm.legends.common.utils.UtilsMock.buildCarRequest;
-import static com.jdm.legends.common.utils.UtilsMock.writeJsonAsString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -38,7 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test-in-memory")
 @Transactional
-public class CarControllerIT {
+class CarControllerIT {
+
     @Autowired
     private MockMvc mvc;
 
@@ -48,37 +46,24 @@ public class CarControllerIT {
     @Autowired
     private HistoryBidRepository historyBidRepository;
 
-    @Value("${server.host}")
-    private String serverHost;
-
-    @Value("${jdm-legends.users.port}")
-    private int serverPort;
-
-
     @BeforeEach()
-    void cleanDB() {
-        carRepository.deleteAll();
+    void insertDB() {
         carRepository.save(buildCarRequest());
     }
 
     @Test
     void shouldGetAllCarsFromDB() throws Exception {
-        MockHttpServletRequestBuilder mock = MockMvcRequestBuilders.get("/car")
-                .contentType(APPLICATION_JSON)
-                .accept(APPLICATION_JSON);
-
+        MockHttpServletRequestBuilder mock = MockMvcRequestBuilders.get("/car").accept(APPLICATION_JSON);
         mvc.perform(mock).andExpect(status().isOk());
 
         List<Car> allCars = carRepository.findAll();
-        assertThat(allCars.size()).isNotEqualTo(0);
+        assertThat(allCars.size()).isNotZero();
     }
 
     @Test
     void shouldGetOneCarById() throws Exception {
         Car car = carRepository.findAll().get(0);
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/car/{carId}", car.getId())
-                .contentType(APPLICATION_JSON)
-                .accept(APPLICATION_JSON);
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/car/{carId}", car.getId()).accept(APPLICATION_JSON);
 
         mvc.perform(builder)
                 .andExpect(status().isOk())
@@ -90,11 +75,11 @@ public class CarControllerIT {
                 .andExpect(jsonPath("$.historyBidList[0].temporaryUsersList").isNotEmpty());
 
         List<Car> allCars = carRepository.findAll();
-        assertThat(allCars.size()).isNotEqualTo(0);
+        assertThat(allCars.size()).isNotZero();
     }
 
     @Test
-    @Disabled
+    @Disabled("The test is under development")
     void shouldGetHistoryBidListByCarId() throws Exception {
         Car car = carRepository.findAll().get(0);
         HistoryBid carHistoryBidList = car.getHistoryBidList().get(0);
@@ -133,15 +118,6 @@ public class CarControllerIT {
         assertThat(datesResponse).isNotEmpty();
         assertThat(datesResponse.get(0)).isEqualTo(car.getStartDateCarPostedOnline().toString());
         assertThat(datesResponse.get(1)).isEqualTo(car.getDeadlineCarToSell().toString());
-    }
-
-    private void saveTempUser(TemporaryUser temporaryUser) throws Exception{
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post(serverHost + serverPort + "/temporary-user/save")
-                .contentType(APPLICATION_JSON)
-                .content(writeJsonAsString(temporaryUser))
-                .accept(APPLICATION_JSON);
-        mvc.perform(builder)
-                .andExpect(status().isOk());
     }
 
 }

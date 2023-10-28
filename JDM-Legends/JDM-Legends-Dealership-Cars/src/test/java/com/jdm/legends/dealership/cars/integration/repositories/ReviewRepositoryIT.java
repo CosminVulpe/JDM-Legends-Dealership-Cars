@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static com.jdm.legends.dealership.cars.utils.UtilsMock.buildReviewRequest;
+import static com.jdm.legends.dealership.cars.utils.TestData.buildReviewRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test-in-memory")
 @Transactional
-public class ReviewRepositoryIT {
+class ReviewRepositoryIT {
 
     @Autowired
     private ReviewRepository reviewRepository;
@@ -27,8 +27,6 @@ public class ReviewRepositoryIT {
         IntStream.range(0, 7).forEach(item-> reviewRepository.save(buildReviewRequest()));
 
         List<Review> recentReviews = reviewRepository.getRecentReviews();
-
-        assertThat(recentReviews).isNotEmpty();
-        assertThat(recentReviews.size()).isEqualTo(5);
+        assertThat(recentReviews).hasSize(5);
     }
 }

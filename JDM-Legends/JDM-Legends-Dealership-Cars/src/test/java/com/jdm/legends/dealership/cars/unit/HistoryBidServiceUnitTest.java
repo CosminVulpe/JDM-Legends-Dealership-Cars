@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class HistoryBidServiceUnitTest {
+class HistoryBidServiceUnitTest {
 
     private static final String POTENTIAL_CLIENT = "Potential Client";
 
