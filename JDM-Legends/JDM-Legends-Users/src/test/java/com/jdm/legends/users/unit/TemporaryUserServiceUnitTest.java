@@ -5,7 +5,6 @@ import com.jdm.legends.common.dto.HistoryBid;
 import com.jdm.legends.common.dto.TemporaryUser;
 import com.jdm.legends.users.repository.TemporaryUserRepository;
 import com.jdm.legends.users.service.TemporaryUserService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,7 +19,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
