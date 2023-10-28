@@ -8,7 +8,6 @@ import com.jdm.legends.common.enums.Roles;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
 import com.jdm.legends.dealership.cars.service.repository.TemporaryUserRepo;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -32,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test-in-memory")
 @Transactional
-public class HistoryBidControllerIT {
+class HistoryBidControllerIT {
     @Autowired
     private MockMvc mvc;
 
@@ -44,11 +43,6 @@ public class HistoryBidControllerIT {
 
     @MockBean
     private TemporaryUserRepo temporaryUserRepo;
-
-    @BeforeEach
-    void init() {
-        carRepository.deleteAll();
-    }
 
 
     @Test
@@ -67,8 +61,8 @@ public class HistoryBidControllerIT {
 
         mvc.perform(builder).andExpect(status().isOk());
 
-        assertThat(car.getHistoryBidList().size()).isEqualTo(2);
-        assertThat(historyBidRepository.findAll().size()).isEqualTo(1);
+        assertThat(car.getHistoryBidList()).hasSize(2);
+        assertThat(historyBidRepository.findAll()).hasSize(1);
         assertThat(temporaryUser.getEmailAddress()).isEqualTo("johnCeva12@yahoo.com");
         assertThat(temporaryUser.getRole()).isEqualTo(Roles.POTENTIAL_CLIENT.getValue());
         verify(temporaryUserRepo, atLeastOnce()).saveTempUser(any());

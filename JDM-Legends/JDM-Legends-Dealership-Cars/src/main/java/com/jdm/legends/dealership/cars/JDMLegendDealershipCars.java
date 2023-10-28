@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class JDMLegendDealershipCars {
 
 
     @Bean
+    @Profile("!test-in-memory")
     CommandLineRunner commandLineRunner(CarRepository carRepository) {
         return args -> {
             Car nissan = Car
