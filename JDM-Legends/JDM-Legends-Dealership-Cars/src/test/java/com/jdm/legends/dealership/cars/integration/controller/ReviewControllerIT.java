@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @ActiveProfiles("test-in-memory")
-public class ReviewControllerIT {
+class ReviewControllerIT {
     @Autowired
     private ReviewRepository repository;
 
@@ -51,7 +51,7 @@ public class ReviewControllerIT {
                 .andExpect(jsonPath("$.title").value("Recommended to friends"))
                 .andExpect(jsonPath("$.description").value("Very good"))
                 .andExpect(jsonPath("$.starRating").value(5));
-        assertThat(repository.findAll().size()).isEqualTo(1);
+        assertThat(repository.findAll()).hasSize(1);
     }
 
 
@@ -69,7 +69,7 @@ public class ReviewControllerIT {
         List<Review> retrievedReviewList = mapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {
         });
 
-        assertThat(reviewList.size()).isEqualTo(retrievedReviewList.size());
+        assertThat(reviewList.size()).isSameAs(retrievedReviewList.size());
     }
 
 }
