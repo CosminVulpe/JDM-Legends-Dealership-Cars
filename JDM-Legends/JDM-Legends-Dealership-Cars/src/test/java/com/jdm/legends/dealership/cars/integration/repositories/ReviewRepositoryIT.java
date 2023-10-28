@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static com.jdm.legends.dealership.cars.utils.UtilsMock.buildReviewRequest;
+import static com.jdm.legends.dealership.cars.utils.TestData.buildReviewRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
