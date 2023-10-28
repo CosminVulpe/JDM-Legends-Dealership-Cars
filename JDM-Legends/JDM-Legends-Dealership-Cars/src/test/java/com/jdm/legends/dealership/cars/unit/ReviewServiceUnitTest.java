@@ -21,7 +21,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ReviewServiceUnitTest {
+class ReviewServiceUnitTest {
 
     @Mock
     private ReviewRepository reviewRepository;
@@ -30,13 +30,12 @@ public class ReviewServiceUnitTest {
     private ReviewService reviewService;
 
     @Test
-    @Order(1)
     void shouldGetAllReviewSuccessfully() {
         List<Review> reviewList = List.of(new Review(), new Review());
         when(reviewRepository.getRecentReviews()).thenReturn(reviewList);
 
         List<Review> recentReviews = reviewService.getRecentReviews();
-        assertEquals(reviewList, recentReviews);
+        assertThat(recentReviews).isEqualTo(reviewList);
     }
 
     @Test
