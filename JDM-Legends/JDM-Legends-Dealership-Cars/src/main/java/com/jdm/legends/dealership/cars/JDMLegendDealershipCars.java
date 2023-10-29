@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ import static java.time.LocalDateTime.now;
 
 
 @EntityScan(basePackages = {"com.jdm.legends.common", "com.jdm.legends.dealership.cars"})
+@EnableWebMvc
 @SpringBootApplication
 public class JDMLegendDealershipCars {
 

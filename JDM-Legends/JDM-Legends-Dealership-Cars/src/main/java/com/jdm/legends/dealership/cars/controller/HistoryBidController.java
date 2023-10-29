@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000/", allowedHeaders = "*")
 @RequestMapping(path = "/history-bid")
 @RequiredArgsConstructor
 public class HistoryBidController {
