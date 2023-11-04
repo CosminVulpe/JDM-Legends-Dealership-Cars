@@ -26,7 +26,11 @@ public class TestData {
     private static final int starRating = 5;
 
     public static ReviewDTO buildReviewRequest() {
-        return new ReviewDTO(title,description,starRating);
+        return new ReviewDTO(title, description, starRating);
+    }
+
+    public static ReviewDTO buildReviewRequest(String title, String description, int starRating) {
+        return new ReviewDTO(title, description, starRating);
     }
 
     public static String writeJsonAsString(final Object obj) {

@@ -60,6 +60,17 @@ class ReviewControllerIT implements Mapper<ReviewDTO, Review> {
     }
 
     @Test
+    void shouldGiveStatusBadRequestWhenAddingReview() throws Exception {
+        ReviewDTO review = buildReviewRequest("h","y",-1);
+
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/review/add")
+                .contentType(APPLICATION_JSON)
+                .content(writeJsonAsString(review))
+                .accept(APPLICATION_JSON);
+        mvc.perform(builder).andExpect(status().isBadRequest());
+    }
+
+    @Test
     void getRecentReviews() throws Exception {
         List<Review> reviewList = IntStream.range(0, 2).mapToObj(i -> repository.save(map(buildReviewRequest()))).toList();
 

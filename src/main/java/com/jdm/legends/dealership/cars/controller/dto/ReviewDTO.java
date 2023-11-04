@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 
 public record ReviewDTO(
         @NotEmpty
-        @Size(min = 4,max = 35)
+        @Size(min = 4, max = 35)
         String title,
 
         @NotEmpty
