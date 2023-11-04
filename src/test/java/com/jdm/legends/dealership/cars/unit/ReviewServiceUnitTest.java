@@ -2,7 +2,7 @@ package com.jdm.legends.dealership.cars.unit;
 
 
 import com.jdm.legends.dealership.cars.service.ReviewService;
-import com.jdm.legends.dealership.cars.service.dto.Review;
+import com.jdm.legends.dealership.cars.service.entity.Review;
 import com.jdm.legends.dealership.cars.service.repository.ReviewRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,7 +41,7 @@ class ReviewServiceUnitTest {
         Review review = new Review();
         when(reviewRepository.save(any())).thenReturn(review);
 
-        ResponseEntity<Review> reviewResponseEntity = reviewService.addReview(review);
+        ResponseEntity<Review> reviewResponseEntity = reviewService.addReview(null);
 
         verify(reviewRepository).save(review);
         assertThat(reviewResponseEntity.getStatusCodeValue()).isEqualTo(201);

@@ -1,7 +1,9 @@
 package com.jdm.legends.dealership.cars.integration.service;
 
+import com.jdm.legends.dealership.cars.controller.dto.ReviewDTO;
 import com.jdm.legends.dealership.cars.service.ReviewService;
-import com.jdm.legends.dealership.cars.service.dto.Review;
+import com.jdm.legends.dealership.cars.service.entity.Review;
+import com.jdm.legends.dealership.cars.service.mapping.Mapper;
 import com.jdm.legends.dealership.cars.service.repository.ReviewRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @SpringBootTest
 @ActiveProfiles("test-in-memory")
 @Transactional
-class ReviewServiceIT {
+class ReviewServiceIT implements Mapper<ReviewDTO,Review> {
 
     @Autowired
     private ReviewService service;
@@ -30,7 +32,7 @@ class ReviewServiceIT {
 
     @Test
     void getRecentReviewsShouldEqualToFive() {
-        List<Review> reviewList = IntStream.range(0, 5).mapToObj(i -> repository.saveAndFlush(buildReviewRequest())).toList();
+        List<Review> reviewList = IntStream.range(0, 5).mapToObj(i -> repository.saveAndFlush(map(buildReviewRequest()))).toList();
         List<Review> recentReviews = service.getRecentReviews();
 
         assertThat(recentReviews.size()).isSameAs(reviewList.size());
@@ -43,9 +45,9 @@ class ReviewServiceIT {
 
     @Test
     void addReviewToDBSuccessfully() {
-        Review review = buildReviewRequest();
+        Review review = map(buildReviewRequest());
 
-        ResponseEntity<Review> reviewResponseEntity = service.addReview(review);
+        ResponseEntity<Review> reviewResponseEntity = service.addReview(null);
         Review body = reviewResponseEntity.getBody();
 
         assertThat(reviewResponseEntity.getStatusCode()).isEqualTo(CREATED);
@@ -56,6 +58,15 @@ class ReviewServiceIT {
         Review savedReview = repository.findAll().get(0);
         assertThat(savedReview).isEqualTo(review);
         assertThat(repository.findAll().size()).isNotZero();
+    }
+
+    @Override
+    public Review map(ReviewDTO source) {
+        return Review.builder()
+                .description(source.description())
+                .title(source.title())
+                .starRating(source.starRating())
+                .build();
     }
 
 }

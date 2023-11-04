@@ -2,9 +2,9 @@ package com.jdm.legends.dealership.cars.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.jdm.legends.dealership.cars.controller.dto.ReviewDTO;
 import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
-import com.jdm.legends.dealership.cars.service.dto.Review;
 import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
 
 import java.math.BigDecimal;
@@ -25,12 +25,8 @@ public class TestData {
     private static final String title = "Recommended to friends";
     private static final int starRating = 5;
 
-    public static Review buildReviewRequest() {
-        return Review.builder()
-                .description(description)
-                .title(title)
-                .starRating(starRating)
-                .build();
+    public static ReviewDTO buildReviewRequest() {
+        return new ReviewDTO(title,description,starRating);
     }
 
     public static String writeJsonAsString(final Object obj) {

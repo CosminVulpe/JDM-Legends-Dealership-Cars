@@ -1,17 +1,14 @@
-package com.jdm.legends.dealership.cars.service.dto;
+package com.jdm.legends.dealership.cars.service.entity;
 
 import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-
-@Entity(name = "Review")
-@Table
+@Entity
 @Data
 @Builder
 @AllArgsConstructor

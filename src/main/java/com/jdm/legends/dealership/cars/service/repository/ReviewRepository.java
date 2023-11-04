@@ -1,6 +1,6 @@
 package com.jdm.legends.dealership.cars.service.repository;
 
-import com.jdm.legends.dealership.cars.service.dto.Review;
+import com.jdm.legends.dealership.cars.service.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
