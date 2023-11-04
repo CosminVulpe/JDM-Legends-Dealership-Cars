@@ -1,15 +1,14 @@
 package com.jdm.legends.dealership.cars.integration.service;
 
-import com.jdm.legends.common.dto.Car;
-import com.jdm.legends.common.dto.HistoryBid;
-import com.jdm.legends.common.dto.HistoryBidTemporaryUser;
-import com.jdm.legends.common.dto.TemporaryUser;
-import com.jdm.legends.common.enums.Roles;
 import com.jdm.legends.dealership.cars.service.HistoryBidService;
+import com.jdm.legends.dealership.cars.service.dto.Car;
+import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
+import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUser;
+import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
+import com.jdm.legends.dealership.cars.service.enums.Roles;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
 import com.jdm.legends.dealership.cars.service.repository.TemporaryUserRepo;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.jdm.legends.common.utils.UtilsMock.buildCarRequest;
+import static com.jdm.legends.dealership.cars.utils.TestData.buildCarRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;

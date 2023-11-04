@@ -4,7 +4,6 @@ package com.jdm.legends.dealership.cars.unit;
 import com.jdm.legends.dealership.cars.service.ReviewService;
 import com.jdm.legends.dealership.cars.service.dto.Review;
 import com.jdm.legends.dealership.cars.service.repository.ReviewRepository;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,7 +37,6 @@ class ReviewServiceUnitTest {
     }
 
     @Test
-    @Order(2)
     void shouldAddReviewSuccessfullyIntoDB() {
         Review review = new Review();
         when(reviewRepository.save(any())).thenReturn(review);

@@ -1,28 +1,21 @@
 package com.jdm.legends.dealership.cars.unit;
 
-import com.jdm.legends.common.dto.Car;
-import com.jdm.legends.common.enums.CarColor;
-import com.jdm.legends.common.enums.CarCompany;
 import com.jdm.legends.dealership.cars.service.CarService;
+import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
-import com.jdm.legends.dealership.cars.service.repository.HighestBid;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static com.jdm.legends.common.enums.CarColor.BLACK;
-import static com.jdm.legends.common.enums.CarCompany.TOYOTA;
+import static com.jdm.legends.dealership.cars.service.enums.CarColor.BLACK;
+import static com.jdm.legends.dealership.cars.service.enums.CarCompany.TOYOTA;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;

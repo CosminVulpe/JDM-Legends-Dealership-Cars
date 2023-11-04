@@ -1,7 +1,7 @@
 package com.jdm.legends.dealership.cars.controller;
 
-import com.jdm.legends.common.dto.Car;
 import com.jdm.legends.dealership.cars.service.CarService;
+import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.repository.HighestBid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static com.jdm.legends.common.utils.UtilsMock.writeJsonAsString;
 import static com.jdm.legends.dealership.cars.utils.TestData.buildReviewRequest;
+import static com.jdm.legends.dealership.cars.utils.TestData.writeJsonAsString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

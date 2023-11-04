@@ -1,12 +1,10 @@
 package com.jdm.legends.dealership.cars;
 
-import com.jdm.legends.common.dto.Car;
-import com.jdm.legends.common.enums.CarFuelType;
+import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.client.RestTemplate;
@@ -14,17 +12,16 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.List;
 
-import static com.jdm.legends.common.enums.CarColor.*;
-import static com.jdm.legends.common.enums.CarCompany.*;
-import static com.jdm.legends.common.enums.CarFuelType.DIESEL;
-import static com.jdm.legends.common.enums.CarFuelType.GASOLINE;
-import static com.jdm.legends.common.enums.CarTransmissionType.AUTOMATIC_TRANSMISSION;
-import static com.jdm.legends.common.enums.CarTransmissionType.MANUAL_TRANSMISSION;
 import static com.jdm.legends.dealership.cars.service.constants.MockConstants.AVAILABLE_DAYS_TO_PURCHASE;
+import static com.jdm.legends.dealership.cars.service.enums.CarColor.*;
+import static com.jdm.legends.dealership.cars.service.enums.CarCompany.*;
+import static com.jdm.legends.dealership.cars.service.enums.CarFuelType.DIESEL;
+import static com.jdm.legends.dealership.cars.service.enums.CarFuelType.GASOLINE;
+import static com.jdm.legends.dealership.cars.service.enums.CarTransmissionType.AUTOMATIC_TRANSMISSION;
+import static com.jdm.legends.dealership.cars.service.enums.CarTransmissionType.MANUAL_TRANSMISSION;
 import static java.time.LocalDateTime.now;
 
 
-@EntityScan(basePackages = {"com.jdm.legends.common", "com.jdm.legends.dealership.cars"})
 @EnableWebMvc
 @SpringBootApplication
 public class JDMLegendDealershipCars {
@@ -44,7 +41,7 @@ public class JDMLegendDealershipCars {
                     .carColor(BLACK)
                     .carTransmissionType(MANUAL_TRANSMISSION)
                     .carCompany(NISSAN)
-                    .carFuelType(CarFuelType.GASOLINE)
+                    .carFuelType(GASOLINE)
                     .km(120000)
                     .initialPrice(68980)
                     .hp(900)

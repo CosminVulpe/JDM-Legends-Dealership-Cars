@@ -2,9 +2,9 @@ package com.jdm.legends.dealership.cars.integration.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jdm.legends.common.dto.Car;
-import com.jdm.legends.common.dto.HistoryBid;
-import com.jdm.legends.common.dto.TemporaryUser;
+import com.jdm.legends.dealership.cars.service.dto.Car;
+import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
+import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,9 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.jdm.legends.common.enums.CarColor.BLACK;
-import static com.jdm.legends.common.enums.CarCompany.TOYOTA;
-import static com.jdm.legends.common.utils.UtilsMock.buildCarRequest;
+import static com.jdm.legends.dealership.cars.service.enums.CarColor.BLACK;
+import static com.jdm.legends.dealership.cars.service.enums.CarCompany.TOYOTA;
+import static com.jdm.legends.dealership.cars.utils.TestData.buildCarRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

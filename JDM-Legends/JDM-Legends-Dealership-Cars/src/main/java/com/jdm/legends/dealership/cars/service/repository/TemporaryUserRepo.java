@@ -1,8 +1,7 @@
 package com.jdm.legends.dealership.cars.service.repository;
 
-import com.jdm.legends.common.dto.HistoryBidTemporaryUser;
-import com.jdm.legends.common.dto.TemporaryUser;
-import lombok.RequiredArgsConstructor;
+import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUser;
+import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;

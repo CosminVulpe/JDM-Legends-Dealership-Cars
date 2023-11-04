@@ -1,8 +1,8 @@
 package com.jdm.legends.dealership.cars.integration.service;
 
-import com.jdm.legends.common.dto.Car;
 import com.jdm.legends.dealership.cars.service.CarService;
 import com.jdm.legends.dealership.cars.service.CarService.GetCarByIdNotFoundException;
+import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.jdm.legends.common.utils.UtilsMock.buildCarRequest;
+import static com.jdm.legends.dealership.cars.utils.TestData.buildCarRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

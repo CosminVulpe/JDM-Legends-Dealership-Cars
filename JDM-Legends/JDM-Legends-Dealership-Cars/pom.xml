@@ -18,11 +18,11 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>com.jdm.legends.common</groupId>
-            <artifactId>jdm-legends-commons</artifactId>
-            <version>0.0.86</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.jdm.legends.common</groupId>-->
+<!--            <artifactId>jdm-legends-commons</artifactId>-->
+<!--            <version>0.0.86</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <!-- JDBC driver proxy intercepting all SQL calls, see spy.properties too-->
