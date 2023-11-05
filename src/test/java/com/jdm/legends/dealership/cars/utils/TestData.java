@@ -3,7 +3,7 @@ package com.jdm.legends.dealership.cars.utils;
 import com.jdm.legends.dealership.cars.controller.dto.ReviewDTO;
 import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
-import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
+import com.jdm.legends.dealership.cars.service.entity.TemporaryCustomer;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -46,7 +46,7 @@ public class TestData {
                 .deadlineCarToSell(now().plusMonths(3))
                 .build();
 
-        TemporaryUser temporaryUser = TemporaryUser.builder()
+        TemporaryCustomer temporaryCustomer = TemporaryCustomer.builder()
                 .fullName("John Cena")
                 .userName("cannot_see_me98")
                 .emailAddress("johnCeva12@yahoo.com")
@@ -58,7 +58,7 @@ public class TestData {
                 .bidValue(new BigDecimal("12354323412"))
                 .car(build)
                 .timeOfTheBid(now())
-                .temporaryUsersList(new HashSet<>(Set.of(temporaryUser)))
+                .temporaryUsersList(new HashSet<>(Set.of(temporaryCustomer)))
                 .build();
 
         build.setHistoryBidList(new ArrayList<>(List.of(historyBid)));

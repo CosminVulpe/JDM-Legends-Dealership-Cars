@@ -1,12 +1,10 @@
 package com.jdm.legends.dealership.cars.service;
 
+import com.jdm.legends.dealership.cars.controller.dto.HistoryBidTemporaryCustomerRequest;
 import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
-import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUserRequest;
-import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
-import com.jdm.legends.dealership.cars.service.enums.Roles;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
-import com.jdm.legends.dealership.cars.service.repository.TemporaryUserRepo;
+import com.jdm.legends.dealership.cars.service.repository.TemporaryCustomerRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,19 +14,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class HistoryBidService {
     private final CarService carService;
-    private final TemporaryUserRepo temporaryUserRepo;
+    private final TemporaryCustomerRepo temporaryCustomerRepo;
     private final HistoryBidRepository historyBidRepository;
 
-    public void bid(Long carId, HistoryBidTemporaryUserRequest request) {
+    public void bid(Long carId, HistoryBidTemporaryCustomerRequest request) {
         Car car = carService.getCarById(carId);
-        HistoryBid historyBid = request.getHistoryBid();
-        TemporaryUser temporaryUser = request.getTemporaryUser();
+        HistoryBid historyBid = request.historyBid();
 
         car.addHistoryBid(historyBid);
         historyBidRepository.save(historyBid);
 
-        temporaryUser.setRole((temporaryUser.isCheckInformationStoredTemporarily()) ? Roles.POTENTIAL_CLIENT.getValue() : Roles.ANONYMOUS.getValue());
-        temporaryUserRepo.saveTempUser(request);
+        temporaryCustomerRepo.saveTempUser(request);
         log.info("Bid Value saved for the car with ID {}", car.getId());
     }
 }

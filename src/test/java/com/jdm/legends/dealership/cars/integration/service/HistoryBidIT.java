@@ -4,11 +4,11 @@ import com.jdm.legends.dealership.cars.service.HistoryBidService;
 import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUserRequest;
-import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
+import com.jdm.legends.dealership.cars.service.entity.TemporaryCustomer;
 import com.jdm.legends.dealership.cars.service.enums.Roles;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
-import com.jdm.legends.dealership.cars.service.repository.TemporaryUserRepo;
+import com.jdm.legends.dealership.cars.service.repository.TemporaryCustomerRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,24 +36,24 @@ class HistoryBidIT {
     private HistoryBidRepository historyBidRepository;
 
     @MockBean
-    private TemporaryUserRepo temporaryUserRepo;
+    private TemporaryCustomerRepo temporaryCustomerRepo;
 
     @Test
     void bidPerCarSuccessfully() {
         Car car = carRepository.save(buildCarRequest());
         HistoryBid historyBid = car.getHistoryBidList().get(0);
-        TemporaryUser temporaryUser = historyBid.getTemporaryUsersList().stream().findFirst().get();
+        TemporaryCustomer temporaryCustomer = historyBid.getTemporaryUsersList().stream().findFirst().get();
 
         HistoryBidTemporaryUserRequest build = HistoryBidTemporaryUserRequest.builder()
                 .historyBid(historyBid)
-                .temporaryUser(temporaryUser)
+                .temporaryUser(temporaryCustomer)
                 .build();
-        doNothing().when(temporaryUserRepo).saveTempUser(any());
+        doNothing().when(temporaryCustomerRepo).saveTempUser(any());
 
         historyBidService.bid(car.getId(), build);
 
         assertThat(car.getHistoryBidList()).hasSize(2);
         assertThat(historyBidRepository.findAll()).contains(historyBid);
-        assertThat(temporaryUser.getRole()).isEqualTo(Roles.POTENTIAL_CLIENT.getValue());
+        assertThat(temporaryCustomer.getRole()).isEqualTo(Roles.POTENTIAL_CLIENT.getValue());
     }
 }

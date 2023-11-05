@@ -5,9 +5,9 @@ import com.jdm.legends.dealership.cars.service.HistoryBidService;
 import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUserRequest;
-import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
+import com.jdm.legends.dealership.cars.service.entity.TemporaryCustomer;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
-import com.jdm.legends.dealership.cars.service.repository.TemporaryUserRepo;
+import com.jdm.legends.dealership.cars.service.repository.TemporaryCustomerRepo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,7 +34,7 @@ class HistoryBidServiceUnitTest {
     private CarService carService;
 
     @Mock
-    private TemporaryUserRepo temporaryUserRepo;
+    private TemporaryCustomerRepo temporaryCustomerRepo;
 
     @Mock
     private HistoryBidRepository historyBidRepository;
@@ -50,11 +50,11 @@ class HistoryBidServiceUnitTest {
 
         verify(historyBidRepository).save(any());
         assertThat(buildRequestMockData().getTemporaryUser().getRole()).isEqualTo(POTENTIAL_CLIENT);
-        verify(temporaryUserRepo).saveTempUser(any());
+        verify(temporaryCustomerRepo).saveTempUser(any());
     }
 
     private HistoryBidTemporaryUserRequest buildRequestMockData() {
-        TemporaryUser temporaryUser = TemporaryUser.builder()
+        TemporaryCustomer temporaryCustomer = TemporaryCustomer.builder()
                 .emailAddress("test12@gmail.com")
                 .checkInformationStoredTemporarily(true)
                 .userName("John Cena")
@@ -65,9 +65,9 @@ class HistoryBidServiceUnitTest {
         HistoryBid historyBid = HistoryBid.builder()
                 .bidValue(new BigDecimal("43522342434"))
                 .timeOfTheBid(LocalDateTime.MAX)
-                .temporaryUsersList(Set.of(temporaryUser))
+                .temporaryUsersList(Set.of(temporaryCustomer))
                 .build();
-         return HistoryBidTemporaryUserRequest.builder().historyBid(historyBid).temporaryUser(temporaryUser).build();
+         return HistoryBidTemporaryUserRequest.builder().historyBid(historyBid).temporaryUser(temporaryCustomer).build();
     }
 
 }

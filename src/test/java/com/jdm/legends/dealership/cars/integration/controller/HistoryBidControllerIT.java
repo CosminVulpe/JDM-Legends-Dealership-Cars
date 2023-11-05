@@ -3,11 +3,11 @@ package com.jdm.legends.dealership.cars.integration.controller;
 import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUserRequest;
-import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
+import com.jdm.legends.dealership.cars.service.entity.TemporaryCustomer;
 import com.jdm.legends.dealership.cars.service.enums.Roles;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
-import com.jdm.legends.dealership.cars.service.repository.TemporaryUserRepo;
+import com.jdm.legends.dealership.cars.service.repository.TemporaryCustomerRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -43,29 +43,29 @@ class HistoryBidControllerIT {
     private CarRepository carRepository;
 
     @MockBean
-    private TemporaryUserRepo temporaryUserRepo;
+    private TemporaryCustomerRepo temporaryCustomerRepo;
 
 
     @Test
     void testBidSuccessfully() throws Exception {
         Car car = carRepository.save(buildCarRequest());
         HistoryBid historyBid = car.getHistoryBidList().get(0);
-        TemporaryUser temporaryUser = historyBid.getTemporaryUsersList().stream().findFirst().orElse(new TemporaryUser());
-        HistoryBidTemporaryUserRequest request = HistoryBidTemporaryUserRequest.builder().temporaryUser(temporaryUser).historyBid(historyBid).build();
+        TemporaryCustomer temporaryCustomer = historyBid.getTemporaryUsersList().stream().findFirst().orElse(new TemporaryCustomer());
+        HistoryBidTemporaryUserRequest request = HistoryBidTemporaryUserRequest.builder().temporaryUser(temporaryCustomer).historyBid(historyBid).build();
 
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/history-bid/bid/{carId}", car.getId())
                 .contentType(APPLICATION_JSON)
                 .content(writeJsonAsString(request))
                 .accept(APPLICATION_JSON);
 
-        doNothing().when(temporaryUserRepo).saveTempUser(any());
+        doNothing().when(temporaryCustomerRepo).saveTempUser(any());
 
         mvc.perform(builder).andExpect(status().isOk());
 
         assertThat(car.getHistoryBidList()).hasSize(2);
         assertThat(historyBidRepository.findAll()).hasSize(1);
-        assertThat(temporaryUser.getEmailAddress()).isEqualTo("johnCeva12@yahoo.com");
-        assertThat(temporaryUser.getRole()).isEqualTo(Roles.POTENTIAL_CLIENT.getValue());
-        verify(temporaryUserRepo, atLeastOnce()).saveTempUser(any());
+        assertThat(temporaryCustomer.getEmailAddress()).isEqualTo("johnCeva12@yahoo.com");
+        assertThat(temporaryCustomer.getRole()).isEqualTo(Roles.POTENTIAL_CLIENT.getValue());
+        verify(temporaryCustomerRepo, atLeastOnce()).saveTempUser(any());
     }
 }

@@ -16,7 +16,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ReviewService implements Mapper<ReviewDTO,Review> {
+public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
@@ -25,19 +25,18 @@ public class ReviewService implements Mapper<ReviewDTO,Review> {
     }
 
     public ResponseEntity<Review> addReview(ReviewDTO request) {
-        Review review = map(request);
+        Mapper<ReviewDTO, Review> mapper = (ReviewDTO source) ->
+                Review.builder()
+                        .title(source.title())
+                        .description(source.description())
+                        .starRating(source.starRating())
+                        .build();
+
+        Review review = mapper.map(request);
         reviewRepository.save(review);
 
         log.info("Review with id {} saved", review.getId());
         return new ResponseEntity<>(review, CREATED);
     }
 
-    @Override
-    public Review map(ReviewDTO source) {
-        return Review.builder()
-                .title(source.title())
-                .description(source.description())
-                .starRating(source.starRating())
-                .build();
-    }
 }

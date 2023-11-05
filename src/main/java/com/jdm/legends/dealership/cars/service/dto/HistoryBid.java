@@ -1,6 +1,7 @@
 package com.jdm.legends.dealership.cars.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jdm.legends.dealership.cars.service.entity.TemporaryCustomer;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,6 +37,6 @@ public final class HistoryBid {
     private Car car;
 
     @ManyToMany(mappedBy = "historyBidList")
-    private Set<TemporaryUser> temporaryUsersList = new HashSet<>();
+    private Set<TemporaryCustomer> temporaryUsersList = new HashSet<>();
 
 }

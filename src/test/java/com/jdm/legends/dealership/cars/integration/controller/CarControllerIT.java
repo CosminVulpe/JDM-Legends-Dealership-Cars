@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
-import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
+import com.jdm.legends.dealership.cars.service.entity.TemporaryCustomer;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -85,10 +85,10 @@ class CarControllerIT {
     void shouldGetHistoryBidListByCarId() throws Exception {
         Car car = carRepository.findAll().get(0);
         HistoryBid carHistoryBidList = car.getHistoryBidList().get(0);
-        TemporaryUser temporaryUser = carHistoryBidList.getTemporaryUsersList().stream().findFirst().orElse(new TemporaryUser());
+        TemporaryCustomer temporaryCustomer = carHistoryBidList.getTemporaryUsersList().stream().findFirst().orElse(new TemporaryCustomer());
 
         carHistoryBidList.setId(car.getId());
-        temporaryUser.setId(car.getId());
+        temporaryCustomer.setId(car.getId());
 
         historyBidRepository.save(carHistoryBidList);
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/car/bid-list/{carId}", car.getId())
