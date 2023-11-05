@@ -2,12 +2,11 @@ package com.jdm.legends.dealership.cars.service.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
 @Builder
+@Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class HistoryBidTemporaryUser {
+public class HistoryBidTemporaryUserRequest {
     private HistoryBid historyBid;
     private TemporaryUser temporaryUser;
 }

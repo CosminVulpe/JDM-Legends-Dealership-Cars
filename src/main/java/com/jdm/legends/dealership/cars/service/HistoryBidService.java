@@ -2,7 +2,7 @@ package com.jdm.legends.dealership.cars.service;
 
 import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
-import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUser;
+import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUserRequest;
 import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
 import com.jdm.legends.dealership.cars.service.enums.Roles;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
@@ -19,7 +19,7 @@ public class HistoryBidService {
     private final TemporaryUserRepo temporaryUserRepo;
     private final HistoryBidRepository historyBidRepository;
 
-    public void bid(Long carId, HistoryBidTemporaryUser request) {
+    public void bid(Long carId, HistoryBidTemporaryUserRequest request) {
         Car car = carService.getCarById(carId);
         HistoryBid historyBid = request.getHistoryBid();
         TemporaryUser temporaryUser = request.getTemporaryUser();

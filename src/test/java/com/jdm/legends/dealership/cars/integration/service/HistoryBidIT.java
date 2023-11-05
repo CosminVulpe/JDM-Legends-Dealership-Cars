@@ -3,7 +3,7 @@ package com.jdm.legends.dealership.cars.integration.service;
 import com.jdm.legends.dealership.cars.service.HistoryBidService;
 import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
-import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUser;
+import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUserRequest;
 import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
 import com.jdm.legends.dealership.cars.service.enums.Roles;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
@@ -44,7 +44,7 @@ class HistoryBidIT {
         HistoryBid historyBid = car.getHistoryBidList().get(0);
         TemporaryUser temporaryUser = historyBid.getTemporaryUsersList().stream().findFirst().get();
 
-        HistoryBidTemporaryUser build = HistoryBidTemporaryUser.builder()
+        HistoryBidTemporaryUserRequest build = HistoryBidTemporaryUserRequest.builder()
                 .historyBid(historyBid)
                 .temporaryUser(temporaryUser)
                 .build();

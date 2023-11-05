@@ -2,7 +2,7 @@ package com.jdm.legends.dealership.cars.integration.controller;
 
 import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
-import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUser;
+import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUserRequest;
 import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
 import com.jdm.legends.dealership.cars.service.enums.Roles;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
@@ -50,7 +50,7 @@ class HistoryBidControllerIT {
         Car car = carRepository.save(buildCarRequest());
         HistoryBid historyBid = car.getHistoryBidList().get(0);
         TemporaryUser temporaryUser = historyBid.getTemporaryUsersList().stream().findFirst().orElse(new TemporaryUser());
-        HistoryBidTemporaryUser request = HistoryBidTemporaryUser.builder().temporaryUser(temporaryUser).historyBid(historyBid).build();
+        HistoryBidTemporaryUserRequest request = HistoryBidTemporaryUserRequest.builder().temporaryUser(temporaryUser).historyBid(historyBid).build();
 
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/history-bid/bid/{carId}", car.getId())
                 .contentType(APPLICATION_JSON)

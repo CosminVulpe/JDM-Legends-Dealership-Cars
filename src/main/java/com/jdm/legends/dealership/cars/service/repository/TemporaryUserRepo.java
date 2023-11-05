@@ -1,6 +1,6 @@
 package com.jdm.legends.dealership.cars.service.repository;
 
-import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUser;
+import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUserRequest;
 import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,9 +25,9 @@ public class TemporaryUserRepo {
         this.serverPort = serverPort;
     }
 
-    public void saveTempUser(HistoryBidTemporaryUser historyBidTemporaryUser) {
+    public void saveTempUser(HistoryBidTemporaryUserRequest historyBidTemporaryUserRequest) {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-user/save");
-        ResponseEntity<TemporaryUser> temporaryUserResponseEntity = restTemplate.postForEntity(uriComponentsBuilder.toUriString(), new HttpEntity<>(historyBidTemporaryUser), TemporaryUser.class);
+        ResponseEntity<TemporaryUser> temporaryUserResponseEntity = restTemplate.postForEntity(uriComponentsBuilder.toUriString(), new HttpEntity<>(historyBidTemporaryUserRequest), TemporaryUser.class);
 
         if (!temporaryUserResponseEntity.getStatusCode().is2xxSuccessful()) {
             throw new SaveTemporaryUserException();

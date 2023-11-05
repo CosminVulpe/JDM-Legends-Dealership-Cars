@@ -4,7 +4,7 @@ import com.jdm.legends.dealership.cars.service.CarService;
 import com.jdm.legends.dealership.cars.service.HistoryBidService;
 import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
-import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUser;
+import com.jdm.legends.dealership.cars.service.dto.HistoryBidTemporaryUserRequest;
 import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
 import com.jdm.legends.dealership.cars.service.repository.TemporaryUserRepo;
@@ -53,7 +53,7 @@ class HistoryBidServiceUnitTest {
         verify(temporaryUserRepo).saveTempUser(any());
     }
 
-    private HistoryBidTemporaryUser buildRequestMockData() {
+    private HistoryBidTemporaryUserRequest buildRequestMockData() {
         TemporaryUser temporaryUser = TemporaryUser.builder()
                 .emailAddress("test12@gmail.com")
                 .checkInformationStoredTemporarily(true)
@@ -67,7 +67,7 @@ class HistoryBidServiceUnitTest {
                 .timeOfTheBid(LocalDateTime.MAX)
                 .temporaryUsersList(Set.of(temporaryUser))
                 .build();
-         return HistoryBidTemporaryUser.builder().historyBid(historyBid).temporaryUser(temporaryUser).build();
+         return HistoryBidTemporaryUserRequest.builder().historyBid(historyBid).temporaryUser(temporaryUser).build();
     }
 
 }
