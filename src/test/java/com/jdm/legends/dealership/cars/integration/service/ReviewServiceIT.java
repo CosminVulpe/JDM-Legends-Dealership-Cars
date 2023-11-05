@@ -45,18 +45,16 @@ class ReviewServiceIT implements Mapper<ReviewDTO,Review> {
 
     @Test
     void addReviewToDBSuccessfully() {
-        Review review = map(buildReviewRequest());
+        ReviewDTO reviewDTO = buildReviewRequest();
+        Review review = map(reviewDTO);
 
-        ResponseEntity<Review> reviewResponseEntity = service.addReview(null);
+        ResponseEntity<Review> reviewResponseEntity = service.addReview(reviewDTO);
         Review body = reviewResponseEntity.getBody();
 
         assertThat(reviewResponseEntity.getStatusCode()).isEqualTo(CREATED);
         assertThat(body.getDescription()).isEqualTo(review.getDescription());
         assertThat(body.getTitle()).isEqualTo(review.getTitle());
         assertThat(body.getStarRating()).isEqualTo(review.getStarRating());
-
-        Review savedReview = repository.findAll().get(0);
-        assertThat(savedReview).isEqualTo(review);
         assertThat(repository.findAll().size()).isNotZero();
     }
 

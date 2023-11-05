@@ -1,9 +1,12 @@
 package com.jdm.legends.dealership.cars.unit;
 
 
+import com.jdm.legends.dealership.cars.controller.dto.ReviewDTO;
 import com.jdm.legends.dealership.cars.service.ReviewService;
 import com.jdm.legends.dealership.cars.service.entity.Review;
+import com.jdm.legends.dealership.cars.service.mapping.Mapper;
 import com.jdm.legends.dealership.cars.service.repository.ReviewRepository;
+import com.jdm.legends.dealership.cars.utils.TestData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,7 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ReviewServiceUnitTest {
+class ReviewServiceUnitTest implements Mapper<ReviewDTO,Review> {
 
     @Mock
     private ReviewRepository reviewRepository;
@@ -38,13 +41,22 @@ class ReviewServiceUnitTest {
 
     @Test
     void shouldAddReviewSuccessfullyIntoDB() {
-        Review review = new Review();
+        ReviewDTO reviewDTO = TestData.buildReviewRequest();
+        Review review = map(reviewDTO);
         when(reviewRepository.save(any())).thenReturn(review);
 
-        ResponseEntity<Review> reviewResponseEntity = reviewService.addReview(null);
+        ResponseEntity<Review> reviewResponseEntity = reviewService.addReview(reviewDTO);
 
         verify(reviewRepository).save(review);
         assertThat(reviewResponseEntity.getStatusCodeValue()).isEqualTo(201);
     }
 
+    @Override
+    public Review map(ReviewDTO source) {
+        return Review.builder()
+                .title(source.title())
+                .description(source.description())
+                .starRating(source.starRating())
+                .build();
+    }
 }

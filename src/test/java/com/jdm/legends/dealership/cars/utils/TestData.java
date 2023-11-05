@@ -1,7 +1,5 @@
 package com.jdm.legends.dealership.cars.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jdm.legends.dealership.cars.controller.dto.ReviewDTO;
 import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
@@ -31,16 +29,6 @@ public class TestData {
 
     public static ReviewDTO buildReviewRequest(String title, String description, int starRating) {
         return new ReviewDTO(title, description, starRating);
-    }
-
-    public static String writeJsonAsString(final Object obj) {
-        try {
-            final ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new JavaTimeModule());
-            return mapper.writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException("Something went wrong while parsing the object", e);
-        }
     }
 
     public static Car buildCarRequest() {

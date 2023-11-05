@@ -2,6 +2,7 @@ package com.jdm.legends.dealership.cars.integration.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jdm.legends.dealership.cars.service.dto.Car;
 import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
 import com.jdm.legends.dealership.cars.service.dto.TemporaryUser;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.jdm.legends.dealership.cars.service.enums.CarColor.BLACK;
@@ -112,7 +114,9 @@ class CarControllerIT {
                 .andReturn();
 
         ObjectMapper mapper = new ObjectMapper();
-        List<String> datesResponse = mapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {
+        mapper.registerModule(new JavaTimeModule());
+
+        List<LocalDateTime> datesResponse = mapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {
         });
 
         assertThat(datesResponse).isNotEmpty();

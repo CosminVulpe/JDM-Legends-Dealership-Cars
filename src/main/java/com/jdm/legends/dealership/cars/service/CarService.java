@@ -33,10 +33,9 @@ public class CarService {
     }
 
     public List<LocalDateTime> getDatesCar(Long carId) {
-        return List.copyOf(
-                List.of(getCarById(carId).getStartDateCarPostedOnline(),
-                        getCarById(carId).getDeadlineCarToSell()
-                )
+        return List.of(
+                getCarById(carId).getStartDateCarPostedOnline(),
+                getCarById(carId).getDeadlineCarToSell()
         );
     }
 
