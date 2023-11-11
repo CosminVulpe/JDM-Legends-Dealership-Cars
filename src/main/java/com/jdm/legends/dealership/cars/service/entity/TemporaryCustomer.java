@@ -37,8 +37,4 @@ public final class TemporaryCustomer {
     @JsonIgnore
     private List<HistoryBid> historyBidList = new ArrayList<>();
 
-    public void addHistoryBid(HistoryBid historyBid) {
-        historyBidList.add(historyBid);
-        historyBid.getTemporaryUsersList().add(this);
-    }
 }

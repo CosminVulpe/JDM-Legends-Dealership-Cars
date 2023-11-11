@@ -1,5 +1,6 @@
-package com.jdm.legends.dealership.cars.service.dto;
+package com.jdm.legends.dealership.cars.service.entity;
 
+import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
 import com.jdm.legends.dealership.cars.service.enums.CarColor;
 import com.jdm.legends.dealership.cars.service.enums.CarCompany;
 import com.jdm.legends.dealership.cars.service.enums.CarFuelType;
@@ -16,10 +17,8 @@ import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
 
-@Entity(name = "cars")
-@Table
-@Getter
-@Setter
+@Entity
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

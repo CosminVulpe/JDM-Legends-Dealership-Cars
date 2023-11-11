@@ -1,6 +1,7 @@
 package com.jdm.legends.dealership.cars.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jdm.legends.dealership.cars.service.entity.Car;
 import com.jdm.legends.dealership.cars.service.entity.TemporaryCustomer;
 import lombok.*;
 

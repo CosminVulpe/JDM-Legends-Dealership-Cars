@@ -1,6 +1,6 @@
 package com.jdm.legends.dealership.cars.service;
 
-import com.jdm.legends.dealership.cars.service.dto.Car;
+import com.jdm.legends.dealership.cars.service.entity.Car;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import com.jdm.legends.dealership.cars.service.repository.HighestBid;
 import lombok.RequiredArgsConstructor;
