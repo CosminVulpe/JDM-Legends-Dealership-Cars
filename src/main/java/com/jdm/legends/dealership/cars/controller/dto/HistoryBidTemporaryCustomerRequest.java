@@ -1,9 +1,8 @@
 package com.jdm.legends.dealership.cars.controller.dto;
 
-import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
+import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 public record HistoryBidTemporaryCustomerRequest(
         @Valid

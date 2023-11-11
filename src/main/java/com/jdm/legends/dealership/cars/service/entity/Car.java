@@ -1,6 +1,5 @@
 package com.jdm.legends.dealership.cars.service.entity;
 
-import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
 import com.jdm.legends.dealership.cars.service.enums.CarColor;
 import com.jdm.legends.dealership.cars.service.enums.CarCompany;
 import com.jdm.legends.dealership.cars.service.enums.CarFuelType;

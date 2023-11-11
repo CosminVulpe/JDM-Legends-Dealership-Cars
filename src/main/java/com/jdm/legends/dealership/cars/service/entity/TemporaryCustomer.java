@@ -2,7 +2,6 @@ package com.jdm.legends.dealership.cars.service.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
 import lombok.*;
 
 import javax.persistence.*;

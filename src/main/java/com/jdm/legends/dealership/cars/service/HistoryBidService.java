@@ -3,7 +3,7 @@ package com.jdm.legends.dealership.cars.service;
 import com.jdm.legends.dealership.cars.controller.dto.HistoryBidRequest;
 import com.jdm.legends.dealership.cars.controller.dto.HistoryBidTemporaryCustomerRequest;
 import com.jdm.legends.dealership.cars.service.entity.Car;
-import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
+import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 import com.jdm.legends.dealership.cars.service.mapping.Mapper;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
 import com.jdm.legends.dealership.cars.service.repository.TemporaryCustomerRepo;

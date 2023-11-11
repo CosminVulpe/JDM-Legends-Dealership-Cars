@@ -1,4 +1,4 @@
-package com.jdm.legends.dealership.cars.service.dto;
+package com.jdm.legends.dealership.cars.service.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jdm.legends.dealership.cars.service.entity.Car;
