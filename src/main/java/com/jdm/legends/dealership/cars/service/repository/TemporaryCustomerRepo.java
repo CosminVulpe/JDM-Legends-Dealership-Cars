@@ -1,7 +1,7 @@
 package com.jdm.legends.dealership.cars.service.repository;
 
 import com.jdm.legends.dealership.cars.controller.dto.HistoryBidTemporaryCustomerRequest;
-import com.jdm.legends.dealership.cars.service.entity.TemporaryCustomer;
+import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -26,10 +26,10 @@ public class TemporaryCustomerRepo {
 
     public void saveTempUser(HistoryBidTemporaryCustomerRequest historyBidTemporaryCustomerRequest) {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-user/save");
-        ResponseEntity<TemporaryCustomer> temporaryUserResponseEntity = restTemplate.postForEntity(uriComponentsBuilder.toUriString(), new HttpEntity<>(historyBidTemporaryCustomerRequest), TemporaryCustomer.class);
+        ResponseEntity<TemporaryCustomerRequest> temporaryUserResponseEntity = restTemplate.postForEntity(uriComponentsBuilder.toUriString(), new HttpEntity<>(historyBidTemporaryCustomerRequest), TemporaryCustomerRequest.class);
 
         if (!temporaryUserResponseEntity.getStatusCode().is2xxSuccessful()) {
-            String msgError = "Error while trying to save temporary user";
+            String msgError = "Error while trying to save temporary customer";
             log.warn(msgError);
             throw new RestClientException(msgError);
         }

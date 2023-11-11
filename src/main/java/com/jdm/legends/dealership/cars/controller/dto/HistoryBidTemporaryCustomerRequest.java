@@ -2,13 +2,11 @@ package com.jdm.legends.dealership.cars.controller.dto;
 
 import com.jdm.legends.dealership.cars.service.dto.HistoryBid;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
 
 public record HistoryBidTemporaryCustomerRequest(
-        @NotNull
         HistoryBid historyBid,
-
-        @NotNull
-        TemporaryCustomerDTO temporaryCustomerDTO
+        @Valid
+        TemporaryCustomerRequest temporaryCustomerRequest
 ) {
 }

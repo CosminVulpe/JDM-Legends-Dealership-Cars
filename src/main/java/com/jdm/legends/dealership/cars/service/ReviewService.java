@@ -1,6 +1,6 @@
 package com.jdm.legends.dealership.cars.service;
 
-import com.jdm.legends.dealership.cars.controller.dto.ReviewDTO;
+import com.jdm.legends.dealership.cars.controller.dto.ReviewRequest;
 import com.jdm.legends.dealership.cars.service.entity.Review;
 import com.jdm.legends.dealership.cars.service.mapping.Mapper;
 import com.jdm.legends.dealership.cars.service.repository.ReviewRepository;
@@ -24,8 +24,8 @@ public class ReviewService {
         return reviewRepository.getRecentReviews();
     }
 
-    public ResponseEntity<Review> addReview(ReviewDTO request) {
-        Mapper<ReviewDTO, Review> mapper = (ReviewDTO source) ->
+    public ResponseEntity<Review> addReview(ReviewRequest request) {
+        Mapper<ReviewRequest, Review> mapper = (ReviewRequest source) ->
                 Review.builder()
                         .title(source.title())
                         .description(source.description())
