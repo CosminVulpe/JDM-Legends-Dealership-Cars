@@ -16,10 +16,8 @@ import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
 
-@Entity(name = "HistoryBid")
-@Table
-@Getter
-@Setter
+@Entity
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

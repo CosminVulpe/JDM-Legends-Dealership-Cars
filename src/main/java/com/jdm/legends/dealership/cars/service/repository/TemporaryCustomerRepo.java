@@ -26,7 +26,7 @@ public class TemporaryCustomerRepo {
 
     public void saveTempUser(HistoryBidTemporaryCustomerRequest historyBidTemporaryCustomerRequest) {
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-user/save");
-        ResponseEntity<TemporaryCustomerRequest> temporaryUserResponseEntity = restTemplate.postForEntity(uriComponentsBuilder.toUriString(), new HttpEntity<>(historyBidTemporaryCustomerRequest), TemporaryCustomerRequest.class);
+        ResponseEntity<HistoryBidTemporaryCustomerRequest> temporaryUserResponseEntity = restTemplate.postForEntity(uriComponentsBuilder.toUriString(), new HttpEntity<>(historyBidTemporaryCustomerRequest), HistoryBidTemporaryCustomerRequest.class);
 
         if (!temporaryUserResponseEntity.getStatusCode().is2xxSuccessful()) {
             String msgError = "Error while trying to save temporary customer";

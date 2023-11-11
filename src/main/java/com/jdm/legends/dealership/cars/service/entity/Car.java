@@ -18,11 +18,12 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 
 @Entity
+@Table(name = "Cars")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class Car {
+public class Car {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -45,7 +46,7 @@ public final class Car {
 
     private int productionYear;
 
-    private Integer initialPrice;
+    private int initialPrice;
 
     private int hp;
 

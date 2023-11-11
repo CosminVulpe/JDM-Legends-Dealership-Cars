@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public final class TemporaryCustomer {
+public class TemporaryCustomer {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
