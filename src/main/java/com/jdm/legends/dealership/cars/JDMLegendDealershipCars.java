@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.jdm.legends.dealership.cars.service.constants.MockConstants.AVAILABLE_DAYS_TO_PURCHASE;
 import static com.jdm.legends.dealership.cars.service.enums.CarColor.*;
 import static com.jdm.legends.dealership.cars.service.enums.CarCompany.*;
 import static com.jdm.legends.dealership.cars.service.enums.CarFuelType.DIESEL;
@@ -34,6 +34,9 @@ public class JDMLegendDealershipCars {
     @Bean
     @Profile("!test-in-memory")
     CommandLineRunner commandLineRunner(CarRepository carRepository) {
+        final int AVAILABLE_DAYS_TO_PURCHASE = 3;
+        final LocalDateTime MOCK_DATA = now().plusMinutes(2);
+
         return args -> {
             Car nissan = Car
                     .builder()
