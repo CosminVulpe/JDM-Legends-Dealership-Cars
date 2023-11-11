@@ -2,6 +2,7 @@ package com.jdm.legends.dealership.cars.service;
 
 import com.jdm.legends.dealership.cars.controller.dto.HistoryBidRequest;
 import com.jdm.legends.dealership.cars.controller.dto.HistoryBidTemporaryCustomerRequest;
+import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerRequest;
 import com.jdm.legends.dealership.cars.service.entity.Car;
 import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 import com.jdm.legends.dealership.cars.service.mapping.Mapper;
@@ -10,6 +11,7 @@ import com.jdm.legends.dealership.cars.service.repository.TemporaryCustomerRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 
@@ -21,6 +23,7 @@ public class HistoryBidService {
     private final TemporaryCustomerRepo temporaryCustomerRepo;
     private final HistoryBidRepository historyBidRepository;
 
+    @Transactional
     public void bid(Long carId, HistoryBidTemporaryCustomerRequest request) {
         Car car = carService.getCarById(carId);
         Mapper<HistoryBidRequest, HistoryBid> mapper = (HistoryBidRequest source) ->
@@ -28,15 +31,14 @@ public class HistoryBidService {
                         .bidValue(source.bidValue())
                         .timeOfTheBid(source.timeOfTheBid())
                         .car(car)
-                        .temporaryUsersList(new HashSet<>())
                         .build();
 
         HistoryBid historyBid = mapper.map(request.historyBidRequest());
 
         car.addHistoryBid(historyBid);
-        historyBidRepository.save(historyBid);
+        HistoryBid historyBidSaved = historyBidRepository.save(historyBid);
 
-        temporaryCustomerRepo.saveTempUser(new HistoryBidTemporaryCustomerRequest(historyBid, request.temporaryCustomerRequest()));
+        temporaryCustomerRepo.saveTempUser(request.temporaryCustomerRequest(), historyBidSaved);
         log.info("Bid Value saved for the car with ID {}", car.getId());
     }
 }

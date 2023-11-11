@@ -1,15 +1,18 @@
 package com.jdm.legends.dealership.cars.service.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jdm.legends.dealership.cars.service.entity.Car;
-import com.jdm.legends.dealership.cars.service.entity.TemporaryCustomer;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.FetchType.LAZY;
@@ -35,7 +38,5 @@ public final class HistoryBid {
     @JsonIgnore
     private Car car;
 
-    @ManyToMany(mappedBy = "historyBidList")
-    private Set<TemporaryCustomer> temporaryUsersList = new HashSet<>();
-
+    private Long temporaryCustomerId;
 }
