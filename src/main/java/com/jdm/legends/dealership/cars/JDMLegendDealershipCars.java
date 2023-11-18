@@ -52,8 +52,8 @@ public class JDMLegendDealershipCars {
                     .productionYear(1998)
                     .quantityInStock(10)
                     .startDateCarPostedOnline(now())
-                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
-//                    .deadlineCarToSell(MOCK_DATA)
+//                    .deadlineCarToSell(now().plusDays(AVAILABLE_DAYS_TO_PURCHASE))
+                    .deadlineCarToSell(MOCK_DATA)
                     .build();
 
             Car toyota = Car

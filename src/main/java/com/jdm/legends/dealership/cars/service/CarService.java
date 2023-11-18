@@ -1,8 +1,9 @@
 package com.jdm.legends.dealership.cars.service;
 
+import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerDTO;
 import com.jdm.legends.dealership.cars.service.entity.Car;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
-import com.jdm.legends.dealership.cars.service.repository.HighestBid;
+import com.jdm.legends.dealership.cars.service.repository.TemporaryCustomerRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class CarService {
 
     private final CarRepository carRepository;
+    private final TemporaryCustomerRepo temporaryCustomerRepo;
 
     public List<Car> getAllCars() {
         return carRepository.findAll();
@@ -28,8 +30,8 @@ public class CarService {
         return carRepository.findById(carId).orElseThrow(GetCarByIdNotFoundException::new);
     }
 
-    public List<HighestBid> getHistoryBidsList(Long carId) {
-        return carRepository.getBiggestHistoryBidByCarID(carId);
+    public List<TemporaryCustomerDTO> getHistoryBidsList(Long carId) {
+        return temporaryCustomerRepo.getAllTemporaryCustomerPerHistoryBid(getCarById(carId).getHistoryBidList());
     }
 
     public List<LocalDateTime> getDatesCar(Long carId) {
