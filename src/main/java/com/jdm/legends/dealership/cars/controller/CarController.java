@@ -1,6 +1,7 @@
 package com.jdm.legends.dealership.cars.controller;
 
 import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerDTO;
+import com.jdm.legends.dealership.cars.controller.dto.WinnerCustomerResponse;
 import com.jdm.legends.dealership.cars.service.CarService;
 import com.jdm.legends.dealership.cars.service.entity.Car;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/car")
@@ -36,6 +38,11 @@ public class CarController {
     @GetMapping(path = "/dates/{carId}")
     public List<LocalDateTime> getCarDates(@PathVariable("carId") Long carId) {
         return carService.getDatesCar(carId);
+    }
+
+    @GetMapping(path = "/max/bidValue/{carId}")
+    public Optional<WinnerCustomerResponse> getMaxBidValue(@PathVariable("carId") Long carId) {
+        return carService.getMaxBid(carId);
     }
 
 }

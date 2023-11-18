@@ -40,7 +40,7 @@ public class TemporaryCustomerRepo {
 
         if (isNull(temporaryCustomerIdResponse) && isNull(temporaryCustomerIdResponse.id())) {
             String msgError = "Unable to save temporary customer id";
-            log.warn(msgError);
+            log.error(msgError);
             //TODO custom exception
             throw new IllegalArgumentException(msgError);
         }
@@ -56,7 +56,7 @@ public class TemporaryCustomerRepo {
 
             if (!restTemplateForEntity.getStatusCode().is2xxSuccessful() && isNull(restTemplateForEntity.getBody())) {
                 String msgError = "Unable to get temporary customer by Id";
-                log.warn(msgError);
+                log.error(msgError);
                 throw new RestClientException(msgError);
             }
             TemporaryCustomerDTO entityBody = restTemplateForEntity.getBody();
@@ -68,5 +68,4 @@ public class TemporaryCustomerRepo {
             );
         }).sorted(Comparator.comparing(TemporaryCustomerDTO::bidValue).reversed()).limit(7).toList();
     }
-
 }

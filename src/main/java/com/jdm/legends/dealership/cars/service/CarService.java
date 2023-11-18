@@ -1,7 +1,9 @@
 package com.jdm.legends.dealership.cars.service;
 
 import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerDTO;
+import com.jdm.legends.dealership.cars.controller.dto.WinnerCustomerResponse;
 import com.jdm.legends.dealership.cars.service.entity.Car;
+import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import com.jdm.legends.dealership.cars.service.repository.TemporaryCustomerRepo;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -39,6 +43,20 @@ public class CarService {
                 getCarById(carId).getStartDateCarPostedOnline(),
                 getCarById(carId).getDeadlineCarToSell()
         );
+    }
+
+    public Optional<WinnerCustomerResponse> getMaxBid(Long cardId) {
+        Car carById = getCarById(cardId);
+        List<HistoryBid> historyBidList = carById.getHistoryBidList();
+
+        if (historyBidList.isEmpty()) {
+            return Optional.empty();
+        }
+
+        HistoryBid historyBidMax = historyBidList.stream().max(Comparator.comparing(HistoryBid::getBidValue)
+                .thenComparing(HistoryBid::getTimeOfTheBid)).stream().findFirst().orElse(null);
+
+        return Optional.of(new WinnerCustomerResponse(historyBidMax.getBidValue(), historyBidMax.getId()));
     }
 
     @Slf4j
