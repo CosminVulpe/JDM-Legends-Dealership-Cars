@@ -1,11 +1,12 @@
 package com.jdm.legends.dealership.cars.utils;
 
 import com.jdm.legends.dealership.cars.controller.dto.ReviewRequest;
-import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerRequest;
 import com.jdm.legends.dealership.cars.service.entity.Car;
-import com.jdm.legends.dealership.cars.service.enums.Roles;
+import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.jdm.legends.dealership.cars.service.enums.CarColor.BLACK;
 import static com.jdm.legends.dealership.cars.service.enums.CarCompany.TOYOTA;
@@ -27,7 +28,7 @@ public class TestDummy {
     }
 
     public static Car buildCarRequest() {
-        Car build = Car.builder()
+        Car toyotaSupra = Car.builder()
                 .carName("Toyota Supra")
                 .carColor(BLACK)
                 .carCompany(TOYOTA)
@@ -39,16 +40,19 @@ public class TestDummy {
                 .quantityInStock(4)
                 .startDateCarPostedOnline(LocalDateTime.of(2020, 10, 10, 12, 12, 12))
                 .deadlineCarToSell(now().plusMonths(3))
+                .historyBidList(List.of(HistoryBid.builder().build()))
                 .build();
-        return build;
+        toyotaSupra.setHistoryBidList(getHistoryTemporaryCustomerMock(toyotaSupra));
+
+        return toyotaSupra;
     }
 
-    public static TemporaryCustomerRequest getTempCustomerMock() {
-        return new TemporaryCustomerRequest(
-                "John Cena"
-                , "cannot_see_me98"
-                , "johnCeva12@yahoo.com"
-                , Roles.POTENTIAL_CLIENT.getValue()
-                , true);
+    private static List<HistoryBid> getHistoryTemporaryCustomerMock(Car car) {
+        return List.of(
+                HistoryBid.builder().id(1L).bidValue(new BigDecimal("54234234234")).timeOfTheBid(now().minusDays(2)).temporaryCustomerId(1L).car(car).build(),
+                HistoryBid.builder().id(2L).bidValue(new BigDecimal("56524534234")).timeOfTheBid(now().minusDays(5)).temporaryCustomerId(6L).car(car).build(),
+                HistoryBid.builder().id(3L).bidValue(new BigDecimal("54975546734")).timeOfTheBid(now().minusDays(10)).temporaryCustomerId(12L).car(car).build()
+        );
     }
+
 }

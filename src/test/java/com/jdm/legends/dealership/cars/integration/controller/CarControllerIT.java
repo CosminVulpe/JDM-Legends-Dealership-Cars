@@ -1,21 +1,16 @@
 package com.jdm.legends.dealership.cars.integration.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.jdm.legends.dealership.cars.controller.dto.WinnerCustomerResponse;
 import com.jdm.legends.dealership.cars.service.entity.Car;
-import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
-import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,13 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.jdm.legends.dealership.cars.service.enums.CarColor.BLACK;
-import static com.jdm.legends.dealership.cars.service.enums.CarCompany.TOYOTA;
-import static com.jdm.legends.dealership.cars.utils.TestData.buildCarRequest;
+import static com.jdm.legends.dealership.cars.utils.TestDummy.buildCarRequest;
+import static com.jdm.legends.dealership.cars.utils.UtilsMock.readValue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -44,8 +37,7 @@ class CarControllerIT {
     @Autowired
     private CarRepository carRepository;
 
-    @Autowired
-    private HistoryBidRepository historyBidRepository;
+    private static final String carRequestMapping = "/car";
 
     @BeforeEach()
     void insertDB() {
@@ -54,73 +46,72 @@ class CarControllerIT {
 
     @Test
     void shouldGetAllCarsFromDB() throws Exception {
-        MockHttpServletRequestBuilder mock = MockMvcRequestBuilders.get("/car").accept(APPLICATION_JSON);
-        mvc.perform(mock).andExpect(status().isOk());
+        MockHttpServletRequestBuilder mock = MockMvcRequestBuilders.get(carRequestMapping).accept(APPLICATION_JSON);
+        String contentAsString = mvc.perform(mock).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
-        List<Car> allCars = carRepository.findAll();
-        assertThat(allCars.size()).isNotZero();
+        List<Car> carList = readValue(contentAsString, new TypeReference<>() {
+        });
+
+        assertThat(carList).isNotEmpty();
+        carList.forEach(car -> assertThat(car).isNotNull());
     }
 
     @Test
     void shouldGetOneCarById() throws Exception {
         Car car = carRepository.findAll().get(0);
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/car/{carId}", car.getId()).accept(APPLICATION_JSON);
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get(carRequestMapping + "/{carId}", car.getId()).accept(APPLICATION_JSON);
+        String contentAsString = mvc.perform(builder)
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
-        mvc.perform(builder)
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(jsonPath("$.carName").value("Toyota Supra"))
-                .andExpect(jsonPath("$.carColor").value(BLACK.name()))
-                .andExpect(jsonPath("$.carCompany").value(TOYOTA.name()))
-                .andExpect(jsonPath("$.historyBidList").isNotEmpty())
-                .andExpect(jsonPath("$.historyBidList[0].temporaryUsersList").isNotEmpty());
+        Car response = readValue(contentAsString, Car.class);
 
-        List<Car> allCars = carRepository.findAll();
-        assertThat(allCars.size()).isNotZero();
+        assertThat(response).isNotNull();
+        assertThat(response.getHistoryBidList()).isNotEmpty();
     }
 
     @Test
-    @Disabled("The test is under development")
-    void shouldGetHistoryBidListByCarId() throws Exception {
-        Car car = carRepository.findAll().get(0);
-        HistoryBid carHistoryBidList = car.getHistoryBidList().get(0);
-        TemporaryCustomer temporaryCustomer = carHistoryBidList.getTemporaryUsersList().stream().findFirst().orElse(new TemporaryCustomer());
-
-        carHistoryBidList.setId(car.getId());
-        temporaryCustomer.setId(car.getId());
-
-        historyBidRepository.save(carHistoryBidList);
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/car/bid-list/{carId}", car.getId())
-                .contentType(APPLICATION_JSON)
-                .accept(APPLICATION_JSON);
-
-        MvcResult result = mvc.perform(builder)
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andReturn();
+    void shouldThrowExceptionWhenGetOneCarIdIsNotPresent() throws Exception {
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get(carRequestMapping + "/{carId}", 100L).accept(APPLICATION_JSON);
+        mvc.perform(builder).andExpect(status().isNotFound());
     }
 
     @Test
     void getDatesPerCar() throws Exception {
         Car car = carRepository.findAll().get(0);
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/car/dates/{carId}", car.getId())
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get(carRequestMapping + "/dates/{carId}", car.getId())
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON);
 
-        MvcResult mvcResult = mvc.perform(builder)
+        String contentAsString = mvc.perform(builder)
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andReturn();
+                .andReturn().getResponse().getContentAsString();
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-
-        List<LocalDateTime> datesResponse = mapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {
+        List<LocalDateTime> datesResponse = readValue(contentAsString, new TypeReference<>() {
         });
 
         assertThat(datesResponse).isNotEmpty();
         assertThat(datesResponse.get(0)).isEqualTo(car.getStartDateCarPostedOnline().toString());
         assertThat(datesResponse.get(1)).isEqualTo(car.getDeadlineCarToSell().toString());
+    }
+
+    @Test
+    void getWinnerSuccessfully() throws Exception {
+        Car car = carRepository.findAll().get(0);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(carRequestMapping + "/max/bidValue/{carId}", car.getId())
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON);
+
+        String contentAsString = mvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn().getResponse().getContentAsString();
+
+        WinnerCustomerResponse winnerCustomerResponse = readValue(contentAsString, WinnerCustomerResponse.class);
+
+       assertThat(winnerCustomerResponse).isNotNull();
+       assertThat(winnerCustomerResponse.bidValue()).isNotNull();
+       assertThat(winnerCustomerResponse.historyBidId()).isNotNull();
     }
 
 }

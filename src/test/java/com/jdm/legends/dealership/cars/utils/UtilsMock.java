@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -35,11 +34,4 @@ public class UtilsMock {
         }
     }
 
-    public static <T> T readValueResponseEntity(String content, TypeReference<ResponseEntity<T>> responseEntityTypeReference) {
-        try {
-            return jackson.readValue(content, responseEntityTypeReference).getBody();
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Something went wrong while deserializing the object", e);
-        }
-    }
 }
