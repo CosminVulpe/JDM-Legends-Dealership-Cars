@@ -1,8 +1,7 @@
 package com.jdm.legends.dealership.cars.integration.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jdm.legends.dealership.cars.controller.dto.ReviewDTO;
+import com.jdm.legends.dealership.cars.controller.dto.ReviewRequest;
 import com.jdm.legends.dealership.cars.service.entity.Review;
 import com.jdm.legends.dealership.cars.service.mapping.Mapper;
 import com.jdm.legends.dealership.cars.service.repository.ReviewRepository;
@@ -12,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,20 +18,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static com.jdm.legends.dealership.cars.utils.TestData.buildReviewRequest;
-import static com.jdm.legends.dealership.cars.utils.Utils.writeJsonAsString;
+import static com.jdm.legends.dealership.cars.utils.TestDummy.buildReviewRequest;
+import static com.jdm.legends.dealership.cars.utils.UtilsMock.readValue;
+import static com.jdm.legends.dealership.cars.utils.UtilsMock.writeJsonAsString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 @Transactional
 @ActiveProfiles("test-in-memory")
-class ReviewControllerIT implements Mapper<ReviewDTO, Review> {
+class ReviewControllerIT implements Mapper<ReviewRequest, Review> {
     @Autowired
     private ReviewRepository repository;
 
@@ -42,26 +39,29 @@ class ReviewControllerIT implements Mapper<ReviewDTO, Review> {
 
     @Test
     void addReview() throws Exception {
-        ReviewDTO review = buildReviewRequest();
+        ReviewRequest review = buildReviewRequest();
 
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/review/add")
                 .contentType(APPLICATION_JSON)
                 .content(writeJsonAsString(review))
                 .accept(APPLICATION_JSON);
 
-        mvc.perform(builder)
+        String contentAsString = mvc.perform(builder)
                 .andExpect(status().isCreated())
-                .andDo(print())
-                .andExpect(jsonPath("$.title").value("Recommended to friends"))
-                .andExpect(jsonPath("$.description").value("Very good"))
-                .andExpect(jsonPath("$.starRating").value(5));
+                .andReturn().getResponse().getContentAsString();
+
+        Review responseEntity = readValue(contentAsString, Review.class);
 
         assertThat(repository.findAll()).hasSize(1);
+        assertThat(responseEntity).isNotNull();
+        assertThat(responseEntity.getTitle()).isEqualTo("Recommended to friends");
+        assertThat(responseEntity.getDescription()).isEqualTo("Very good");
+        assertThat(responseEntity.getStarRating()).isEqualTo(5);
     }
 
     @Test
     void shouldGiveStatusBadRequestWhenAddingReview() throws Exception {
-        ReviewDTO review = buildReviewRequest("h","y",-1);
+        ReviewRequest review = buildReviewRequest("h", "y", -1);
 
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/review/add")
                 .contentType(APPLICATION_JSON)
@@ -74,21 +74,17 @@ class ReviewControllerIT implements Mapper<ReviewDTO, Review> {
     void getRecentReviews() throws Exception {
         List<Review> reviewList = IntStream.range(0, 2).mapToObj(i -> repository.save(map(buildReviewRequest()))).toList();
 
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/review")
-                .contentType(APPLICATION_JSON)
-                .accept(APPLICATION_JSON);
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/review").accept(APPLICATION_JSON);
+        String contentAsString = mvc.perform(builder).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
-        MvcResult mvcResult = mvc.perform(builder).andExpect(status().isOk()).andReturn();
-
-        ObjectMapper mapper = new ObjectMapper();
-        List<Review> retrievedReviewList = mapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {
+        List<Review> retrievedReviewList = readValue(contentAsString, new TypeReference<>() {
         });
 
         assertThat(reviewList.size()).isSameAs(retrievedReviewList.size());
     }
 
     @Override
-    public Review map(ReviewDTO source) {
+    public Review map(ReviewRequest source) {
         return Review.builder()
                 .title(source.title())
                 .description(source.description())
