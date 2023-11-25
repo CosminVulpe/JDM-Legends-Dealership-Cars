@@ -1,7 +1,8 @@
 package com.jdm.legends.dealership.cars.unit;
 
 import com.jdm.legends.dealership.cars.service.CarService;
-import com.jdm.legends.dealership.cars.service.dto.Car;
+import com.jdm.legends.dealership.cars.service.CarService.GetCarByIdNotFoundException;
+import com.jdm.legends.dealership.cars.service.entity.Car;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,9 +17,10 @@ import java.util.Optional;
 import static com.jdm.legends.dealership.cars.service.enums.CarColor.BLACK;
 import static com.jdm.legends.dealership.cars.service.enums.CarCompany.TOYOTA;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CarServiceUnitTest {
@@ -54,8 +56,9 @@ class CarServiceUnitTest {
     @Test
     void shouldGetCarByIdWhenIdDoesNotExists() {
         when(carRepository.findById(any())).thenReturn(Optional.empty());
-
-        assertThrows(CarService.GetCarByIdNotFoundException.class, () -> carService.getCarById(any()));
+        assertThatThrownBy(() -> carService.getCarById(100L))
+                .isInstanceOf(GetCarByIdNotFoundException.class)
+                .hasMessage("Car with Id provided does not exist");
     }
 
     @Test
