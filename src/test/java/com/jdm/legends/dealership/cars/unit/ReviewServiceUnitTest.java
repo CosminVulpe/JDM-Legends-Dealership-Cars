@@ -1,17 +1,18 @@
 package com.jdm.legends.dealership.cars.unit;
 
 
-import com.jdm.legends.dealership.cars.controller.dto.ReviewDTO;
+import com.jdm.legends.dealership.cars.controller.dto.ReviewRequest;
 import com.jdm.legends.dealership.cars.service.ReviewService;
 import com.jdm.legends.dealership.cars.service.entity.Review;
 import com.jdm.legends.dealership.cars.service.mapping.Mapper;
 import com.jdm.legends.dealership.cars.service.repository.ReviewRepository;
-import com.jdm.legends.dealership.cars.utils.TestData;
+import com.jdm.legends.dealership.cars.utils.TestDummy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ReviewServiceUnitTest implements Mapper<ReviewDTO,Review> {
+class ReviewServiceUnitTest implements Mapper<ReviewRequest, Review> {
 
     @Mock
     private ReviewRepository reviewRepository;
@@ -41,18 +42,18 @@ class ReviewServiceUnitTest implements Mapper<ReviewDTO,Review> {
 
     @Test
     void shouldAddReviewSuccessfullyIntoDB() {
-        ReviewDTO reviewDTO = TestData.buildReviewRequest();
-        Review review = map(reviewDTO);
+        ReviewRequest reviewRequest = TestDummy.buildReviewRequest();
+        Review review = map(reviewRequest);
         when(reviewRepository.save(any())).thenReturn(review);
 
-        ResponseEntity<Review> reviewResponseEntity = reviewService.addReview(reviewDTO);
+        ResponseEntity<Review> reviewResponseEntity = reviewService.addReview(reviewRequest);
 
         verify(reviewRepository).save(review);
-        assertThat(reviewResponseEntity.getStatusCodeValue()).isEqualTo(201);
+        assertThat(reviewResponseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 
     @Override
-    public Review map(ReviewDTO source) {
+    public Review map(ReviewRequest source) {
         return Review.builder()
                 .title(source.title())
                 .description(source.description())
