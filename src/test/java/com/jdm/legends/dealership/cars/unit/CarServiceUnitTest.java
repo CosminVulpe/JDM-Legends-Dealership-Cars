@@ -1,7 +1,7 @@
 package com.jdm.legends.dealership.cars.unit;
 
 import com.jdm.legends.dealership.cars.service.CarService;
-import com.jdm.legends.dealership.cars.service.CarService.GetCarByIdNotFoundException;
+import com.jdm.legends.dealership.cars.service.CarService.CarByIdException;
 import com.jdm.legends.dealership.cars.service.entity.Car;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import org.junit.jupiter.api.Test;
@@ -57,8 +57,8 @@ class CarServiceUnitTest {
     void shouldGetCarByIdWhenIdDoesNotExists() {
         when(carRepository.findById(any())).thenReturn(Optional.empty());
         assertThatThrownBy(() -> carService.getCarById(100L))
-                .isInstanceOf(GetCarByIdNotFoundException.class)
-                .hasMessage("Car with Id provided does not exist");
+                .isInstanceOf(CarByIdException.class)
+                .hasMessage("Unable to retrieve a specific car");
     }
 
     @Test

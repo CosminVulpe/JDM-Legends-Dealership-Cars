@@ -31,7 +31,7 @@ public class CarService {
     }
 
     public Car getCarById(Long carId) {
-        return carRepository.findById(carId).orElseThrow(GetCarByIdNotFoundException::new);
+        return carRepository.findById(carId).orElseThrow(CarByIdException::new);
     }
 
     public List<TemporaryCustomerDTO> getHistoryBidsList(Long carId) {
@@ -61,10 +61,10 @@ public class CarService {
 
     @Slf4j
     @ResponseStatus(value = NOT_FOUND)
-    public static class GetCarByIdNotFoundException extends RuntimeException {
-        public GetCarByIdNotFoundException() {
-            super("Car with Id provided does not exist");
-            log.error("Car with Id provided does not exist");
+    public static class CarByIdException extends RuntimeException {
+        public CarByIdException() {
+            super("Unable to retrieve a specific car");
+            log.error("Unable to retrieve a specific car");
         }
     }
 
