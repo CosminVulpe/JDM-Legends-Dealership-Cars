@@ -3,7 +3,6 @@ package com.jdm.legends.dealership.cars.integration.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.jdm.legends.dealership.cars.controller.dto.ReviewRequest;
 import com.jdm.legends.dealership.cars.service.entity.Review;
-import com.jdm.legends.dealership.cars.service.mapping.Mapper;
 import com.jdm.legends.dealership.cars.service.repository.ReviewRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
+import static com.jdm.legends.dealership.cars.service.mapper.ReviewMapper.INSTANCE;
 import static com.jdm.legends.dealership.cars.utils.TestDummy.buildReviewRequest;
 import static com.jdm.legends.dealership.cars.utils.UtilsMock.readValue;
 import static com.jdm.legends.dealership.cars.utils.UtilsMock.writeJsonAsString;
@@ -30,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @ActiveProfiles("test-in-memory")
-class ReviewControllerIT implements Mapper<ReviewRequest, Review> {
+class ReviewControllerIT {
     @Autowired
     private ReviewRepository repository;
 
@@ -72,7 +71,8 @@ class ReviewControllerIT implements Mapper<ReviewRequest, Review> {
 
     @Test
     void getRecentReviews() throws Exception {
-        List<Review> reviewList = IntStream.range(0, 2).mapToObj(i -> repository.save(map(buildReviewRequest()))).toList();
+        repository.save(INSTANCE.reviewRequestToReviewEntity(buildReviewRequest("very good mate","I suggested to my friends", 5)));
+        repository.save(INSTANCE.reviewRequestToReviewEntity(buildReviewRequest("DONT LIKE IT","Prices too high", 1)));
 
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/review").accept(APPLICATION_JSON);
         String contentAsString = mvc.perform(builder).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
@@ -80,15 +80,7 @@ class ReviewControllerIT implements Mapper<ReviewRequest, Review> {
         List<Review> retrievedReviewList = readValue(contentAsString, new TypeReference<>() {
         });
 
-        assertThat(reviewList.size()).isSameAs(retrievedReviewList.size());
+        assertThat(repository.findAll().size()).isSameAs(retrievedReviewList.size());
     }
 
-    @Override
-    public Review map(ReviewRequest source) {
-        return Review.builder()
-                .title(source.title())
-                .description(source.description())
-                .starRating(source.starRating())
-                .build();
-    }
 }
