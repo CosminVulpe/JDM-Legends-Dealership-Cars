@@ -1,11 +1,10 @@
 package com.jdm.legends.dealership.cars.integration.service;
 
 import com.jdm.legends.dealership.cars.service.CarService;
-import com.jdm.legends.dealership.cars.service.CarService.GetCarByIdNotFoundException;
-import com.jdm.legends.dealership.cars.service.dto.Car;
+import com.jdm.legends.dealership.cars.service.CarService.CarByIdException;
+import com.jdm.legends.dealership.cars.service.entity.Car;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.jdm.legends.dealership.cars.utils.TestData.buildCarRequest;
+import static com.jdm.legends.dealership.cars.utils.TestDummy.buildCarRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -55,13 +54,8 @@ class CarServiceIT {
     @Test
     void findCarByIdThrowsCustomException() {
         assertThatThrownBy(() -> carService.getCarById(100L))
-                .isInstanceOf(GetCarByIdNotFoundException.class)
-                .hasMessage("Car with Id provided does not exist");
-    }
-
-    @Test
-    @Disabled("Test is under development")
-    void getBiggestHistoryBidsPerCar() {
+                .isInstanceOf(CarByIdException.class)
+                .hasMessage("Unable to retrieve a specific car");
     }
 
     @Test
