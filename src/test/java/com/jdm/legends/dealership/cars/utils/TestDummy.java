@@ -6,6 +6,7 @@ import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.jdm.legends.dealership.cars.service.enums.CarColor.BLACK;
@@ -40,7 +41,6 @@ public class TestDummy {
                 .quantityInStock(4)
                 .startDateCarPostedOnline(LocalDateTime.of(2020, 10, 10, 12, 12, 12))
                 .deadlineCarToSell(now().plusMonths(3))
-                .historyBidList(List.of(HistoryBid.builder().build()))
                 .build();
         toyotaSupra.setHistoryBidList(getHistoryTemporaryCustomerMock(toyotaSupra));
 

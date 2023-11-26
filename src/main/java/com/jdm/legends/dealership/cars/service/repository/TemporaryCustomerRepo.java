@@ -44,12 +44,11 @@ public class TemporaryCustomerRepo {
         if (isNull(temporaryCustomerIdResponse) && isNull(temporaryCustomerIdResponse.id())) {
             String msgError = "Unable to save temporary customer id";
             log.error(msgError);
-            //TODO custom exception
             throw new TemporaryCustomerException(msgError);
         }
         historyBidSaved.setTemporaryCustomerId(temporaryCustomerIdResponse.id());
         repository.save(historyBidSaved);
-        log.info("History Bid saved successfully temporary customer id");
+        log.info("History Bid saved successfully");
     }
 
     public List<TemporaryCustomerDTO> getAllTemporaryCustomerPerHistoryBid(List<HistoryBid> historyBidList) {
