@@ -7,8 +7,10 @@ import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -18,6 +20,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static java.util.Objects.isNull;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Service
 @Slf4j
@@ -42,7 +45,7 @@ public class TemporaryCustomerRepo {
             String msgError = "Unable to save temporary customer id";
             log.error(msgError);
             //TODO custom exception
-            throw new IllegalArgumentException(msgError);
+            throw new TemporaryCustomerException(msgError);
         }
         historyBidSaved.setTemporaryCustomerId(temporaryCustomerIdResponse.id());
         repository.save(historyBidSaved);
@@ -67,5 +70,14 @@ public class TemporaryCustomerRepo {
                     entityBody.checkInformationStoredTemporarily(), historyBid.getBidValue()
             );
         }).sorted(Comparator.comparing(TemporaryCustomerDTO::bidValue).reversed()).limit(7).toList();
+    }
+
+    @Slf4j
+    @ResponseStatus(code = INTERNAL_SERVER_ERROR)
+    public static final class TemporaryCustomerException extends RuntimeException{
+        public TemporaryCustomerException(String message) {
+            super(message);
+            log.error(message);
+        }
     }
 }
