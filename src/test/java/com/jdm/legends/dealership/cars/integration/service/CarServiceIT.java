@@ -45,10 +45,8 @@ class CarServiceIT {
         Car car = carRepository.findAll().get(0);
         Car carById = carService.getCarById(car.getId());
 
-        assertThat(carById.getCarName()).isEqualTo(car.getCarName());
-        assertThat(carById.getKm()).isEqualTo(car.getKm());
-        assertThat(carById.getInitialPrice()).isEqualTo(car.getInitialPrice());
-        assertThat(carById.getHistoryBidList()).hasSize(1);
+        assertThat(carById).isNotNull();
+        assertThat(carById).isEqualTo(car);
     }
 
     @Test
