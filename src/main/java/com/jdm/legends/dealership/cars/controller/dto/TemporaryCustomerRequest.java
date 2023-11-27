@@ -3,13 +3,14 @@ package com.jdm.legends.dealership.cars.controller.dto;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 public record TemporaryCustomerRequest(
 
-        @Nullable
+        @NotBlank
         String fullName,
 
-        @Nullable
+        @NotBlank
         String userName,
 
         @Email
