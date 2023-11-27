@@ -1,13 +1,17 @@
 package com.jdm.legends.dealership.cars.utils;
 
+import com.jdm.legends.dealership.cars.controller.dto.HistoryBidRequest;
+import com.jdm.legends.dealership.cars.controller.dto.HistoryBidTemporaryCustomerRequest;
 import com.jdm.legends.dealership.cars.controller.dto.ReviewRequest;
+import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerRequest;
 import com.jdm.legends.dealership.cars.service.entity.Car;
 import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.jdm.legends.dealership.cars.service.enums.CarColor.BLACK;
 import static com.jdm.legends.dealership.cars.service.enums.CarCompany.TOYOTA;
@@ -48,11 +52,17 @@ public class TestDummy {
     }
 
     private static List<HistoryBid> getHistoryTemporaryCustomerMock(Car car) {
-        return List.of(
+        return Stream.of(
                 HistoryBid.builder().id(1L).bidValue(new BigDecimal("54234234234")).timeOfTheBid(now().minusDays(2)).temporaryCustomerId(1L).car(car).build(),
                 HistoryBid.builder().id(2L).bidValue(new BigDecimal("56524534234")).timeOfTheBid(now().minusDays(5)).temporaryCustomerId(6L).car(car).build(),
                 HistoryBid.builder().id(3L).bidValue(new BigDecimal("54975546734")).timeOfTheBid(now().minusDays(10)).temporaryCustomerId(12L).car(car).build()
-        );
+        ).collect(Collectors.toList());
+    }
+
+    public static HistoryBidTemporaryCustomerRequest getHistoryBidTempCustomerMock() {
+        HistoryBidRequest historyBidRequest = new HistoryBidRequest(new BigDecimal("23423424"), now().minusHours(5));
+        TemporaryCustomerRequest temporaryCustomerRequest = new TemporaryCustomerRequest("John Smith", "john23", "john23@yahoo.com", "ADMIN", true);
+        return new HistoryBidTemporaryCustomerRequest(historyBidRequest, temporaryCustomerRequest);
     }
 
 }

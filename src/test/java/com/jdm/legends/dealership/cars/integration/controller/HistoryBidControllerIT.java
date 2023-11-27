@@ -1,8 +1,5 @@
 package com.jdm.legends.dealership.cars.integration.controller;
 
-import com.jdm.legends.dealership.cars.controller.dto.HistoryBidRequest;
-import com.jdm.legends.dealership.cars.controller.dto.HistoryBidTemporaryCustomerRequest;
-import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerRequest;
 import com.jdm.legends.dealership.cars.service.entity.Car;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
@@ -18,12 +15,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-
 import static com.jdm.legends.dealership.cars.utils.TestDummy.buildCarRequest;
+import static com.jdm.legends.dealership.cars.utils.TestDummy.getHistoryBidTempCustomerMock;
 import static com.jdm.legends.dealership.cars.utils.UtilsMock.writeJsonAsString;
-import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -51,16 +45,13 @@ class HistoryBidControllerIT {
     @Test
     void testBidSuccessfully() throws Exception {
         Car buildCarRequest = buildCarRequest();
-        buildCarRequest.setHistoryBidList(new ArrayList<>());
         Car car = carRepository.save(buildCarRequest);
-        HistoryBidRequest historyBidRequest = new HistoryBidRequest(new BigDecimal("23423424"), now().minusHours(5));
-        TemporaryCustomerRequest temporaryCustomerRequest = new TemporaryCustomerRequest("John Smith", "john23", "john23@yahoo.com", "ADMIN", true);
-        HistoryBidTemporaryCustomerRequest request = new HistoryBidTemporaryCustomerRequest(historyBidRequest, temporaryCustomerRequest);
+
         doNothing().when(temporaryCustomerRepo).saveTempUser(any(),any());
 
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/history-bid/bid/{carId}", car.getId())
                 .contentType(APPLICATION_JSON)
-                .content(writeJsonAsString(request))
+                .content(writeJsonAsString(getHistoryBidTempCustomerMock()))
                 .accept(APPLICATION_JSON);
 
         mvc.perform(builder).andExpect(status().isOk());
