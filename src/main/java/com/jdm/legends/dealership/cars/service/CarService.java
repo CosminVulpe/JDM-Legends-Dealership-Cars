@@ -53,10 +53,10 @@ public class CarService {
             return Optional.empty();
         }
 
-        HistoryBid historyBidMax = historyBidList.stream().max(Comparator.comparing(HistoryBid::getBidValue)
-                .thenComparing(HistoryBid::getTimeOfTheBid)).stream().findFirst().orElse(null);
+        HistoryBid historyBid = historyBidList.stream().max(Comparator.comparing(HistoryBid::getBidValue))
+                .stream().min(Comparator.comparing(HistoryBid::getTimeOfTheBid)).orElseThrow();
 
-        return Optional.of(new WinnerCustomerResponse(historyBidMax.getBidValue(), historyBidMax.getId()));
+        return Optional.of(new WinnerCustomerResponse(historyBid.getBidValue(), historyBid.getId()));
     }
 
     @Slf4j
