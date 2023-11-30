@@ -1,5 +1,6 @@
 package com.jdm.legends.dealership.cars;
 
+import com.jdm.legends.dealership.cars.service.CountryService;
 import com.jdm.legends.dealership.cars.service.entity.Car;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -33,7 +34,7 @@ public class JDMLegendDealershipCars {
 
     @Bean
     @Profile("!test-in-memory")
-    CommandLineRunner commandLineRunner(CarRepository carRepository) {
+    CommandLineRunner commandLineRunner(CarRepository carRepository, CountryService countryService) {
         final int AVAILABLE_DAYS_TO_PURCHASE = 3;
         final LocalDateTime MOCK_DATA = now().plusMinutes(2);
 
@@ -189,6 +190,7 @@ public class JDMLegendDealershipCars {
                             nissan, toyota, honda, subaru, mazda, mitsubishi, infinity, lexus
                     ));
 
+            countryService.saveCountries();
         };
     }
 
