@@ -50,6 +50,7 @@ public class CarService {
         List<HistoryBid> historyBidList = carById.getHistoryBidList();
 
         if (historyBidList.isEmpty()) {
+            log.warn("No max bid was found");
             return Optional.empty();
         }
 

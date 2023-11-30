@@ -7,7 +7,6 @@ import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -38,9 +37,10 @@ public class TemporaryCustomerRepo {
     }
 
     public void saveTempUser(TemporaryCustomerRequest temporaryCustomerRequest, HistoryBid historyBidSaved) {
-        UriComponents request = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-customer/save/{historyBidId}").buildAndExpand(historyBidSaved.getId());
-        TemporaryCustomerIdResponse temporaryCustomerIdResponse = restTemplate.postForObject(request.toUriString(), new HttpEntity<>(temporaryCustomerRequest), TemporaryCustomerIdResponse.class);
+        UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-customer/save/{historyBidId}").buildAndExpand(historyBidSaved.getId());
+        TemporaryCustomerIdResponse temporaryCustomerIdResponse = restTemplate.postForObject(uriRequest.toUriString(), new HttpEntity<>(temporaryCustomerRequest), TemporaryCustomerIdResponse.class);
 
+        log.info("Sending request {} to url: {} to save temporary customer", temporaryCustomerRequest, uriRequest);
         if (isNull(temporaryCustomerIdResponse) && isNull(temporaryCustomerIdResponse.id())) {
             String msgError = "Unable to save temporary customer id";
             log.error(msgError);
@@ -48,7 +48,7 @@ public class TemporaryCustomerRepo {
         }
         historyBidSaved.setTemporaryCustomerId(temporaryCustomerIdResponse.id());
         repository.save(historyBidSaved);
-        log.info("History Bid saved successfully");
+        log.info("History bid saved successfully");
     }
 
     public List<TemporaryCustomerDTO> getAllTemporaryCustomerPerHistoryBid(List<HistoryBid> historyBidList) {
@@ -62,7 +62,7 @@ public class TemporaryCustomerRepo {
                 throw new RestClientException(msgError);
             }
             TemporaryCustomerDTO entityBody = restTemplateForEntity.getBody();
-
+            log.info("Getting response from {} {} ", uriComponents, entityBody);
             return new TemporaryCustomerDTO(
                     entityBody.id(), entityBody.fullName(), entityBody.userName(),
                     entityBody.emailAddress(), entityBody.role(),
