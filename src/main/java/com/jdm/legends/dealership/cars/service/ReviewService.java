@@ -29,7 +29,7 @@ public class ReviewService {
         Review review = ReviewMapper.INSTANCE.reviewRequestToReviewEntity(request);
 
         reviewRepository.save(review);
-        log.info("Review with id {} saved", review.getId());
+        log.info("Review with id {} saved successfully", review.getId());
 
         ReviewDTO reviewDTO = ReviewMapper.INSTANCE.reviewEntityToReviewDTO(review);
         return new ResponseEntity<>(reviewDTO, CREATED);
