@@ -2,9 +2,9 @@ package com.jdm.legends.dealership.cars.unit;
 
 import com.jdm.legends.dealership.cars.controller.dto.CountryResponse;
 import com.jdm.legends.dealership.cars.service.CountryService;
+import com.jdm.legends.dealership.cars.service.CountryService.CountryNotFoundException;
 import com.jdm.legends.dealership.cars.service.CountryService.XMLParserException;
 import com.jdm.legends.dealership.cars.service.entity.Country;
-import com.jdm.legends.dealership.cars.service.parserXml.CountryDTO;
 import com.jdm.legends.dealership.cars.service.repository.CountryRepo;
 import com.jdm.legends.dealership.cars.service.repository.CountryRepository;
 import org.junit.jupiter.api.Test;
@@ -64,17 +64,42 @@ public class CountryServiceUnitTest {
     }
 
     @Test
-    void throwsExceptionWhenXMLIsNotPresent() {
+    void getXmlResponseShouldThrowExceptionWhenResponseIsEmpty() {
         when(countryRepo.getCountries()).thenReturn("");
 
-        assertThatThrownBy(() ->  countryService.saveCountries())
+        assertThatThrownBy(() -> countryService.saveCountries())
                 .isInstanceOf(XMLParserException.class)
                 .hasMessage("Parsing the response from API failed");
     }
 
     @Test
-    void getAllCountries() {
-        Country romania = Country.builder()
+    void getCountries() {
+        when(countryRepository.findAll()).thenReturn(List.of(getCountryMock(), getCountryMock()));
+
+        List<String> countries = countryService.getCountries();
+        assertThat(countries).isNotEmpty();
+        assertThat(countries).hasSize(2);
+    }
+
+
+    @Test
+    void getCountryInfo() {
+        when(countryRepository.findAll()).thenReturn(List.of(getCountryMock()));
+
+        CountryResponse countryInfo = countryService.getCountryInfo(getCountryMock().getCountryName());
+        assertThat(countryInfo).isNotNull();
+        assertThat(countryInfo.continent()).isEqualTo("EU");
+    }
+
+    @Test
+    void getCountryInfoShouldThrowExceptionWhenCountryNotFound() {
+        assertThatThrownBy(() -> countryService.getCountryInfo("mari"))
+                .isInstanceOf(CountryNotFoundException.class)
+                .hasMessage("Country with specific name was not found in the system");
+    }
+
+    private static Country getCountryMock() {
+        return Country.builder()
                 .id(1L)
                 .countryCode("RO")
                 .countryName("Romania")
@@ -84,12 +109,5 @@ public class CountryServiceUnitTest {
                 .capital("Bucharest")
                 .currencyCode("RON")
                 .build();
-        when(countryRepository.findAll()).thenReturn(List.of(romania));
-
-        List<CountryResponse> countries = countryService.getCountries();
-
-        assertThat(countries).isNotEmpty();
     }
-
-
 }
