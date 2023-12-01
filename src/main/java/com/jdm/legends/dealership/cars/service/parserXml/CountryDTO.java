@@ -13,4 +13,9 @@ public class CountryDTO {
     private String continentName;
     private String capital;
     private String currencyCode;
+
+    private double west;
+    private double north;
+    private double east;
+    private double south;
 }

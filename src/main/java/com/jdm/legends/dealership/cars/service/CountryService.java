@@ -1,5 +1,6 @@
 package com.jdm.legends.dealership.cars.service;
 
+import com.jdm.legends.dealership.cars.controller.dto.CountryResponse;
 import com.jdm.legends.dealership.cars.service.mapper.CountryMapper;
 import com.jdm.legends.dealership.cars.service.parserXml.CountryDTO;
 import com.jdm.legends.dealership.cars.service.parserXml.Geonames;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 @Slf4j
@@ -26,8 +28,16 @@ public class CountryService {
     private final CountryRepo countryRepo;
     private final CountryRepository repository;
 
-    public List<CountryDTO> getCountries() {
-        return repository.findAll().stream().map(CountryMapper.INSTANCE::countryEntityToCountryDTO).toList();
+    public List<String> getCountries() {
+        return repository.findAll().stream().map(CountryMapper.INSTANCE::countryEntityToCountryResponse).map(CountryResponse::countryName).toList();
+    }
+
+    public CountryResponse getCountryInfo(String countryName) {
+        return repository.findAll().stream()
+                .map(CountryMapper.INSTANCE::countryEntityToCountryResponse)
+                .filter(country -> country.countryName().equalsIgnoreCase(countryName))
+                .findFirst()
+                .orElseThrow(CountryNotFoundException::new);
     }
 
     public void saveCountries() {
@@ -58,22 +68,13 @@ public class CountryService {
         }
     }
 
-    public static void main(String[] args) {
-        double west = 79.6505518289324;
-        double north = 9.83586297688552;
-        double east = 81.8790900303934;
-        double south = 5.91869676126554;
-
-        double[] newCoordinates = calculateCoordinates(north, south, east, west);
-
-        System.out.println("New Latitude: " + newCoordinates[0]);
-        System.out.println("New Longitude: " + newCoordinates[1]);
-    }
-
-    static double[] calculateCoordinates(double north, double south, double east, double west) {
-        double newLat = (north + south) / 2;
-        double newLng = (east + west) / 2;
-        return new double[]{newLat, newLng};
+    @Slf4j
+    @ResponseStatus(code = NOT_FOUND)
+    public static final class CountryNotFoundException extends RuntimeException {
+        public CountryNotFoundException() {
+            super("Country with specific name was not found in the system");
+            log.error("Country with specific name was not found in the system");
+        }
     }
 
 }

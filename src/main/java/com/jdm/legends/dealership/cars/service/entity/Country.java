@@ -27,4 +27,6 @@ public class Country {
     private String continentName;
     private String capital;
     private String currencyCode;
+    private double latitude;
+    private double longitude;
 }

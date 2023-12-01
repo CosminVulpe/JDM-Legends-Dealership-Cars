@@ -25,21 +25,34 @@ public class CountryRepo {
     }
 
     public String getCountries() {
-        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(geonamesApiUrl).queryParam("username", username);
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(geonamesApiUrl + "/countryInfo?").queryParam("username", username);
         ResponseEntity<String> responseEntity = template.getForEntity(uriComponentsBuilder.toUriString(), String.class);
 
         if (!responseEntity.getStatusCode().is2xxSuccessful() || isNull(responseEntity.getBody())) {
-            throw new CountryCapitalPairException();
+            throw new GeonamesExternalAPIException();
         }
         return responseEntity.getBody();
     }
 
+//    public String findAddressByPostalCode(String postalCode, String countryCode) {
+//        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(geonamesApiUrl + "/postalCodeSearch?")
+//                .queryParam("username", username)
+//                .queryParam("postalcode",postalCode)
+//                .queryParam("country",countryCode);
+//        ResponseEntity<String> responseEntity = template.getForEntity(uriComponentsBuilder.toUriString(), String.class);
+//
+//        if (!responseEntity.getStatusCode().is2xxSuccessful() || isNull(responseEntity.getBody())) {
+//            throw new GeonamesExternalAPIException();
+//        }
+//        return responseEntity.getBody();
+//    }
+
     @Slf4j
     @ResponseStatus(code = INTERNAL_SERVER_ERROR)
-    public static final class CountryCapitalPairException extends RuntimeException {
-        public CountryCapitalPairException() {
-            super("Error while retrieving countries from API");
-            log.error("Error while retrieving countries from API");
+    public static final class GeonamesExternalAPIException extends RuntimeException {
+        public GeonamesExternalAPIException() {
+            super("Error while calling external API");
+            log.error("Error while calling external API");
         }
     }
 
