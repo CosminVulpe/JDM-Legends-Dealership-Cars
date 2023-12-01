@@ -3,7 +3,7 @@ package com.jdm.legends.dealership.cars.unit;
 import com.jdm.legends.dealership.cars.service.CountryService;
 import com.jdm.legends.dealership.cars.service.CountryService.XMLParserException;
 import com.jdm.legends.dealership.cars.service.entity.Country;
-import com.jdm.legends.dealership.cars.service.parserXml.CountryResponse;
+import com.jdm.legends.dealership.cars.service.parserXml.CountryDTO;
 import com.jdm.legends.dealership.cars.service.repository.CountryRepo;
 import com.jdm.legends.dealership.cars.service.repository.CountryRepository;
 import org.junit.jupiter.api.Test;
@@ -85,7 +85,7 @@ public class CountryServiceUnitTest {
                 .build();
         when(countryRepository.findAll()).thenReturn(List.of(romania));
 
-        List<CountryResponse> countries = countryService.getCountries();
+        List<CountryDTO> countries = countryService.getCountries();
 
         assertThat(countries).isNotEmpty();
     }

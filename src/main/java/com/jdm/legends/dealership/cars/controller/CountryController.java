@@ -1,7 +1,7 @@
 package com.jdm.legends.dealership.cars.controller;
 
 import com.jdm.legends.dealership.cars.service.CountryService;
-import com.jdm.legends.dealership.cars.service.parserXml.CountryResponse;
+import com.jdm.legends.dealership.cars.service.parserXml.CountryDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +16,7 @@ public class CountryController {
     private final CountryService service;
 
     @GetMapping
-    public List<CountryResponse> getAllCountriesInfo() {
+    public List<CountryDTO> getAllCountriesInfo() {
        return service.getCountries();
     }
 }

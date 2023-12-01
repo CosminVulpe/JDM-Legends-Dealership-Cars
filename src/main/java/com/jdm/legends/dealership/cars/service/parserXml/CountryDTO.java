@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CountryResponse {
+public class CountryDTO {
     private String countryCode;
     private String countryName;
     private String isoNumeric;

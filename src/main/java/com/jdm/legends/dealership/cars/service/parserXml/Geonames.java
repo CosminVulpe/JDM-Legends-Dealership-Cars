@@ -8,14 +8,14 @@ import java.util.List;
 
 @XmlRootElement(name = "geonames")
 public class Geonames {
-    private final List<CountryResponse> countries;
+    private final List<CountryDTO> countries;
 
     public Geonames() {
         this.countries = new ArrayList<>();
     }
 
     @XmlElement(name = "country")
-    public List<CountryResponse> getCountryList() {
+    public List<CountryDTO> getCountryList() {
         return countries;
     }
 }
