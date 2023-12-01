@@ -5,6 +5,7 @@ import com.jdm.legends.dealership.cars.controller.dto.HistoryBidTemporaryCustome
 import com.jdm.legends.dealership.cars.controller.dto.ReviewRequest;
 import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerRequest;
 import com.jdm.legends.dealership.cars.service.entity.Car;
+import com.jdm.legends.dealership.cars.service.entity.Country;
 import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 
 import java.math.BigDecimal;
@@ -63,6 +64,14 @@ public class TestDummy {
         HistoryBidRequest historyBidRequest = new HistoryBidRequest(new BigDecimal("23423424"), now().minusHours(5));
         TemporaryCustomerRequest temporaryCustomerRequest = new TemporaryCustomerRequest("John Smith", "john23", "john23@yahoo.com", "ADMIN", true);
         return new HistoryBidTemporaryCustomerRequest(historyBidRequest, temporaryCustomerRequest);
+    }
+
+    public static List<Country> getCountryMock(){
+        return List.of(
+                Country.builder().countryName("United Arab Emirates").isoNumeric("784").capital("Abi Dhabi").continentName("Asia").build(),
+                Country.builder().countryName("Bangladesh").isoNumeric("050").capital("Dhaka").continentName("Asia").build(),
+                Country.builder().countryName("Indonesia").isoNumeric("360").capital("Jakarta").continentName("Asia").build()
+        );
     }
 
 }
