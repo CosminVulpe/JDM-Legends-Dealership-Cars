@@ -1,5 +1,6 @@
 package com.jdm.legends.dealership.cars.unit;
 
+import com.jdm.legends.dealership.cars.controller.dto.CountryResponse;
 import com.jdm.legends.dealership.cars.service.CountryService;
 import com.jdm.legends.dealership.cars.service.CountryService.XMLParserException;
 import com.jdm.legends.dealership.cars.service.entity.Country;
@@ -85,7 +86,7 @@ public class CountryServiceUnitTest {
                 .build();
         when(countryRepository.findAll()).thenReturn(List.of(romania));
 
-        List<CountryDTO> countries = countryService.getCountries();
+        List<CountryResponse> countries = countryService.getCountries();
 
         assertThat(countries).isNotEmpty();
     }
