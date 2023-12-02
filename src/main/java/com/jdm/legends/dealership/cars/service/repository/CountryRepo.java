@@ -34,19 +34,6 @@ public class CountryRepo {
         return responseEntity.getBody();
     }
 
-//    public String findAddressByPostalCode(String postalCode, String countryCode) {
-//        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(geonamesApiUrl + "/postalCodeSearch?")
-//                .queryParam("username", username)
-//                .queryParam("postalcode",postalCode)
-//                .queryParam("country",countryCode);
-//        ResponseEntity<String> responseEntity = template.getForEntity(uriComponentsBuilder.toUriString(), String.class);
-//
-//        if (!responseEntity.getStatusCode().is2xxSuccessful() || isNull(responseEntity.getBody())) {
-//            throw new GeonamesExternalAPIException();
-//        }
-//        return responseEntity.getBody();
-//    }
-
     @Slf4j
     @ResponseStatus(code = INTERNAL_SERVER_ERROR)
     public static final class GeonamesExternalAPIException extends RuntimeException {
