@@ -17,12 +17,12 @@ public class CountryController {
     private final CountryService service;
 
     @GetMapping
-    public List<String> getAllCountriesInfo() {
+    public List<String> getCountries() {
        return service.getCountries();
     }
 
     @GetMapping("/info/{countryName}")
-    public CountryResponse getAllCountriesInfo(@PathVariable String countryName) {
+    public CountryResponse getCountryInfo(@PathVariable String countryName) {
         return service.getCountryInfo(countryName);
     }
 

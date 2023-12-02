@@ -1,6 +1,7 @@
 package com.jdm.legends.dealership.cars.service;
 
 import com.jdm.legends.dealership.cars.controller.dto.CountryResponse;
+import com.jdm.legends.dealership.cars.service.CaffeineService.KeyExpiredException;
 import com.jdm.legends.dealership.cars.service.mapper.CountryMapper;
 import com.jdm.legends.dealership.cars.service.parserXml.CountryDTO;
 import com.jdm.legends.dealership.cars.service.parserXml.Geonames;
@@ -28,18 +29,34 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class CountryService {
     private final CountryRepo countryRepo;
     private final CountryRepository repository;
+    private final CaffeineService caffeineService;
 
-    @Cacheable("countries")
+    private static final String KEY_CACHING = "oneCountry";
+
+    @Cacheable(value = "countries", key = "'allCountries'")
     public List<String> getCountries() {
         return repository.findAll().stream().map(CountryMapper.INSTANCE::countryEntityToCountryResponse).map(CountryResponse::countryName).toList();
     }
 
     public CountryResponse getCountryInfo(String countryName) {
-        return repository.findAll().stream()
+        CountryResponse countryResponse = repository.findAll().stream()
                 .map(CountryMapper.INSTANCE::countryEntityToCountryResponse)
                 .filter(country -> country.countryName().equalsIgnoreCase(countryName))
                 .findFirst()
                 .orElseThrow(CountryNotFoundException::new);
+
+        caffeineService.saveInCache(KEY_CACHING, countryResponse);
+        return countryResponse;
+    }
+
+    public String getCountryName() {
+        Optional<CountryResponse> countryResponseCache = caffeineService.getCountryResponseCache(KEY_CACHING);
+
+        if (countryResponseCache.isEmpty()) {
+            throw new KeyExpiredException("Key-Value stored in Caffeine was unable to be retrieved");
+        }
+
+        return countryResponseCache.get().countryName();
     }
 
     public void saveCountries() {
