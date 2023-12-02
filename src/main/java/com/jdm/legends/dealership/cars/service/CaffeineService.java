@@ -3,6 +3,7 @@ package com.jdm.legends.dealership.cars.service;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.jdm.legends.dealership.cars.controller.dto.CountryResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,10 +28,12 @@ public class CaffeineService {
     }
 
 
+    @Slf4j
     @ResponseStatus(code = INTERNAL_SERVER_ERROR)
     public static final class KeyExpiredException extends RuntimeException {
         public KeyExpiredException(String message) {
             super(message);
+            log.error(message);
         }
     }
 }
