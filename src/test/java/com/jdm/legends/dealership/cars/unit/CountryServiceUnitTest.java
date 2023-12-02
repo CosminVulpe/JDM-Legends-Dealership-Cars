@@ -1,6 +1,7 @@
 package com.jdm.legends.dealership.cars.unit;
 
 import com.jdm.legends.dealership.cars.controller.dto.CountryResponse;
+import com.jdm.legends.dealership.cars.service.CaffeineService;
 import com.jdm.legends.dealership.cars.service.CountryService;
 import com.jdm.legends.dealership.cars.service.CountryService.CountryNotFoundException;
 import com.jdm.legends.dealership.cars.service.CountryService.XMLParserException;
@@ -18,6 +19,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,6 +35,9 @@ public class CountryServiceUnitTest {
 
     @Mock
     private CountryRepo countryRepo;
+
+    @Mock
+    private CaffeineService caffeineService;
 
     @Test
     void saveCountriesSuccessfully() {
@@ -85,6 +91,7 @@ public class CountryServiceUnitTest {
     @Test
     void getCountryInfo() {
         when(countryRepository.findAll()).thenReturn(List.of(getCountryMock()));
+        doNothing().when(caffeineService).saveInCache(anyString(), any());
 
         CountryResponse countryInfo = countryService.getCountryInfo(getCountryMock().getCountryName());
         assertThat(countryInfo).isNotNull();
