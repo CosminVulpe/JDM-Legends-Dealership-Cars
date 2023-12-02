@@ -1,5 +1,6 @@
 package com.jdm.legends.dealership.cars.utils;
 
+import com.jdm.legends.dealership.cars.controller.dto.AddressRequest;
 import com.jdm.legends.dealership.cars.controller.dto.HistoryBidRequest;
 import com.jdm.legends.dealership.cars.controller.dto.HistoryBidTemporaryCustomerRequest;
 import com.jdm.legends.dealership.cars.controller.dto.ReviewRequest;
@@ -66,7 +67,7 @@ public class TestDummy {
         return new HistoryBidTemporaryCustomerRequest(historyBidRequest, temporaryCustomerRequest);
     }
 
-    public static List<Country> getCountryMock(){
+    public static List<Country> getCountryMock() {
         return List.of(
                 Country.builder().countryName("United Arab Emirates").isoNumeric("784").capital("Abi Dhabi").continentName("Asia").build(),
                 Country.builder().countryName("Bangladesh").isoNumeric("050").capital("Dhaka").continentName("Asia").build(),
@@ -74,4 +75,32 @@ public class TestDummy {
         );
     }
 
+    public static AddressRequest getAddressRequestMock() {
+        return new AddressRequest("Maple Avenue", "Riverside", "12345", "California", false);
+    }
+
+    public static String getXmlContentCountries() {
+        return """
+                <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                <geonames>
+                    <country>
+                        <countryCode>AD</countryCode>
+                        <countryName>Andorra</countryName>
+                        <isoNumeric>020</isoNumeric>
+                        <continent>EU</continent>
+                        <continentName>Europe</continentName>
+                        <capital>Andorra la Vella</capital>
+                    </country>
+                    <country>
+                        <countryCode>AE</countryCode>
+                        <countryName>United Arab Emirates</countryName>
+                        <isoNumeric>784</isoNumeric>
+                        <isoAlpha3>ARE</isoAlpha3>
+                        <continent>AS</continent>
+                        <continentName>Asia</continentName>
+                        <capital>Abu Dhabi</capital>
+                    </country>
+                </geonames>
+                """;
+    }
 }

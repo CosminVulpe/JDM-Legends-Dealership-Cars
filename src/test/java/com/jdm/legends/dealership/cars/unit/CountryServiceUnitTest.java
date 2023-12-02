@@ -8,6 +8,7 @@ import com.jdm.legends.dealership.cars.service.CountryService.XMLParserException
 import com.jdm.legends.dealership.cars.service.entity.Country;
 import com.jdm.legends.dealership.cars.service.repository.CountryRepo;
 import com.jdm.legends.dealership.cars.service.repository.CountryRepository;
+import com.jdm.legends.dealership.cars.utils.TestDummy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
+import static com.jdm.legends.dealership.cars.utils.TestDummy.getXmlContentCountries;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -41,29 +43,7 @@ public class CountryServiceUnitTest {
 
     @Test
     void saveCountriesSuccessfully() {
-        String result = """
-                <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                <geonames>
-                    <country>
-                        <countryCode>AD</countryCode>
-                        <countryName>Andorra</countryName>
-                        <isoNumeric>020</isoNumeric>
-                        <continent>EU</continent>
-                        <continentName>Europe</continentName>
-                        <capital>Andorra la Vella</capital>
-                    </country>
-                    <country>
-                        <countryCode>AE</countryCode>
-                        <countryName>United Arab Emirates</countryName>
-                        <isoNumeric>784</isoNumeric>
-                        <isoAlpha3>ARE</isoAlpha3>
-                        <continent>AS</continent>
-                        <continentName>Asia</continentName>
-                        <capital>Abu Dhabi</capital>
-                    </country>
-                </geonames>
-                """;
-        when(countryRepo.getCountries()).thenReturn(result);
+        when(countryRepo.getCountries()).thenReturn(getXmlContentCountries());
 
         countryService.saveCountries();
         verify(countryRepository, times(2)).save(any());
