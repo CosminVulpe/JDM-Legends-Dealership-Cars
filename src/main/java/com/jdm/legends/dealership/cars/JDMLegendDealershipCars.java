@@ -6,6 +6,7 @@ import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.client.RestTemplate;
@@ -24,6 +25,7 @@ import static java.time.LocalDateTime.now;
 
 
 @EnableWebMvc
+@EnableCaching
 @SpringBootApplication
 public class JDMLegendDealershipCars {
 

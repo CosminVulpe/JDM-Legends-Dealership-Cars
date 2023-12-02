@@ -8,6 +8,7 @@ import com.jdm.legends.dealership.cars.service.repository.CountryRepo;
 import com.jdm.legends.dealership.cars.service.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -28,6 +29,7 @@ public class CountryService {
     private final CountryRepo countryRepo;
     private final CountryRepository repository;
 
+    @Cacheable("countries")
     public List<String> getCountries() {
         return repository.findAll().stream().map(CountryMapper.INSTANCE::countryEntityToCountryResponse).map(CountryResponse::countryName).toList();
     }
