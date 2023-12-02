@@ -1,6 +1,5 @@
 package com.jdm.legends.dealership.cars.unit;
 
-import com.jdm.legends.dealership.cars.controller.dto.AddressRequest;
 import com.jdm.legends.dealership.cars.service.AddressService;
 import com.jdm.legends.dealership.cars.service.CountryService;
 import com.jdm.legends.dealership.cars.service.repository.AddressRepository;
@@ -12,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import static com.jdm.legends.dealership.cars.utils.TestDummy.getAddressRequestMock;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -39,7 +39,4 @@ public class AddressServiceUnitTest {
         verify(repository).save(any());
     }
 
-    private static AddressRequest getAddressRequestMock() {
-        return new AddressRequest("Maple Avenue", "Riverside", "12345", "California", false);
-    }
 }
