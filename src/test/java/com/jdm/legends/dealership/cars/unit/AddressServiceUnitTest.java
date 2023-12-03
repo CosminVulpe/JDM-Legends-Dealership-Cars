@@ -2,6 +2,7 @@ package com.jdm.legends.dealership.cars.unit;
 
 import com.jdm.legends.dealership.cars.service.AddressService;
 import com.jdm.legends.dealership.cars.service.CountryService;
+import com.jdm.legends.dealership.cars.service.entity.Address;
 import com.jdm.legends.dealership.cars.service.repository.AddressRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import static com.jdm.legends.dealership.cars.utils.TestDummy.getAddressRequestMock;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,10 +32,11 @@ public class AddressServiceUnitTest {
     @Test
     void addAddress() {
         when(countryService.getCountryName()).thenReturn("United States");
+        when(repository.save(any())).thenReturn(new Address());
 
-        ResponseEntity<Void> responseEntity = addressService.addAddress(getAddressRequestMock());
+        Address address = addressService.addAddress(getAddressRequestMock());
 
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(address).isNotNull();
         verify(repository).save(any());
     }
 

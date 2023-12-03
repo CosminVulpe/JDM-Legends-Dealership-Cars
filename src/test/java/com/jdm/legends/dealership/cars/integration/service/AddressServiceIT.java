@@ -2,6 +2,7 @@ package com.jdm.legends.dealership.cars.integration.service;
 
 import com.jdm.legends.dealership.cars.service.AddressService;
 import com.jdm.legends.dealership.cars.service.CountryService;
+import com.jdm.legends.dealership.cars.service.entity.Address;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,8 +32,9 @@ public class AddressServiceIT {
         String country = countryService.getCountries().stream().findAny().get();
         countryService.getCountryInfo(country);
 
-        ResponseEntity<Void> responseEntity = addressService.addAddress(getAddressRequestMock());
+        Address address = addressService.addAddress(getAddressRequestMock());
 
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(address).isNotNull();
+        assertThat(address.getId()).isNotNull();
     }
 }

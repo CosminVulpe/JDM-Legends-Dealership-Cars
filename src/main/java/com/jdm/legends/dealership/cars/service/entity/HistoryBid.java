@@ -1,5 +1,6 @@
 package com.jdm.legends.dealership.cars.service.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,6 +35,7 @@ public final class HistoryBid {
 
     @ManyToOne(cascade = MERGE, fetch = LAZY)
     @JoinColumn(name = "car_id", referencedColumnName = "id")
+    @JsonIgnore
     private Car car;
 
     private Long temporaryCustomerId;
