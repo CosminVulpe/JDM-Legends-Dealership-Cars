@@ -3,6 +3,7 @@ package com.jdm.legends.dealership.cars.service.repository;
 import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerDTO;
 import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerIdResponse;
 import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerRequest;
+import com.jdm.legends.dealership.cars.controller.dto.WinnerCustomerDTO;
 import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,9 +72,22 @@ public class TemporaryCustomerRepo {
         }).sorted(Comparator.comparing(TemporaryCustomerDTO::bidValue).reversed()).limit(7).toList();
     }
 
+    public WinnerCustomerDTO getWinnerCustomer(Long carId) {
+        UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-customer/winner/{carId}").buildAndExpand(carId);
+        ResponseEntity<WinnerCustomerDTO> winnerCustomerDTO = restTemplate.getForEntity(uriRequest.toUriString(), WinnerCustomerDTO.class);
+
+        if (!winnerCustomerDTO.getStatusCode().is2xxSuccessful()) {
+            String msg = "Unable to get winner temporary customer";
+            log.error(msg);
+            throw new RestClientException(msg);
+        }
+
+        return winnerCustomerDTO.getBody();
+    }
+
     @Slf4j
     @ResponseStatus(code = INTERNAL_SERVER_ERROR)
-    public static final class TemporaryCustomerException extends RuntimeException{
+    public static final class TemporaryCustomerException extends RuntimeException {
         public TemporaryCustomerException(String message) {
             super(message);
             log.error(message);
