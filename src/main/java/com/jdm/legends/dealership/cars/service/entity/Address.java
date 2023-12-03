@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 @NoArgsConstructor
@@ -29,4 +31,7 @@ public class Address {
 
     @Enumerated(EnumType.STRING)
     private AddressType addressType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Order order;
 }
