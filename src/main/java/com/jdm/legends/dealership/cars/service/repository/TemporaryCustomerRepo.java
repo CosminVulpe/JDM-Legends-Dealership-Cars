@@ -93,7 +93,7 @@ public class TemporaryCustomerRepo {
             ResponseEntity<WinnerCustomerDTO> winnerCustomerDTO = restTemplate.getForEntity(uriRequest.toUriString(), WinnerCustomerDTO.class);
 
             if (!winnerCustomerDTO.getStatusCode().is2xxSuccessful()) {
-                String msgError = String.format("Request to %s was not 200 successful", uriRequest.toUriString());
+                String msgError = String.format("Request to %s was not successful", uriRequest.toUriString());
                 log.error(msgError);
                 throw new ResponseStatusException(winnerCustomerDTO.getStatusCode(), msgError);
             }
