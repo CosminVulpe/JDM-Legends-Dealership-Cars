@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -25,21 +26,28 @@ public class CountryRepo {
     }
 
     public String getCountries() {
-        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(geonamesApiUrl + "/countryInfo?").queryParam("username", username);
-        ResponseEntity<String> responseEntity = template.getForEntity(uriComponentsBuilder.toUriString(), String.class);
+        try {
+            UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(geonamesApiUrl + "/countryInfo?").queryParam("username", username);
+            ResponseEntity<String> responseEntity = template.getForEntity(uriComponentsBuilder.toUriString(), String.class);
 
-        if (!responseEntity.getStatusCode().is2xxSuccessful() || isNull(responseEntity.getBody())) {
-            throw new GeonamesExternalAPIException();
+            if (!responseEntity.getStatusCode().is2xxSuccessful() || isNull(responseEntity.getBody())) {
+                throw new GeonamesExternalAPIException();
+            }
+
+            return responseEntity.getBody();
+        } catch (RestClientException e) {
+            String msgError = "Error while calling external API";
+            log.error(msgError, e);
+            throw new RestClientException(msgError, e);
         }
-        return responseEntity.getBody();
     }
 
     @Slf4j
     @ResponseStatus(code = INTERNAL_SERVER_ERROR)
     public static final class GeonamesExternalAPIException extends RuntimeException {
         public GeonamesExternalAPIException() {
-            super("Error while calling external API");
-            log.error("Error while calling external API");
+            super("API call was unable to pass through");
+            log.error("API call was unable to pass through");
         }
     }
 
