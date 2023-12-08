@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -30,7 +30,10 @@ public class TemporaryCustomerRepo {
     private final int serverPort;
     private final HistoryBidRepository repository;
 
-    public TemporaryCustomerRepo(RestTemplate restTemplate, @Value("${server.host}") String serverHost, @Value("${jdm-legends.users.port}") int serverPort, HistoryBidRepository repository) {
+    public TemporaryCustomerRepo(RestTemplate restTemplate
+            , @Value("${server.host}") String serverHost
+            , @Value("${jdm-legends.users.port}") int serverPort
+            , HistoryBidRepository repository) {
         this.restTemplate = restTemplate;
         this.serverHost = serverHost;
         this.serverPort = serverPort;
@@ -38,18 +41,29 @@ public class TemporaryCustomerRepo {
     }
 
     public void saveTempUser(TemporaryCustomerRequest temporaryCustomerRequest, HistoryBid historyBidSaved) {
-        UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-customer/save/{historyBidId}").buildAndExpand(historyBidSaved.getId());
-        TemporaryCustomerIdResponse temporaryCustomerIdResponse = restTemplate.postForObject(uriRequest.toUriString(), new HttpEntity<>(temporaryCustomerRequest), TemporaryCustomerIdResponse.class);
+        try {
+            UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-customer/save/{historyBidId}")
+                    .buildAndExpand(historyBidSaved.getId());
 
-        log.info("Sending request {} to url: {} to save temporary customer", temporaryCustomerRequest, uriRequest);
-        if (isNull(temporaryCustomerIdResponse) && isNull(temporaryCustomerIdResponse.id())) {
+            TemporaryCustomerIdResponse temporaryCustomerIdResponse = restTemplate.postForObject(uriRequest.toUriString()
+                    , new HttpEntity<>(temporaryCustomerRequest), TemporaryCustomerIdResponse.class);
+
+            log.info("Sending request {} to url: {} to save temporary customer", temporaryCustomerRequest, uriRequest);
+            if (isNull(temporaryCustomerIdResponse) && isNull(temporaryCustomerIdResponse.id())) {
+                String msgError = "Temporary customer id cannot be null";
+                log.error(msgError);
+                throw new ResponseStatusException(INTERNAL_SERVER_ERROR, msgError);
+            }
+
+            historyBidSaved.setTemporaryCustomerId(temporaryCustomerIdResponse.id());
+            repository.save(historyBidSaved);
+            log.info("History bid saved successfully");
+
+        } catch (RestClientException e) {
             String msgError = "Unable to save temporary customer id";
-            log.error(msgError);
-            throw new TemporaryCustomerException(msgError);
+            log.error(msgError, e);
+            throw new RestClientException(msgError, e);
         }
-        historyBidSaved.setTemporaryCustomerId(temporaryCustomerIdResponse.id());
-        repository.save(historyBidSaved);
-        log.info("History bid saved successfully");
     }
 
     public List<TemporaryCustomerDTO> getAllTemporaryCustomerPerHistoryBid(List<HistoryBid> historyBidList) {
@@ -62,6 +76,7 @@ public class TemporaryCustomerRepo {
                 log.error(msgError);
                 throw new RestClientException(msgError);
             }
+
             TemporaryCustomerDTO entityBody = restTemplateForEntity.getBody();
             log.info("Getting response from {} {} ", uriComponents, entityBody);
             return new TemporaryCustomerDTO(
@@ -73,24 +88,22 @@ public class TemporaryCustomerRepo {
     }
 
     public WinnerCustomerDTO getWinnerCustomer(Long carId) {
-        UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-customer/winner/{carId}").buildAndExpand(carId);
-        ResponseEntity<WinnerCustomerDTO> winnerCustomerDTO = restTemplate.getForEntity(uriRequest.toUriString(), WinnerCustomerDTO.class);
+        try {
+            UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-customer/winner/{carId}").buildAndExpand(carId);
+            ResponseEntity<WinnerCustomerDTO> winnerCustomerDTO = restTemplate.getForEntity(uriRequest.toUriString(), WinnerCustomerDTO.class);
 
-        if (!winnerCustomerDTO.getStatusCode().is2xxSuccessful()) {
-            String msg = "Unable to get winner temporary customer";
-            log.error(msg);
-            throw new RestClientException(msg);
-        }
+            if (!winnerCustomerDTO.getStatusCode().is2xxSuccessful()) {
+                String msgError = String.format("Request to %s was not 200 successful", uriRequest.toUriString());
+                log.error(msgError);
+                throw new ResponseStatusException(winnerCustomerDTO.getStatusCode(), msgError);
+            }
 
-        return winnerCustomerDTO.getBody();
-    }
-
-    @Slf4j
-    @ResponseStatus(code = INTERNAL_SERVER_ERROR)
-    public static final class TemporaryCustomerException extends RuntimeException {
-        public TemporaryCustomerException(String message) {
-            super(message);
-            log.error(message);
+            return winnerCustomerDTO.getBody();
+        } catch (RestClientException e) {
+            String msgError = "Unable to get winner temporary customer";
+            log.error(msgError, e);
+            throw new RestClientException(msgError, e);
         }
     }
+
 }
