@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -74,8 +73,7 @@ public class CountryService {
             StringReader stringReader = new StringReader(content);
             Geonames geonames = (Geonames) unmarshaller.unmarshal(stringReader);
 
-            if ( (geonames.getStatus() != null && !geonames.getStatus().getMessage().isBlank())
-                    || geonames.getCountryList().isEmpty() ) {
+            if (geonames.getCountryList().isEmpty()) {
                 String msgError = "Country List from external API is empty";
                 log.error(msgError);
                 throw new IllegalArgumentException(msgError);

@@ -1,5 +1,6 @@
 package com.jdm.legends.dealership.cars.service.repository;
 
+import com.jdm.legends.dealership.cars.controller.dto.OrderIdRequest;
 import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerDTO;
 import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerIdResponse;
 import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerRequest;
@@ -30,6 +31,8 @@ public class TemporaryCustomerRepo {
     private final int serverPort;
     private final HistoryBidRepository repository;
 
+    private static final String TEMPORARY_CUSTOMER = "/temporary-customer";
+
     public TemporaryCustomerRepo(RestTemplate restTemplate
             , @Value("${server.host}") String serverHost
             , @Value("${jdm-legends.users.port}") int serverPort
@@ -42,7 +45,7 @@ public class TemporaryCustomerRepo {
 
     public void saveTempUser(TemporaryCustomerRequest temporaryCustomerRequest, HistoryBid historyBidSaved) {
         try {
-            UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-customer/save/{historyBidId}")
+            UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + TEMPORARY_CUSTOMER + "/save/{historyBidId}")
                     .buildAndExpand(historyBidSaved.getId());
 
             TemporaryCustomerIdResponse temporaryCustomerIdResponse = restTemplate.postForObject(uriRequest.toUriString()
@@ -68,7 +71,7 @@ public class TemporaryCustomerRepo {
 
     public List<TemporaryCustomerDTO> getAllTemporaryCustomerPerHistoryBid(List<HistoryBid> historyBidList) {
         return historyBidList.stream().map(historyBid -> {
-            UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-customer/{temporaryCustomerId}").buildAndExpand(historyBid.getId());
+            UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + TEMPORARY_CUSTOMER + "/{temporaryCustomerId}").buildAndExpand(historyBid.getId());
             ResponseEntity<TemporaryCustomerDTO> restTemplateForEntity = restTemplate.getForEntity(uriComponents.toUriString(), TemporaryCustomerDTO.class);
 
             if (!restTemplateForEntity.getStatusCode().is2xxSuccessful() || isNull(restTemplateForEntity.getBody())) {
@@ -89,7 +92,7 @@ public class TemporaryCustomerRepo {
 
     public WinnerCustomerDTO getWinnerCustomer(Long carId) {
         try {
-            UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-customer/winner/{carId}").buildAndExpand(carId);
+            UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + TEMPORARY_CUSTOMER + "/winner/{carId}").buildAndExpand(carId);
             ResponseEntity<WinnerCustomerDTO> winnerCustomerDTO = restTemplate.getForEntity(uriRequest.toUriString(), WinnerCustomerDTO.class);
 
             WinnerCustomerDTO body = winnerCustomerDTO.getBody();
@@ -105,6 +108,11 @@ public class TemporaryCustomerRepo {
             log.error(msgError, e);
             throw new RestClientException(msgError, e);
         }
+    }
+
+    public void assignOrderIdToTempCustomer(Long tempCustomerId, Long orderId) {
+        UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + TEMPORARY_CUSTOMER + "/assign/{tempCustomerId}").buildAndExpand(tempCustomerId);
+        restTemplate.postForObject(uriRequest.toUriString(), new OrderIdRequest(orderId), OrderIdRequest.class);
     }
 
 }

@@ -29,11 +29,13 @@ public class OrderService {
         List<Address> addressList = orderRequest.addressRequest().stream().map(addressService::addAddress).toList();
         WinnerCustomerDTO winnerCustomer = temporaryCustomerRepo.getWinnerCustomer(carId);
 
-        Order order = new Order(orderRequest.phoneNumber(), winnerCustomer.tempCustomerId(), orderRequest.portName());
+        Long temporaryCustomerId = winnerCustomer.tempCustomerId();
+        Order order = new Order(orderRequest.phoneNumber(), temporaryCustomerId, orderRequest.portName());
         String ids = addressList.stream().map(Address::getId).map(String::valueOf).collect(joining((addressList.size() == 1) ? "" : ", "));
         addressList.forEach(address -> order.addAddressToOrder(address, ids));
 
-        Order save = orderRepository.save(order);
+        Order orderSaved = orderRepository.save(order);
         log.info("Order placed successfully");
+        temporaryCustomerRepo.assignOrderIdToTempCustomer(temporaryCustomerId, orderSaved.getId());
     }
 }
