@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -60,11 +61,12 @@ public class CountryService {
     }
 
     public void saveCountries() {
-        List<CountryDTO> countryResponse = parseXmlContent(countryRepo.getCountries()).orElseThrow();
+        List<CountryDTO> countryResponse = parseXmlContent(countryRepo.getCountries());
         countryResponse.stream().map(CountryMapper.INSTANCE::countryDTOToCountryEntity).forEachOrdered(repository::save);
+        log.info("Countries saved successfully from external API");
     }
 
-    private Optional<List<CountryDTO>> parseXmlContent(String content) {
+    private List<CountryDTO> parseXmlContent(String content) {
         try {
             JAXBContext context = JAXBContext.newInstance(Geonames.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -72,7 +74,14 @@ public class CountryService {
             StringReader stringReader = new StringReader(content);
             Geonames geonames = (Geonames) unmarshaller.unmarshal(stringReader);
 
-            return Optional.ofNullable(geonames.getCountryList());
+            if ( (geonames.getStatus() != null && !geonames.getStatus().getMessage().isBlank())
+                    || geonames.getCountryList().isEmpty() ) {
+                String msgError = "Country List from external API is empty";
+                log.error(msgError);
+                throw new IllegalArgumentException(msgError);
+            }
+
+            return geonames.getCountryList();
         } catch (JAXBException e) {
             throw new XMLParserException("Parsing the response from API failed", e);
         }

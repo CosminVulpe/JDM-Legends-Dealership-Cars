@@ -3,6 +3,8 @@ package com.jdm.legends.dealership.cars.service.repository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestClientException;
@@ -19,12 +21,15 @@ public class CountryRepo {
     private final String geonamesApiUrl;
     private final String username;
 
-    public CountryRepo(RestTemplate template, @Value("${url-geonames-countries-capital}") String geonamesApiUrl, @Value("${username-geonames-countries-capital}") String username) {
+    public CountryRepo(RestTemplate template
+            , @Value("${url-geonames-countries-capital}") String geonamesApiUrl
+            , @Value("${username-geonames-countries-capital}") String username) {
         this.template = template;
         this.geonamesApiUrl = geonamesApiUrl;
         this.username = username;
     }
 
+    @Retryable(value = {RestClientException.class}, backoff = @Backoff(delayExpression = "${retry.maxDelay}"))
     public String getCountries() {
         try {
             UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(geonamesApiUrl + "/countryInfo?").queryParam("username", username);

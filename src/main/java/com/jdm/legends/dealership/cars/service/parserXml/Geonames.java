@@ -1,6 +1,7 @@
 package com.jdm.legends.dealership.cars.service.parserXml;
 
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import java.util.List;
 public class Geonames {
     private final List<CountryDTO> countries;
 
+    private Status status;
+
     public Geonames() {
         this.countries = new ArrayList<>();
     }
@@ -17,5 +20,10 @@ public class Geonames {
     @XmlElement(name = "country")
     public List<CountryDTO> getCountryList() {
         return countries;
+    }
+
+    @XmlElement(name = "status")
+    public Status getStatus() {
+        return status;
     }
 }
