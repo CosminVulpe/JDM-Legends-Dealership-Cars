@@ -49,7 +49,7 @@ public class TemporaryCustomerRepo {
                     , new HttpEntity<>(temporaryCustomerRequest), TemporaryCustomerIdResponse.class);
 
             log.info("Sending request {} to url: {} to save temporary customer", temporaryCustomerRequest, uriRequest);
-            if (isNull(temporaryCustomerIdResponse) && isNull(temporaryCustomerIdResponse.id())) {
+            if (isNull(temporaryCustomerIdResponse) || isNull(temporaryCustomerIdResponse.id())) {
                 String msgError = "Temporary customer id cannot be null";
                 log.error(msgError);
                 throw new ResponseStatusException(INTERNAL_SERVER_ERROR, msgError);
@@ -71,7 +71,7 @@ public class TemporaryCustomerRepo {
             UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-customer/{temporaryCustomerId}").buildAndExpand(historyBid.getId());
             ResponseEntity<TemporaryCustomerDTO> restTemplateForEntity = restTemplate.getForEntity(uriComponents.toUriString(), TemporaryCustomerDTO.class);
 
-            if (!restTemplateForEntity.getStatusCode().is2xxSuccessful() && isNull(restTemplateForEntity.getBody())) {
+            if (!restTemplateForEntity.getStatusCode().is2xxSuccessful() || isNull(restTemplateForEntity.getBody())) {
                 String msgError = "Unable to get temporary customer by Id";
                 log.error(msgError);
                 throw new RestClientException(msgError);
@@ -92,13 +92,14 @@ public class TemporaryCustomerRepo {
             UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/temporary-customer/winner/{carId}").buildAndExpand(carId);
             ResponseEntity<WinnerCustomerDTO> winnerCustomerDTO = restTemplate.getForEntity(uriRequest.toUriString(), WinnerCustomerDTO.class);
 
-            if (!winnerCustomerDTO.getStatusCode().is2xxSuccessful()) {
+            WinnerCustomerDTO body = winnerCustomerDTO.getBody();
+            if (!winnerCustomerDTO.getStatusCode().is2xxSuccessful() || body == null ) {
                 String msgError = String.format("Request to %s was not successful", uriRequest.toUriString());
                 log.error(msgError);
                 throw new ResponseStatusException(winnerCustomerDTO.getStatusCode(), msgError);
             }
 
-            return winnerCustomerDTO.getBody();
+            return body;
         } catch (RestClientException e) {
             String msgError = "Unable to get winner temporary customer";
             log.error(msgError, e);
