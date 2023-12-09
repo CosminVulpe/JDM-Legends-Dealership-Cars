@@ -3,6 +3,7 @@ package com.jdm.legends.dealership.cars.utils;
 import com.jdm.legends.dealership.cars.controller.dto.AddressRequest;
 import com.jdm.legends.dealership.cars.controller.dto.HistoryBidRequest;
 import com.jdm.legends.dealership.cars.controller.dto.HistoryBidTemporaryCustomerRequest;
+import com.jdm.legends.dealership.cars.controller.dto.OrderRequest;
 import com.jdm.legends.dealership.cars.controller.dto.ReviewRequest;
 import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerRequest;
 import com.jdm.legends.dealership.cars.service.entity.Car;
@@ -102,5 +103,9 @@ public class TestDummy {
                     </country>
                 </geonames>
                 """;
+    }
+
+    public static OrderRequest getOrderRequestMock() {
+       return new OrderRequest(List.of(getAddressRequestMock()), "+4058203895", "Marine");
     }
 }

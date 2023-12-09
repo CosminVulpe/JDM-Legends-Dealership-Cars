@@ -27,8 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.jdm.legends.dealership.cars.utils.TestDummy.buildCarRequest;
-import static com.jdm.legends.dealership.cars.utils.TestDummy.getAddressRequestMock;
 import static com.jdm.legends.dealership.cars.utils.TestDummy.getCountryMock;
+import static com.jdm.legends.dealership.cars.utils.TestDummy.getOrderRequestMock;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -63,13 +63,12 @@ public class OrderControllerIT {
     @Test
     void addOrderSuccessfully() throws Exception {
         Car car = carRepository.findAll().get(0);
-        OrderRequest orderRequest = new OrderRequest(List.of(getAddressRequestMock()), "+4058203895", "Marine");
         caffeineService.saveInCache(ONE_COUNTRY_KEY, CountryMapper.INSTANCE.countryEntityToCountryResponse(getCountryMock().get(0)));
         when(temporaryCustomerRepo.getWinnerCustomer(any())).thenReturn(new WinnerCustomerDTO(1L, 2L));
 
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post("/order/add/{carId}", car.getId())
                 .accept(APPLICATION_JSON)
-                .content(UtilsMock.writeJsonAsString(orderRequest))
+                .content(UtilsMock.writeJsonAsString(getOrderRequestMock()))
                 .contentType(APPLICATION_JSON);
 
         mockMvc.perform(mockHttpServletRequestBuilder)
