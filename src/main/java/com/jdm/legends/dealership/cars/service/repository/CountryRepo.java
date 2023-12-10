@@ -35,6 +35,7 @@ public class CountryRepo {
             UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(geonamesApiUrl + "/countryInfo?").queryParam("username", username);
             ResponseEntity<String> responseEntity = template.getForEntity(uriComponentsBuilder.toUriString(), String.class);
 
+            log.info("Response from geonames API with status {}", responseEntity.getStatusCode());
             if (!responseEntity.getStatusCode().is2xxSuccessful() || isNull(responseEntity.getBody())) {
                 throw new GeonamesExternalAPIException();
             }

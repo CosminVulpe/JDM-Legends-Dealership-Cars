@@ -35,7 +35,9 @@ public class CarService {
     }
 
     public List<TemporaryCustomerDTO> getHistoryBidsList(Long carId) {
-        return temporaryCustomerRepo.getAllTemporaryCustomerPerHistoryBid(getCarById(carId).getHistoryBidList());
+        return temporaryCustomerRepo.getAllTemporaryCustomerPerHistoryBid(
+                getCarById(carId).getHistoryBidList()
+        );
     }
 
     public List<LocalDateTime> getDatesCar(Long carId) {

@@ -8,6 +8,7 @@ import com.jdm.legends.dealership.cars.controller.dto.WinnerCustomerDTO;
 import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,12 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
 import static java.util.Objects.isNull;
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Service
@@ -45,11 +48,8 @@ public class TemporaryCustomerRepo {
 
     public void saveTempUser(TemporaryCustomerRequest temporaryCustomerRequest, HistoryBid historyBidSaved) {
         try {
-            UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + TEMPORARY_CUSTOMER + "/save/{historyBidId}")
-                    .buildAndExpand(historyBidSaved.getId());
-
-            TemporaryCustomerIdResponse temporaryCustomerIdResponse = restTemplate.postForObject(uriRequest.toUriString()
-                    , new HttpEntity<>(temporaryCustomerRequest), TemporaryCustomerIdResponse.class);
+            UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + TEMPORARY_CUSTOMER + "/save/{historyBidId}").buildAndExpand(historyBidSaved.getId());
+            TemporaryCustomerIdResponse temporaryCustomerIdResponse = restTemplate.postForObject(uriRequest.toUriString(), new HttpEntity<>(temporaryCustomerRequest), TemporaryCustomerIdResponse.class);
 
             log.info("Sending request {} to url: {} to save temporary customer", temporaryCustomerRequest, uriRequest);
             if (isNull(temporaryCustomerIdResponse) || isNull(temporaryCustomerIdResponse.id())) {
@@ -71,23 +71,27 @@ public class TemporaryCustomerRepo {
 
     public List<TemporaryCustomerDTO> getAllTemporaryCustomerPerHistoryBid(List<HistoryBid> historyBidList) {
         return historyBidList.stream().map(historyBid -> {
-            UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + TEMPORARY_CUSTOMER + "/{temporaryCustomerId}").buildAndExpand(historyBid.getId());
-            ResponseEntity<TemporaryCustomerDTO> restTemplateForEntity = restTemplate.getForEntity(uriComponents.toUriString(), TemporaryCustomerDTO.class);
+                    UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + TEMPORARY_CUSTOMER + "/get/history/{historyBidId}").buildAndExpand(String.valueOf(historyBid.getId()));
+                    ResponseEntity<List<TemporaryCustomerDTO>> restTemplateForEntity = restTemplate.exchange(uriComponents.toUriString(), GET, null, new ParameterizedTypeReference<>() {
+                    });
 
-            if (!restTemplateForEntity.getStatusCode().is2xxSuccessful() || isNull(restTemplateForEntity.getBody())) {
-                String msgError = "Unable to get temporary customer by Id";
-                log.error(msgError);
-                throw new RestClientException(msgError);
-            }
+                    if (!restTemplateForEntity.getStatusCode().is2xxSuccessful() || isNull(restTemplateForEntity.getBody())) {
+                        String msgError = "Unable to get temporary customer by Id";
+                        log.error(msgError);
+                        throw new RestClientException(msgError);
+                    }
 
-            TemporaryCustomerDTO entityBody = restTemplateForEntity.getBody();
-            log.info("Getting response from {} {} ", uriComponents, entityBody);
-            return new TemporaryCustomerDTO(
-                    entityBody.id(), entityBody.fullName(), entityBody.userName(),
-                    entityBody.emailAddress(), entityBody.role(),
-                    entityBody.checkInformationStoredTemporarily(), historyBid.getBidValue()
-            );
-        }).sorted(Comparator.comparing(TemporaryCustomerDTO::bidValue).reversed()).limit(7).toList();
+                    List<TemporaryCustomerDTO> entityBodyList = restTemplateForEntity.getBody();
+                    log.info("Getting response from {} {} ", uriComponents, entityBodyList);
+                    return entityBodyList.stream().map(entityBody -> new TemporaryCustomerDTO(entityBody.id()
+                                    , entityBody.fullName(), entityBody.userName()
+                                    , entityBody.emailAddress(), entityBody.role()
+                                    , entityBody.checkInformationStoredTemporarily()
+                                    , historyBid.getBidValue()))
+                            .toList();
+                }).flatMap(Collection::stream)
+                .sorted(Comparator.comparing(TemporaryCustomerDTO::bidValue)
+                        .reversed()).limit(7).toList();
     }
 
     public WinnerCustomerDTO getWinnerCustomer(Long carId) {
@@ -96,7 +100,7 @@ public class TemporaryCustomerRepo {
             ResponseEntity<WinnerCustomerDTO> winnerCustomerDTO = restTemplate.getForEntity(uriRequest.toUriString(), WinnerCustomerDTO.class);
 
             WinnerCustomerDTO body = winnerCustomerDTO.getBody();
-            if (!winnerCustomerDTO.getStatusCode().is2xxSuccessful() || body == null ) {
+            if (!winnerCustomerDTO.getStatusCode().is2xxSuccessful() || body == null) {
                 String msgError = String.format("Request to %s was not successful", uriRequest.toUriString());
                 log.error(msgError);
                 throw new ResponseStatusException(winnerCustomerDTO.getStatusCode(), msgError);
