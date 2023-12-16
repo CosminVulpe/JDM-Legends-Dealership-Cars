@@ -21,11 +21,12 @@ import java.util.List;
 import static com.jdm.legends.dealership.cars.utils.TestDummy.buildCarRequest;
 import static com.jdm.legends.dealership.cars.utils.UtilsMock.readValue;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 @ActiveProfiles("test-in-memory")
 @Transactional

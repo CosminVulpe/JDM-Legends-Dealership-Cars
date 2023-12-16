@@ -19,7 +19,6 @@ public class HistoryBidService {
     private final TemporaryCustomerRepo temporaryCustomerRepo;
     private final HistoryBidRepository historyBidRepository;
 
-    @Transactional
     public void bid(Long carId, HistoryBidTemporaryCustomerRequest request) {
         Car car = carService.getCarById(carId);
         HistoryBid historyBid = HistoryBidMapper.INSTANCE.historyBidRequestToHistoryBidEntity(request.historyBidRequest());

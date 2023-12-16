@@ -1,10 +1,13 @@
 package com.jdm.legends.dealership.cars.utils;
 
+import com.jdm.legends.dealership.cars.controller.dto.AddressRequest;
 import com.jdm.legends.dealership.cars.controller.dto.HistoryBidRequest;
 import com.jdm.legends.dealership.cars.controller.dto.HistoryBidTemporaryCustomerRequest;
+import com.jdm.legends.dealership.cars.controller.dto.OrderRequest;
 import com.jdm.legends.dealership.cars.controller.dto.ReviewRequest;
 import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerRequest;
 import com.jdm.legends.dealership.cars.service.entity.Car;
+import com.jdm.legends.dealership.cars.service.entity.Country;
 import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 
 import java.math.BigDecimal;
@@ -65,4 +68,44 @@ public class TestDummy {
         return new HistoryBidTemporaryCustomerRequest(historyBidRequest, temporaryCustomerRequest);
     }
 
+    public static List<Country> getCountryMock() {
+        return List.of(
+                Country.builder().countryName("United Arab Emirates").isoNumeric("784").capital("Abi Dhabi").continentName("Asia").build(),
+                Country.builder().countryName("Bangladesh").isoNumeric("050").capital("Dhaka").continentName("Asia").build(),
+                Country.builder().countryName("Indonesia").isoNumeric("360").capital("Jakarta").continentName("Asia").build()
+        );
+    }
+
+    public static AddressRequest getAddressRequestMock() {
+        return new AddressRequest("Maple Avenue", "Riverside", "12345", "California", false);
+    }
+
+    public static String getXmlContentCountries() {
+        return """
+                <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                <geonames>
+                    <country>
+                        <countryCode>AD</countryCode>
+                        <countryName>Andorra</countryName>
+                        <isoNumeric>020</isoNumeric>
+                        <continent>EU</continent>
+                        <continentName>Europe</continentName>
+                        <capital>Andorra la Vella</capital>
+                    </country>
+                    <country>
+                        <countryCode>AE</countryCode>
+                        <countryName>United Arab Emirates</countryName>
+                        <isoNumeric>784</isoNumeric>
+                        <isoAlpha3>ARE</isoAlpha3>
+                        <continent>AS</continent>
+                        <continentName>Asia</continentName>
+                        <capital>Abu Dhabi</capital>
+                    </country>
+                </geonames>
+                """;
+    }
+
+    public static OrderRequest getOrderRequestMock() {
+       return new OrderRequest(List.of(getAddressRequestMock()), "+4058203895", "Marine");
+    }
 }
