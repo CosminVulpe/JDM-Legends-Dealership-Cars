@@ -96,7 +96,7 @@ public class TemporaryCustomerRepo {
 
     public WinnerCustomerDTO getWinnerCustomer(Long carId) {
         try {
-            UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + TEMPORARY_CUSTOMER + "/winner/{carId}").buildAndExpand(carId);
+            UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + TEMPORARY_CUSTOMER + "/get/winner/{carId}").buildAndExpand(carId);
             ResponseEntity<WinnerCustomerDTO> winnerCustomerDTO = restTemplate.getForEntity(uriRequest.toUriString(), WinnerCustomerDTO.class);
 
             WinnerCustomerDTO body = winnerCustomerDTO.getBody();
