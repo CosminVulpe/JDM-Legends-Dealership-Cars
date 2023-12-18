@@ -11,7 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceException;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -56,10 +59,38 @@ public class CarService {
             return Optional.empty();
         }
 
+        if (!carById.isCarReserved()) {
+            carById.setCarReserved(true);
+            carRepository.save(carById);
+        }
+
         HistoryBid historyBid = historyBidList.stream().max(Comparator.comparing(HistoryBid::getBidValue))
                 .stream().min(Comparator.comparing(HistoryBid::getTimeOfTheBid)).orElseThrow();
 
         return Optional.of(new WinnerCustomerResponse(historyBid.getBidValue(), historyBid.getId()));
+    }
+
+    public void cancelReservation(Long tempCustomerId) {
+        try {
+            List<HistoryBid> historyBids = carRepository.findAll().stream()
+                    .map(Car::getHistoryBidList)
+                    .flatMap(Collection::stream)
+                    .toList();
+            HistoryBid historyBid = historyBids.stream().filter(item -> item.getTemporaryCustomerId().equals(tempCustomerId))
+                    .findFirst()
+                    .orElseThrow(() -> new EntityNotFoundException("No Temporary Customer found for cancelling the reservation"));
+            Car car = historyBid.getCar();
+
+            if (car.isCarReserved()) {
+                return;
+            }
+            car.setCarReserved(false);
+            carRepository.save(car);
+
+            log.info("Reservation for car {} was cancelled for temporary customer {} ", car.getId(), tempCustomerId);
+        } catch (PersistenceException e) {
+            log.error("Something went wrong while cancelling the reservation", e);
+        }
     }
 
     @Slf4j

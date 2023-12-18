@@ -5,10 +5,7 @@ import com.jdm.legends.dealership.cars.controller.dto.WinnerCustomerResponse;
 import com.jdm.legends.dealership.cars.service.CarService;
 import com.jdm.legends.dealership.cars.service.entity.Car;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,6 +40,11 @@ public class CarController {
     @GetMapping(path = "/max/bidValue/{carId}")
     public Optional<WinnerCustomerResponse> getMaxBidValue(@PathVariable("carId") Long carId) {
         return carService.getMaxBid(carId);
+    }
+
+    @GetMapping(path = "/cancelReservation")
+    public void cancelReservationCar(@RequestParam(name = "tempCustomerId") Long tempCustomerId) {
+        carService.cancelReservation(tempCustomerId);
     }
 
 }

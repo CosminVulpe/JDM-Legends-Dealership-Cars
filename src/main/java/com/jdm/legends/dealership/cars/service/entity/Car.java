@@ -53,6 +53,8 @@ public class Car {
 
     private int quantityInStock;
 
+    private boolean isCarReserved;
+
     @OneToMany(cascade = MERGE, orphanRemoval = true, mappedBy = "car")
     private List<HistoryBid> historyBidList = new ArrayList<>();
 
