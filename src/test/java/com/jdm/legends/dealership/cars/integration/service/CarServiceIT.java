@@ -4,6 +4,7 @@ import com.jdm.legends.dealership.cars.controller.dto.WinnerCustomerResponse;
 import com.jdm.legends.dealership.cars.service.CarService;
 import com.jdm.legends.dealership.cars.service.CarService.CarByIdException;
 import com.jdm.legends.dealership.cars.service.entity.Car;
+import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,6 +90,15 @@ class CarServiceIT {
         assertThat(maxBid).isEmpty();
     }
 
+    @Test
+    void cancelReservation() {
+        Car car = carRepository.findAll().get(0);
+        HistoryBid historyBid = car.getHistoryBidList().get(0);
+
+        carService.cancelReservation(historyBid.getTemporaryCustomerId());
+
+        assertThat(car.isCarReserved()).isFalse();
+    }
 
     @Test
     void calculateQuantityStock() {

@@ -78,7 +78,7 @@ public class CarService {
                     .toList();
             HistoryBid historyBid = historyBids.stream().filter(item -> item.getTemporaryCustomerId().equals(tempCustomerId))
                     .findFirst()
-                    .orElseThrow(() -> new EntityNotFoundException("No Temporary Customer found for cancelling the reservation"));
+                    .orElseThrow(() -> new EntityNotFoundException("No historyBid found for cancelling the reservation"));
             Car car = historyBid.getCar();
 
             if (car.isCarReserved()) {
@@ -108,5 +108,4 @@ public class CarService {
             log.error("Unable to retrieve a specific car");
         }
     }
-
 }
