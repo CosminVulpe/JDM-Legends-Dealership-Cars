@@ -125,8 +125,7 @@ class CarControllerIT {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(carRequestMapping + "/cancelReservation")
                 .param("tempCustomerId", String.valueOf(historyBid.getTemporaryCustomerId()));
 
-        mvc.perform(requestBuilder)
-                .andExpect(status().isOk());
+        mvc.perform(requestBuilder).andExpect(status().isOk());
     }
 
 }

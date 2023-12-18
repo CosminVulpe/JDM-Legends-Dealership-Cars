@@ -2,6 +2,7 @@ package com.jdm.legends.dealership.cars.unit;
 
 import com.jdm.legends.dealership.cars.controller.dto.WinnerCustomerDTO;
 import com.jdm.legends.dealership.cars.service.AddressService;
+import com.jdm.legends.dealership.cars.service.CarService;
 import com.jdm.legends.dealership.cars.service.OrderService;
 import com.jdm.legends.dealership.cars.service.entity.Order;
 import com.jdm.legends.dealership.cars.service.mapper.AddressMapper;
@@ -27,6 +28,8 @@ public class OrderServiceUnitTest {
     private AddressService addressService;
     @Mock
     private TemporaryCustomerRepo temporaryCustomerRepo;
+    @Mock
+    private CarService carService;
 
     @InjectMocks
     private OrderService orderService;
