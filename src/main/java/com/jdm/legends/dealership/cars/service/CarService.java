@@ -93,6 +93,13 @@ public class CarService {
         }
     }
 
+    public void calculateQuantityInStock(Long carId) {
+        Car carById = getCarById(carId);
+        int quantityInStock = carById.getQuantityInStock();
+        if (quantityInStock != 0)
+            carById.setQuantityInStock(--quantityInStock);
+    }
+
     @Slf4j
     @ResponseStatus(value = NOT_FOUND)
     public static class CarByIdException extends RuntimeException {
