@@ -23,6 +23,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final AddressService addressService;
     private final TemporaryCustomerRepo temporaryCustomerRepo;
+    private final CarService carService;
 
     @Transactional
     public void addOrder(OrderRequest orderRequest, Long carId) {
@@ -36,6 +37,8 @@ public class OrderService {
 
         Order orderSaved = orderRepository.save(order);
         log.info("Order placed successfully");
+        carService.calculateQuantityInStock(carId);
         temporaryCustomerRepo.assignOrderIdToTempCustomer(temporaryCustomerId, orderSaved.getId());
     }
+
 }

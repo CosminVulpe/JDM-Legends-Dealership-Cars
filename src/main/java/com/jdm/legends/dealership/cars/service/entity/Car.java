@@ -13,6 +13,7 @@ import java.util.List;
 
 import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 
 
@@ -53,7 +54,9 @@ public class Car {
 
     private int quantityInStock;
 
-    @OneToMany(cascade = MERGE, orphanRemoval = true, mappedBy = "car")
+    private boolean isCarReserved;
+
+    @OneToMany(cascade = MERGE, orphanRemoval = true, fetch = EAGER, mappedBy = "car")
     private List<HistoryBid> historyBidList = new ArrayList<>();
 
     private LocalDateTime startDateCarPostedOnline;

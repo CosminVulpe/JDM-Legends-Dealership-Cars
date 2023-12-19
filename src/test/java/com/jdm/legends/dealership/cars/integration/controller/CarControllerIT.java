@@ -3,6 +3,7 @@ package com.jdm.legends.dealership.cars.integration.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.jdm.legends.dealership.cars.controller.dto.WinnerCustomerResponse;
 import com.jdm.legends.dealership.cars.service.entity.Car;
+import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,7 +81,6 @@ class CarControllerIT {
     void getDatesPerCar() throws Exception {
         Car car = carRepository.findAll().get(0);
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get(carRequestMapping + "/dates/{carId}", car.getId())
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON);
 
         String contentAsString = mvc.perform(builder)
@@ -99,20 +99,30 @@ class CarControllerIT {
     @Test
     void getWinnerSuccessfully() throws Exception {
         Car car = carRepository.findAll().get(0);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(carRequestMapping + "/max/bidValue/{carId}", car.getId())
-                .contentType(APPLICATION_JSON)
-                .accept(APPLICATION_JSON);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get(carRequestMapping + "/max/bidValue/{carId}", car.getId());
 
         String contentAsString = mvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andDo(print())
                 .andReturn().getResponse().getContentAsString();
 
         WinnerCustomerResponse winnerCustomerResponse = readValue(contentAsString, WinnerCustomerResponse.class);
 
-       assertThat(winnerCustomerResponse).isNotNull();
-       assertThat(winnerCustomerResponse.bidValue()).isNotNull();
-       assertThat(winnerCustomerResponse.historyBidId()).isNotNull();
+        assertThat(winnerCustomerResponse).isNotNull();
+        assertThat(winnerCustomerResponse.bidValue()).isNotNull();
+        assertThat(winnerCustomerResponse.historyBidId()).isNotNull();
+    }
+
+    @Test
+    void cancelReservation() throws Exception {
+        Car car = carRepository.findAll().get(0);
+        car.setCarReserved(false);
+        HistoryBid historyBid = car.getHistoryBidList().get(0);
+
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(carRequestMapping + "/cancelReservation")
+                .param("tempCustomerId", String.valueOf(historyBid.getTemporaryCustomerId()));
+
+        mvc.perform(requestBuilder).andExpect(status().isOk());
     }
 
 }
