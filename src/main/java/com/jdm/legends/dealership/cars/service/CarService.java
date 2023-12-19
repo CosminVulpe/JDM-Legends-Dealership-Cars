@@ -1,13 +1,16 @@
 package com.jdm.legends.dealership.cars.service;
 
+import com.jdm.legends.dealership.cars.controller.dto.ReminderEmailDTO;
 import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerDTO;
 import com.jdm.legends.dealership.cars.controller.dto.WinnerCustomerResponse;
 import com.jdm.legends.dealership.cars.service.entity.Car;
 import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
+import com.jdm.legends.dealership.cars.service.repository.ReminderEmailRepo;
 import com.jdm.legends.dealership.cars.service.repository.TemporaryCustomerRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -19,6 +22,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
@@ -28,6 +32,7 @@ public class CarService {
 
     private final CarRepository carRepository;
     private final TemporaryCustomerRepo temporaryCustomerRepo;
+    private final ReminderEmailRepo reminderEmailRepo;
 
     public List<Car> getAllCars() {
         return carRepository.findAll();
@@ -99,6 +104,34 @@ public class CarService {
         if (quantityInStock != 0)
             carById.setQuantityInStock(--quantityInStock);
     }
+
+    @Scheduled(fixedDelay = 300000, initialDelay = 300000) // 5 min
+    public void checkReservationNotFinished() {
+        List<ReminderEmailDTO> reminderEmails = reminderEmailRepo.getReminderEmails();
+        if (reminderEmails.isEmpty()) {
+            return;
+        }
+
+        List<Long> tempCustomerIdReminderEmail = reminderEmails.stream().filter(item ->
+                        item.deadLineEmail() != null
+                                && item.sentTimeEmail() != null
+                                && item.enterTimeEmail() == null)
+                .filter(item -> item.deadLineEmail().isBefore(now()))
+                .map(ReminderEmailDTO::temporaryCustomerId).toList();
+
+        List<HistoryBid> historyBids = carRepository.findAll().stream().map(Car::getHistoryBidList)
+                .flatMap(Collection::stream).toList();
+
+        List<Car> carList = historyBids.stream()
+                .filter(item -> tempCustomerIdReminderEmail.contains(item.getTemporaryCustomerId()))
+                .map(HistoryBid::getCar).toList();
+
+        carList.stream().filter(Car::isCarReserved).forEachOrdered(car -> {
+            car.setCarReserved(false);
+            carRepository.save(car);
+        });
+    }
+
 
     @Slf4j
     @ResponseStatus(value = NOT_FOUND)
