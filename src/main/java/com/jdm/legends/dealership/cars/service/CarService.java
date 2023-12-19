@@ -35,7 +35,7 @@ public class CarService {
     private final ReminderEmailRepo reminderEmailRepo;
 
     public List<Car> getAllCars() {
-        return carRepository.findAll();
+        return carRepository.findAll().stream().filter(car -> car.getQuantityInStock() != 0).toList();
     }
 
     public Car getCarById(Long carId) {
