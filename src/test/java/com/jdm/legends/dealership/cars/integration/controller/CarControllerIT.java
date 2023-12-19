@@ -81,7 +81,6 @@ class CarControllerIT {
     void getDatesPerCar() throws Exception {
         Car car = carRepository.findAll().get(0);
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get(carRequestMapping + "/dates/{carId}", car.getId())
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON);
 
         String contentAsString = mvc.perform(builder)
@@ -100,13 +99,11 @@ class CarControllerIT {
     @Test
     void getWinnerSuccessfully() throws Exception {
         Car car = carRepository.findAll().get(0);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(carRequestMapping + "/max/bidValue/{carId}", car.getId())
-                .contentType(APPLICATION_JSON)
-                .accept(APPLICATION_JSON);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get(carRequestMapping + "/max/bidValue/{carId}", car.getId());
 
         String contentAsString = mvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andDo(print())
                 .andReturn().getResponse().getContentAsString();
 
         WinnerCustomerResponse winnerCustomerResponse = readValue(contentAsString, WinnerCustomerResponse.class);
