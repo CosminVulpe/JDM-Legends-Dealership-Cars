@@ -84,15 +84,13 @@ public class CarService {
             HistoryBid historyBid = historyBids.stream().filter(item -> item.getTemporaryCustomerId().equals(tempCustomerId))
                     .findFirst()
                     .orElseThrow(() -> new EntityNotFoundException("No historyBid found for cancelling the reservation"));
+
             Car car = historyBid.getCar();
-
-            if (car.isCarReserved()) { // in case, the user clicks on both links: to continue the order and to cancel the order
-                return;
+            if (car.isCarReserved()) {
+                car.setCarReserved(false);
+                carRepository.save(car);
+                log.info("Reservation for car {} was cancelled for temporary customer {} ", car.getId(), tempCustomerId);
             }
-            car.setCarReserved(false);
-            carRepository.save(car);
-
-            log.info("Reservation for car {} was cancelled for temporary customer {} ", car.getId(), tempCustomerId);
         } catch (PersistenceException e) {
             log.error("Something went wrong while cancelling the reservation", e);
         }
