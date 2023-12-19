@@ -86,7 +86,7 @@ public class CarService {
                     .orElseThrow(() -> new EntityNotFoundException("No historyBid found for cancelling the reservation"));
             Car car = historyBid.getCar();
 
-            if (car.isCarReserved()) {
+            if (car.isCarReserved()) { // in case, the user clicks on both links: to continue the order and to cancel the order
                 return;
             }
             car.setCarReserved(false);
@@ -131,7 +131,6 @@ public class CarService {
             carRepository.save(car);
         });
     }
-
 
     @Slf4j
     @ResponseStatus(value = NOT_FOUND)
