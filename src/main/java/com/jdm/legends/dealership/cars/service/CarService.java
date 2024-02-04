@@ -103,7 +103,7 @@ public class CarService {
             carById.setQuantityInStock(--quantityInStock);
     }
 
-    @Scheduled(fixedDelay = 300000, initialDelay = 300000) // 5 min
+    @Scheduled(fixedDelay = 300_000, initialDelay = 300_000) // 5 min
     public void checkReservationNotFinished() {
         List<ReminderEmailDTO> reminderEmails = reminderEmailRepo.getReminderEmails();
         if (reminderEmails.isEmpty()) {

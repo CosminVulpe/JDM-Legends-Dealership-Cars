@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static com.jdm.legends.dealership.cars.service.enums.CarColor.BLACK;
 import static com.jdm.legends.dealership.cars.service.enums.CarCompany.TOYOTA;
+import static com.jdm.legends.dealership.cars.utils.TestDummy.buildCarRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,7 +35,7 @@ class CarServiceUnitTest {
 
     @Test
     void shouldGetAllCarList() {
-        List<Car> carListMockData = List.of(new Car(), new Car());
+        List<Car> carListMockData = List.of(buildCarRequest(), buildCarRequest());
         when(carRepository.findAll()).thenReturn(carListMockData);
 
         List<Car> allCars = carService.getAllCars();
