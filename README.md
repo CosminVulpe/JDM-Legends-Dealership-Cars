@@ -17,21 +17,3 @@ Come, explore the world of JDM-Legends, where the love for JDM cars meets cuttin
 
 ## Development Status
 > Under Development
-
-## Image Gallery
-
-### Landing Page
-![Screenshot from 2023-07-22 13-14-14](https://github.com/CosminVulpe/JDM-Legends/assets/86559678/855b6ab3-5053-4ac7-8f8b-d80039ba3857)
-![Screenshot from 2023-07-22 13-14-43](https://github.com/CosminVulpe/JDM-Legends/assets/86559678/c24f02cd-38b5-4f19-be27-1180514809e2)
-![Screenshot from 2023-07-22 13-14-53](https://github.com/CosminVulpe/JDM-Legends/assets/86559678/0e847333-9190-4bef-aa77-811474625bd8)
-![Screenshot from 2023-07-22 13-14-56](https://github.com/CosminVulpe/JDM-Legends/assets/86559678/386621d1-067e-4b09-ac0c-a5cba11a2919)
-![Screenshot from 2023-07-22 13-15-32](https://github.com/CosminVulpe/JDM-Legends/assets/86559678/a7d3f07b-6089-4984-94bf-bcd0f6155e02)
-
-### Car Search
-![Screenshot from 2023-07-22 13-20-14](https://github.com/CosminVulpe/JDM-Legends/assets/86559678/e23189d3-44f8-4bf7-a27e-fe75f59608e8)
-
-### Car Details
-![Screenshot from 2023-07-22 13-21-33](https://github.com/CosminVulpe/JDM-Legends/assets/86559678/500c29de-61b6-4267-bf83-f6687cc002ea)
-
-### Bid Section
-![Screenshot from 2023-07-22 13-23-05](https://github.com/CosminVulpe/JDM-Legends/assets/86559678/d92eb9a9-7a97-44b0-bcff-86ddbeb69dfe)
