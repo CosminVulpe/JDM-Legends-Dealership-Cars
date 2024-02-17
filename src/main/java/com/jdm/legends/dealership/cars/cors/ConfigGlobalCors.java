@@ -1,16 +1,12 @@
 package com.jdm.legends.dealership.cars.cors;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.List;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class ConfigGlobalCors {
+public class ConfigGlobalCors  implements WebMvcConfigurer {
     private final int maxAge;
 
     public ConfigGlobalCors(@Value("${cors.max-age-time}") int maxAge) {
@@ -18,17 +14,12 @@ public class ConfigGlobalCors {
     }
 
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://localhost:3000");
-        corsConfiguration.setAllowedMethods(List.of("*"));
-        corsConfiguration.setAllowedHeaders(List.of("*"));
-        corsConfiguration.setAllowCredentials(Boolean.TRUE);
-        corsConfiguration.setMaxAge((long) maxAge);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return source;
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOriginPatterns("http://localhost:3000/")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(maxAge);
     }
 }
