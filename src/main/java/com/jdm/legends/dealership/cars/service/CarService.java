@@ -93,6 +93,7 @@ public class CarService {
             }
         } catch (PersistenceException e) {
             log.error("Something went wrong while cancelling the reservation", e);
+            throw e;
         }
     }
 

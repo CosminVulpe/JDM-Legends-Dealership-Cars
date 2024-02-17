@@ -27,6 +27,11 @@ public class OrderService {
 
     @Transactional
     public void addOrder(OrderRequest orderRequest, Long carId) {
+        boolean carReserved = carService.getCarById(carId).isCarReserved();
+        if (!carReserved) {
+            return;
+        }
+
         List<Address> addressList = orderRequest.addressRequest().stream().map(addressService::addAddress).toList();
         WinnerCustomerDTO winnerCustomer = temporaryCustomerRepo.getWinnerCustomer(carId);
 
