@@ -39,4 +39,5 @@ public final class HistoryBid {
     private Car car;
 
     private Long temporaryCustomerId;
+    private Long customerId;
 }

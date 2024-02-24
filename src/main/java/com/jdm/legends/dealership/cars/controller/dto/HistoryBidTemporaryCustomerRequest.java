@@ -7,6 +7,5 @@ public record HistoryBidTemporaryCustomerRequest(
         HistoryBidRequest historyBidRequest,
         @Valid
         TemporaryCustomerRequest temporaryCustomerRequest
-
 ) {
 }
