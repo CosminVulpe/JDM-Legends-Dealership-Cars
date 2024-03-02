@@ -17,25 +17,22 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 @Component
 public class CustomerRepo {
     private final RestTemplate restTemplate;
-    private final String serverHost;
-    private final int serverPort;
+    private final String jdmLegendsCustomerUrl;
     private final HistoryBidRepository historyBidRepository;
 
     private static final String CUSTOMER = "/customer";
 
     public CustomerRepo(RestTemplate restTemplate
-            , @Value("${server.host}") String serverHost
-            , @Value("${jdm-legends.users.port}") int serverPort
+            , @Value("${jdm-legends.users.host}") String jdmLegendsCustomerUrl
             , HistoryBidRepository historyBidRepository) {
         this.restTemplate = restTemplate;
-        this.serverHost = serverHost;
-        this.serverPort = serverPort;
+        this.jdmLegendsCustomerUrl = jdmLegendsCustomerUrl;
         this.historyBidRepository = historyBidRepository;
     }
 
     public void assignCustomerIdToHistoryBid(String emailDecoded, HistoryBid historyBidSaved) {
         try {
-            UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + CUSTOMER + "/getIdByEmail");
+            UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(jdmLegendsCustomerUrl + CUSTOMER + "/getIdByEmail");
             ResponseEntity<CustomerIdResponse> customerIdResponseResponseEntity = restTemplate.postForEntity(uriComponentsBuilder.toUriString(), emailDecoded, CustomerIdResponse.class);
 
             if (!customerIdResponseResponseEntity.getStatusCode().is2xxSuccessful() || customerIdResponseResponseEntity.getBody() == null) {

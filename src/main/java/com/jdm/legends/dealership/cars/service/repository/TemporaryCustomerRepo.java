@@ -12,7 +12,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,25 +30,22 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 @Component
 public class TemporaryCustomerRepo {
     private final RestTemplate restTemplate;
-    private final String serverHost;
-    private final int serverPort;
+    private final String jdmLegendsCustomersUrl;
     private final HistoryBidRepository repository;
 
     private static final String TEMPORARY_CUSTOMER = "/temporary-customer";
 
     public TemporaryCustomerRepo(RestTemplate restTemplate
-            , @Value("${server.host}") String serverHost
-            , @Value("${jdm-legends.users.port}") int serverPort
+            , @Value("${jdm-legends.users.host}") String jdmLegendsCustomersUrl
             , HistoryBidRepository repository) {
         this.restTemplate = restTemplate;
-        this.serverHost = serverHost;
-        this.serverPort = serverPort;
+        this.jdmLegendsCustomersUrl = jdmLegendsCustomersUrl;
         this.repository = repository;
     }
 
     public void saveTempUser(TemporaryCustomerRequest temporaryCustomerRequest, HistoryBid historyBidSaved) {
         try {
-            UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + TEMPORARY_CUSTOMER + "/save/{historyBidId}").buildAndExpand(historyBidSaved.getId());
+            UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(jdmLegendsCustomersUrl + TEMPORARY_CUSTOMER + "/save/{historyBidId}").buildAndExpand(historyBidSaved.getId());
             TemporaryCustomerIdResponse temporaryCustomerIdResponse = restTemplate.postForObject(uriRequest.toUriString(), new HttpEntity<>(temporaryCustomerRequest), TemporaryCustomerIdResponse.class);
 
             log.info("Sending request {} to url: {} to save temporary customer", temporaryCustomerRequest, uriRequest);
@@ -72,7 +68,7 @@ public class TemporaryCustomerRepo {
 
     public List<TemporaryCustomerDTO> getAllTemporaryCustomerPerHistoryBid(List<HistoryBid> historyBidList) {
         return historyBidList.stream().map(historyBid -> {
-                    UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + TEMPORARY_CUSTOMER + "/get/history/{historyBidId}").buildAndExpand(String.valueOf(historyBid.getId()));
+                    UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(jdmLegendsCustomersUrl  + TEMPORARY_CUSTOMER + "/get/history/{historyBidId}").buildAndExpand(String.valueOf(historyBid.getId()));
                     ResponseEntity<List<TemporaryCustomerDTO>> restTemplateForEntity = restTemplate.exchange(uriComponents.toUriString(), GET, null, new ParameterizedTypeReference<>() {
                     });
 
@@ -97,7 +93,7 @@ public class TemporaryCustomerRepo {
 
     public WinnerCustomerDTO getWinnerCustomer(Long carId) {
         try {
-            UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + TEMPORARY_CUSTOMER + "/get/winner/{carId}").buildAndExpand(carId);
+            UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(jdmLegendsCustomersUrl  + TEMPORARY_CUSTOMER + "/get/winner/{carId}").buildAndExpand(carId);
             ResponseEntity<WinnerCustomerDTO> winnerCustomerDTO = restTemplate.getForEntity(uriRequest.toUriString(), WinnerCustomerDTO.class);
 
             WinnerCustomerDTO body = winnerCustomerDTO.getBody();
@@ -116,7 +112,7 @@ public class TemporaryCustomerRepo {
     }
 
     public void assignOrderIdToTempCustomer(Long tempCustomerId, Long orderId) {
-        UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + TEMPORARY_CUSTOMER + "/assign/{tempCustomerId}").buildAndExpand(tempCustomerId);
+        UriComponents uriRequest = UriComponentsBuilder.fromHttpUrl(jdmLegendsCustomersUrl  + TEMPORARY_CUSTOMER + "/assign/{tempCustomerId}").buildAndExpand(tempCustomerId);
         restTemplate.postForObject(uriRequest.toUriString(), new OrderIdRequest(orderId), OrderIdRequest.class);
     }
 

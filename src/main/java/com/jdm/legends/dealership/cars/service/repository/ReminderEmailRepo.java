@@ -19,21 +19,18 @@ import java.util.List;
 @Slf4j
 public class ReminderEmailRepo {
     private final RestTemplate restTemplate;
-    private final String serverHost;
-    private final int serverPort;
+    private final String jdmLegendsCustomerUrl;
 
     public ReminderEmailRepo(RestTemplate restTemplate
-            , @Value("${server.host}") String serverHost
-            , @Value("${jdm-legends.users.port}") int serverPort) {
+            , @Value("${jdm-legends.users.host}") String jdmLegendsCustomerUrl) {
         this.restTemplate = restTemplate;
-        this.serverHost = serverHost;
-        this.serverPort = serverPort;
+        this.jdmLegendsCustomerUrl = jdmLegendsCustomerUrl;
     }
 
     public List<ReminderEmailDTO> getReminderEmails() {
 
         try {
-            UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(serverHost + serverPort + "/reminder-email/all/");
+            UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(jdmLegendsCustomerUrl + "/reminder-email/all/");
             ResponseEntity<List<ReminderEmailDTO>> responseEntity = restTemplate.exchange(uriComponentsBuilder.toUriString(), HttpMethod.GET, null, new ParameterizedTypeReference<>() {
             });
 
