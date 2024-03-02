@@ -1,27 +1,39 @@
 package com.jdm.legends.dealership.cars.integration.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.jdm.legends.dealership.cars.controller.dto.CustomerDTO;
+import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerDTO;
 import com.jdm.legends.dealership.cars.controller.dto.WinnerCustomerResponse;
 import com.jdm.legends.dealership.cars.service.entity.Car;
 import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
+import com.jdm.legends.dealership.cars.service.enums.Roles;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
+import com.jdm.legends.dealership.cars.service.repository.CustomerRepo;
+import com.jdm.legends.dealership.cars.service.repository.TemporaryCustomerRepo;
+import com.jdm.legends.dealership.cars.utils.UtilsMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.jdm.legends.dealership.cars.utils.TestDummy.buildCarRequest;
 import static com.jdm.legends.dealership.cars.utils.UtilsMock.readValue;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -38,6 +50,12 @@ class CarControllerIT {
 
     @Autowired
     private CarRepository carRepository;
+
+    @MockBean
+    private CustomerRepo customerRepo;
+
+    @MockBean
+    private TemporaryCustomerRepo temporaryCustomerRepo;
 
     private static final String carRequestMapping = "/car";
 
@@ -123,6 +141,44 @@ class CarControllerIT {
                 .param("tempCustomerId", String.valueOf(historyBid.getTemporaryCustomerId()));
 
         mvc.perform(requestBuilder).andExpect(status().isOk());
+    }
+
+    @Test
+    void getBidListCustomerLoggedIn() throws Exception {
+        CustomerDTO customerDTO = new CustomerDTO(1L, "Smith John", "john321", "john@gmail.com", new BigDecimal("784567385646783657"));
+        Car car = carRepository.findAll().get(0);
+
+        when(customerRepo.getHistoryBidCustomerList(any(), any())).thenReturn(customerDTO);
+
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get(carRequestMapping + "/bid-list-customer/{carId}", car.getId())
+                .header("Authorization", "BEARER token");
+        String contentAsString = mvc.perform(mockHttpServletRequestBuilder)
+                .andExpect(status().isOk())
+                .andReturn().getResponse()
+                .getContentAsString();
+
+        List<CustomerDTO> customerDTOS = readValue(contentAsString, new TypeReference<>() {
+        });
+
+        assertThat(customerDTOS).isNotEmpty();
+    }
+
+    @Test
+    void getBidListTemporaryCustomer() throws Exception {
+        TemporaryCustomerDTO temporaryCustomerDTO = new TemporaryCustomerDTO(1L, "Smith John", "john321", "john@gmail.com", Roles.POTENTIAL_CLIENT.getValue(), true, new BigDecimal("784567385646783657"));
+        Car car = carRepository.findAll().get(0);
+
+        when(temporaryCustomerRepo.getAllTemporaryCustomerPerHistoryBid(anyList())).thenReturn(List.of(temporaryCustomerDTO));
+
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get(carRequestMapping + "/bid-list/{carId}", car.getId());
+
+        String contentAsString = mvc.perform(mockHttpServletRequestBuilder).andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        List<TemporaryCustomerDTO> temporaryCustomerDTOS = readValue(contentAsString, new TypeReference<List<TemporaryCustomerDTO>>() {
+        });
+
+        assertThat(temporaryCustomerDTOS).isNotEmpty();
     }
 
 }
