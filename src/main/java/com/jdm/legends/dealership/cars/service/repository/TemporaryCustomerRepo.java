@@ -68,7 +68,9 @@ public class TemporaryCustomerRepo {
 
     public List<TemporaryCustomerDTO> getAllTemporaryCustomerPerHistoryBid(List<HistoryBid> historyBidList) {
         return historyBidList.stream().map(historyBid -> {
-                    UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(jdmLegendsCustomersUrl  + TEMPORARY_CUSTOMER + "/get/history/{historyBidId}").buildAndExpand(String.valueOf(historyBid.getId()));
+                    UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(jdmLegendsCustomersUrl
+                            + TEMPORARY_CUSTOMER + "/get/history/{historyBidId}")
+                            .buildAndExpand(String.valueOf(historyBid.getId()));
                     ResponseEntity<List<TemporaryCustomerDTO>> restTemplateForEntity = restTemplate.exchange(uriComponents.toUriString(), GET, null, new ParameterizedTypeReference<>() {
                     });
 

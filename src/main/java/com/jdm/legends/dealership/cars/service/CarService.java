@@ -1,11 +1,13 @@
 package com.jdm.legends.dealership.cars.service;
 
+import com.jdm.legends.dealership.cars.controller.dto.CustomerDTO;
 import com.jdm.legends.dealership.cars.controller.dto.ReminderEmailDTO;
 import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerDTO;
 import com.jdm.legends.dealership.cars.controller.dto.WinnerCustomerResponse;
 import com.jdm.legends.dealership.cars.service.entity.Car;
 import com.jdm.legends.dealership.cars.service.entity.HistoryBid;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
+import com.jdm.legends.dealership.cars.service.repository.CustomerRepo;
 import com.jdm.legends.dealership.cars.service.repository.ReminderEmailRepo;
 import com.jdm.legends.dealership.cars.service.repository.TemporaryCustomerRepo;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,7 @@ public class CarService {
 
     private final CarRepository carRepository;
     private final TemporaryCustomerRepo temporaryCustomerRepo;
+    private final CustomerRepo customerRepo;
     private final ReminderEmailRepo reminderEmailRepo;
 
     public List<Car> getAllCars() {
@@ -46,6 +49,15 @@ public class CarService {
         return temporaryCustomerRepo.getAllTemporaryCustomerPerHistoryBid(
                 getCarById(carId).getHistoryBidList()
         );
+    }
+
+    public List<CustomerDTO> getHistoryBidCustomerList(Long carId, String authorization) {
+        List<HistoryBid> historyBidList = getCarById(carId).getHistoryBidList();
+        return historyBidList.stream()
+                .map(item -> customerRepo.getHistoryBidCustomerList(authorization, item))
+                .limit(7)
+                .sorted(Comparator.comparing(CustomerDTO::bidValue).reversed())
+                .toList();
     }
 
     public List<LocalDateTime> getDatesCar(Long carId) {

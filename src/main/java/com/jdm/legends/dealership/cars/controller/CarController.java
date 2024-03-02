@@ -1,5 +1,6 @@
 package com.jdm.legends.dealership.cars.controller;
 
+import com.jdm.legends.dealership.cars.controller.dto.CustomerDTO;
 import com.jdm.legends.dealership.cars.controller.dto.TemporaryCustomerDTO;
 import com.jdm.legends.dealership.cars.controller.dto.WinnerCustomerResponse;
 import com.jdm.legends.dealership.cars.service.CarService;
@@ -30,6 +31,11 @@ public class CarController {
     @GetMapping(path = "/bid-list/{carId}")
     public List<TemporaryCustomerDTO> getHistoryBidsList(@PathVariable("carId") Long carId) {
         return carService.getHistoryBidsList(carId);
+    }
+
+    @GetMapping(path = "/bid-list-customer/{carId}")
+    public List<CustomerDTO> getHistoryBidCustomerList(@PathVariable("carId") Long carId, @RequestHeader("Authorization") String authorization) {
+        return carService.getHistoryBidCustomerList(carId, authorization);
     }
 
     @GetMapping(path = "/dates/{carId}")
