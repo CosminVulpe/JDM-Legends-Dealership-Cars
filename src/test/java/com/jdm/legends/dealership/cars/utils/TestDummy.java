@@ -63,7 +63,7 @@ public class TestDummy {
     }
 
     public static HistoryBidTemporaryCustomerRequest getHistoryBidTempCustomerMock() {
-        HistoryBidRequest historyBidRequest = new HistoryBidRequest(new BigDecimal("23423424"), now().minusHours(5));
+        HistoryBidRequest historyBidRequest = new HistoryBidRequest(new BigDecimal("23423424"), now().minusHours(5), "john@gmail.com" );
         TemporaryCustomerRequest temporaryCustomerRequest = new TemporaryCustomerRequest("John Smith", "john23", "john23@yahoo.com", "ADMIN", true);
         return new HistoryBidTemporaryCustomerRequest(historyBidRequest, temporaryCustomerRequest);
     }
