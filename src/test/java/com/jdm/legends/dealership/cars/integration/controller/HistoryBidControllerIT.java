@@ -2,8 +2,10 @@ package com.jdm.legends.dealership.cars.integration.controller;
 
 import com.jdm.legends.dealership.cars.service.entity.Car;
 import com.jdm.legends.dealership.cars.service.repository.CarRepository;
+import com.jdm.legends.dealership.cars.service.repository.CustomerRepo;
 import com.jdm.legends.dealership.cars.service.repository.HistoryBidRepository;
 import com.jdm.legends.dealership.cars.service.repository.TemporaryCustomerRepo;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -30,6 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test-in-memory")
 @Transactional
 class HistoryBidControllerIT {
+    private static final String HISTORY_BID = "/history-bid";
+
     @Autowired
     private MockMvc mvc;
 
@@ -42,16 +46,37 @@ class HistoryBidControllerIT {
     @MockBean
     private TemporaryCustomerRepo temporaryCustomerRepo;
 
+    @MockBean
+    private CustomerRepo customerRepo;
+
+    @BeforeEach
+    void init() {
+        carRepository.save(buildCarRequest());
+    }
+
     @Test
     void testBidSuccessfully() throws Exception {
-        Car buildCarRequest = buildCarRequest();
-        Car car = carRepository.save(buildCarRequest);
-
         doNothing().when(temporaryCustomerRepo).saveTempUser(any(),any());
+        Car car = carRepository.findAll().get(0);
 
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/history-bid/bid/{carId}", car.getId())
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post(HISTORY_BID + "/bid/{carId}", car.getId())
                 .contentType(APPLICATION_JSON)
                 .content(writeJsonAsString(getHistoryBidTempCustomerMock()))
+                .accept(APPLICATION_JSON);
+
+        mvc.perform(builder).andExpect(status().isOk());
+
+        assertThat(historyBidRepository.findAll()).hasSize(1);
+    }
+
+    @Test
+    void testBidSuccessfullyCustomer() throws Exception {
+        Car car = carRepository.findAll().get(0);
+        doNothing().when(customerRepo).assignCustomerIdToHistoryBid(any(),any());
+
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post(HISTORY_BID + "/bid/customer/{carId}", car.getId())
+                .contentType(APPLICATION_JSON)
+                .content(writeJsonAsString(getHistoryBidTempCustomerMock("john@gmail.com").historyBidRequest()))
                 .accept(APPLICATION_JSON);
 
         mvc.perform(builder).andExpect(status().isOk());
