@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -32,8 +33,8 @@ public class CustomerRepo {
 
     public void assignCustomerIdToHistoryBid(String emailDecoded, HistoryBid historyBidSaved) {
         try {
-            UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(jdmLegendsCustomerUrl + CUSTOMER + "/getIdByEmail");
-            ResponseEntity<CustomerIdResponse> customerIdResponseResponseEntity = restTemplate.postForEntity(uriComponentsBuilder.toUriString(), emailDecoded, CustomerIdResponse.class);
+            UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(jdmLegendsCustomerUrl + CUSTOMER + "/assign/{historyBidId}").buildAndExpand(historyBidSaved.getId());
+            ResponseEntity<CustomerIdResponse> customerIdResponseResponseEntity = restTemplate.postForEntity(uriComponents.toUriString(), emailDecoded, CustomerIdResponse.class);
 
             if (!customerIdResponseResponseEntity.getStatusCode().is2xxSuccessful() || customerIdResponseResponseEntity.getBody() == null) {
                 String msgError = "Retrieving customer id failed due to null body or unsuccessful request";
